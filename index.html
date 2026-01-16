@@ -231,7 +231,7 @@
 
   <header class="header">
     <div class="header-logo">
-      <img src="https://i.imgur.com/JQhVqZs.png" alt="SpaceFut" onerror="this.parentElement.innerHTML='<span style=\"font-weight:800;font-size:20px;color:#009739\">SpaceFut</span>'">
+      <span style="font-weight:800;font-size:20px;color:#009739">Space</span><span style="font-weight:800;font-size:20px;color:#FEDD00">Fut</span>
     </div>
     <div class="header-actions">
       <div class="header-icon" onclick="SearchManager.open()">
@@ -248,8 +248,8 @@
     </div>
   </header>
 
-  <section class="hero-banner">
-    <img src="https://i.imgur.com/YvQKXmB.jpeg" alt="Copa do Mundo 2026" onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=450&fit=crop'">
+  <section class="hero-banner" style="background: linear-gradient(135deg, #1a5f2a 0%, #0d3d1a 50%, #FEDD00 100%);">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0.15;font-size:120px;">&#9917;</div>
     <div class="hero-content">
       <span class="hero-badge">Copa 2026</span>
       <h1 class="hero-title">Camisas Oficiais<br>Copa 2026</h1>
@@ -274,8 +274,14 @@
   </section>
 
   <section class="banner-section">
-    <div class="banner-promo" onclick="filterProducts('selecao')">
-      <img src="https://i.imgur.com/8KmQZWX.jpeg" alt="Mascotes Copa 2026" onerror="this.src='https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=200&fit=crop'">
+    <div class="banner-promo" onclick="filterProducts('selecao')" style="background: linear-gradient(90deg, #009739 0%, #FEDD00 50%, #002776 100%); padding: 24px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 20px;">
+      <span style="font-size: 48px;">&#127463;&#127479;</span>
+      <div style="text-align: center;">
+        <p style="font-size: 14px; color: white; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Colecao Especial</p>
+        <p style="font-size: 24px; font-weight: 800; color: white;">SELECAO BRASILEIRA</p>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px;">Clique para ver</p>
+      </div>
+      <span style="font-size: 48px;">&#9917;</span>
     </div>
   </section>
 
@@ -336,7 +342,7 @@
         <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></div>
       </div>
     </div>
-    <div class="product-page-image"><img id="productPageImage" src="" alt=""></div>
+    <div class="product-page-image" id="productPageImageContainer"></div>
     <div class="product-page-content">
       <p class="product-page-team" id="productPageTeam"></p>
       <h1 class="product-page-name" id="productPageName"></h1>
@@ -364,7 +370,7 @@
     <div class="checkout-modal" onclick="event.stopPropagation()">
       <div class="checkout-header"><h2>Finalizar Compra</h2><button class="close-btn" onclick="closeCheckout()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
       <div class="checkout-content" id="checkoutForm">
-        <div class="checkout-product"><img id="checkoutImage" src="" alt=""><div class="checkout-product-info"><h4 id="checkoutProductName"></h4><p>Tamanho: <span id="checkoutSize">G</span></p><span class="price" id="checkoutProductPrice"></span></div></div>
+        <div class="checkout-product"><div id="checkoutImage" style="width:80px;height:80px;background:#ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="font-size:32px;">&#9917;</span></div><div class="checkout-product-info"><h4 id="checkoutProductName"></h4><p>Tamanho: <span id="checkoutSize">G</span></p><span class="price" id="checkoutProductPrice"></span></div></div>
         <div class="form-section">
           <h3><span>1</span> Endereco de Entrega</h3>
           <div class="form-group"><label>Nome completo</label><input type="text" id="inputName" placeholder="Seu nome completo"></div>
@@ -388,18 +394,18 @@
   </div>
 
   <script>
-    // Produtos com imagens reais de camisas
+    // Produtos com cores e emojis como placeholders confiaveis
     const products = [
-      { id: 1, name: 'Camisa Selecao Brasileira I 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: '-22%', image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBESHhSp4t5L5PTB8-C43dR5I-7MFQWuZr3CSvIuKEolMPH-mjnkSW1qWLFcED4LWLuJWsqyyHS-eDXEoYCZmBE8oYNkWDPZjS8YX2EIWckvJWs4wqfRlLGbFGpEbOq_T-6X3B4X9hjZ8THA/s1600/camisa-selecao-brasileira-2020-nike-1.jpg' },
-      { id: 2, name: 'Camisa Selecao Brasileira II 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: 'Novo', badgeClass: 'green', image: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/0a1d6a00-5f8b-4d33-bd52-4c1b5c8d7f7c/camisa-brasil-ii-2024-25-match-7PMx3S.png' },
-      { id: 3, name: 'Camisa Flamengo I 2024', team: 'Flamengo', category: 'clubes', oldPrice: 349.90, price: 279.90, badge: '-20%', image: 'https://static.netshoes.com.br/produtos/camisa-flamengo-i-2425-sn-torcedor-adidas-masculina/26/D26-7730-026/D26-7730-026_zoom1.jpg' },
-      { id: 4, name: 'Camisa Corinthians I 2024', team: 'Corinthians', category: 'clubes', oldPrice: 329.90, price: 269.90, badge: '-18%', image: 'https://static.netshoes.com.br/produtos/camisa-corinthians-i-2425-sn-torcedor-nike-masculina/06/D26-5784-006/D26-5784-006_zoom1.jpg' },
-      { id: 5, name: 'Camisa Real Madrid I 2024/25', team: 'Real Madrid', category: 'europeus', oldPrice: 499.90, price: 399.90, badge: '-20%', image: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/65ba6d40-7a6a-4b9e-8e1d-d1f2a7b8f9c5/camisa-real-madrid-2024-25-stadium-home-9bVNr7.png' },
-      { id: 6, name: 'Camisa Goleiro Brasil 2024', team: 'Brasil', category: 'selecao', oldPrice: 399.90, price: 319.90, badge: 'Novo', badgeClass: 'green', image: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/3c5b7c8d-1234-4567-89ab-cdef01234567/camisa-brasil-goleiro-2024.png' },
-      { id: 7, name: 'Camisa Palmeiras I 2024', team: 'Palmeiras', category: 'clubes', oldPrice: 349.90, price: 289.90, badge: '-17%', image: 'https://static.netshoes.com.br/produtos/camisa-palmeiras-i-2425-sn-torcedor-puma-masculina/60/NQQ-5067-060/NQQ-5067-060_zoom1.jpg' },
-      { id: 8, name: 'Camisa Barcelona I 2024/25', team: 'Barcelona', category: 'europeus', oldPrice: 499.90, price: 389.90, badge: '-22%', image: 'https://store.fcbarcelona.com/cdn/shop/files/24-25-home-stadium_1.jpg' },
-      { id: 9, name: 'Camisa Brasil Retro 1970', team: 'Brasil', category: 'retro', oldPrice: 299.90, price: 249.90, badge: 'Retro', badgeClass: 'green', image: 'https://images.tcdn.com.br/img/img_prod/785982/camisa_selecao_brasil_retro_1970_pele_amarela_2870_1_20201109154836.jpg' },
-      { id: 10, name: 'Bola Trionda Copa 2026', team: 'FIFA', category: 'acessorios', oldPrice: 899.90, price: 749.90, badge: '-17%', image: 'https://i.imgur.com/LnFmKvT.jpeg' }
+      { id: 1, name: 'Camisa Selecao Brasileira I 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: '-22%', color: '#FEDD00', emoji: '&#127463;&#127479;' },
+      { id: 2, name: 'Camisa Selecao Brasileira II 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: 'Novo', badgeClass: 'green', color: '#002776', emoji: '&#127463;&#127479;' },
+      { id: 3, name: 'Camisa Flamengo I 2024', team: 'Flamengo', category: 'clubes', oldPrice: 349.90, price: 279.90, badge: '-20%', color: '#E53935', emoji: '&#9917;' },
+      { id: 4, name: 'Camisa Corinthians I 2024', team: 'Corinthians', category: 'clubes', oldPrice: 329.90, price: 269.90, badge: '-18%', color: '#1a1a1a', emoji: '&#9917;' },
+      { id: 5, name: 'Camisa Real Madrid I 2024/25', team: 'Real Madrid', category: 'europeus', oldPrice: 499.90, price: 399.90, badge: '-20%', color: '#ffffff', emoji: '&#9917;' },
+      { id: 6, name: 'Camisa Goleiro Brasil 2024', team: 'Brasil', category: 'selecao', oldPrice: 399.90, price: 319.90, badge: 'Novo', badgeClass: 'green', color: '#00875f', emoji: '&#127463;&#127479;' },
+      { id: 7, name: 'Camisa Palmeiras I 2024', team: 'Palmeiras', category: 'clubes', oldPrice: 349.90, price: 289.90, badge: '-17%', color: '#009739', emoji: '&#9917;' },
+      { id: 8, name: 'Camisa Barcelona I 2024/25', team: 'Barcelona', category: 'europeus', oldPrice: 499.90, price: 389.90, badge: '-22%', color: '#A50044', emoji: '&#9917;' },
+      { id: 9, name: 'Camisa Brasil Retro 1970', team: 'Brasil', category: 'retro', oldPrice: 299.90, price: 249.90, badge: 'Retro', badgeClass: 'green', color: '#FFD700', emoji: '&#127941;' },
+      { id: 10, name: 'Bola Trionda Copa 2026', team: 'FIFA', category: 'acessorios', oldPrice: 899.90, price: 749.90, badge: '-17%', color: '#009739', emoji: '&#9917;' }
     ];
 
     let selectedProduct = null, selectedSize = 'G';
@@ -464,7 +470,7 @@
           return nn.includes(nq) || nt.includes(nq) || p.category.includes(nq);
         });
         if (res.length === 0) { sr.innerHTML = '<p class="search-no-results">Nenhum produto encontrado</p>'; return; }
-        sr.innerHTML = res.map(p => `<div class="search-result-item" onclick="SearchManager.close(); openProductPage(${p.id})"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/70'"><div class="search-result-info"><p class="search-result-name">${p.name}</p><p class="search-result-team">${p.team}</p><p class="search-result-price">${formatPrice(p.price)}</p></div></div>`).join('');
+        sr.innerHTML = res.map(p => { const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : ''; return `<div class="search-result-item" onclick="SearchManager.close(); openProductPage(${p.id})"><div style="width:70px;height:70px;background:${p.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:28px;">${p.emoji}</span></div><div class="search-result-info"><p class="search-result-name">${p.name}</p><p class="search-result-team">${p.team}</p><p class="search-result-price">${formatPrice(p.price)}</p></div></div>`; }).join('');
       }
     };
 
@@ -472,11 +478,13 @@
 
     function renderProductCard(p) {
       const isFav = FavoritesManager.isFav(p.id);
-      return `<div class="product-card" onclick="openProductPage(${p.id})"><div class="product-card-image"><span class="product-badge ${p.badgeClass||''}">${p.badge}</span><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'"><button class="product-favorite-btn" data-favorite-btn data-product-id="${p.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${p.id})"><svg viewBox="0 0 24 24" style="fill:${isFav?'var(--red)':'var(--gray-300)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div><div class="product-card-info"><p class="product-card-name">${p.name}</p><p class="product-card-price-old">${formatPrice(p.oldPrice)}</p><p class="product-card-price">${formatPrice(p.price)}</p><p class="product-card-installment">ou 12x de ${formatPrice(p.price/12)}</p></div></div>`;
+      const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
+      return `<div class="product-card" onclick="openProductPage(${p.id})"><div class="product-card-image" style="background:${p.color};${border}display:flex;align-items:center;justify-content:center;"><span class="product-badge ${p.badgeClass||''}">${p.badge}</span><span style="font-size:48px;">${p.emoji}</span><button class="product-favorite-btn" data-favorite-btn data-product-id="${p.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${p.id})"><svg viewBox="0 0 24 24" style="fill:${isFav?'var(--red)':'var(--gray-300)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div><div class="product-card-info"><p class="product-card-name">${p.name}</p><p class="product-card-price-old">${formatPrice(p.oldPrice)}</p><p class="product-card-price">${formatPrice(p.price)}</p><p class="product-card-installment">ou 12x de ${formatPrice(p.price/12)}</p></div></div>`;
     }
 
     function renderOfertaCard(p) {
-      return `<div class="oferta-card" onclick="openProductPage(${p.id})"><div class="oferta-card-image"><span class="product-badge">${p.badge}</span><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/100'"></div><div class="oferta-card-info"><p class="oferta-card-price-old">${formatPrice(p.oldPrice)}</p><p class="oferta-card-price">${formatPrice(p.price)}</p></div></div>`;
+      const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
+      return `<div class="oferta-card" onclick="openProductPage(${p.id})"><div class="oferta-card-image" style="background:${p.color};${border}display:flex;align-items:center;justify-content:center;"><span class="product-badge">${p.badge}</span><span style="font-size:32px;">${p.emoji}</span></div><div class="oferta-card-info"><p class="oferta-card-price-old">${formatPrice(p.oldPrice)}</p><p class="oferta-card-price">${formatPrice(p.price)}</p></div></div>`;
     }
 
     function initCarousels() {
@@ -496,7 +504,11 @@
 
     function openProductPage(id) {
       selectedProduct = products.find(p => p.id === id); if (!selectedProduct) return;
-      document.getElementById('productPageImage').src = selectedProduct.image;
+      const imgDiv = document.getElementById('productPageImageContainer');
+      const border = selectedProduct.color === '#ffffff' ? 'border-bottom: 1px solid #ddd;' : '';
+      imgDiv.style.background = selectedProduct.color;
+      imgDiv.style.cssText += border;
+      imgDiv.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><span style="font-size:120px;">${selectedProduct.emoji}</span></div>`;
       document.getElementById('productPageName').textContent = selectedProduct.name;
       document.getElementById('productPageTeam').textContent = selectedProduct.team;
       document.getElementById('productPageOldPrice').textContent = formatPrice(selectedProduct.oldPrice);
@@ -513,7 +525,11 @@
 
     function openCheckout() {
       if (!selectedProduct) return;
-      document.getElementById('checkoutImage').src = selectedProduct.image;
+      const imgEl = document.getElementById('checkoutImage');
+      const border = selectedProduct.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
+      imgEl.style.background = selectedProduct.color;
+      imgEl.style.cssText = `width:80px;height:80px;background:${selectedProduct.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;`;
+      imgEl.innerHTML = `<span style="font-size:32px;">${selectedProduct.emoji}</span>`;
       document.getElementById('checkoutProductName').textContent = selectedProduct.name;
       document.getElementById('checkoutSize').textContent = selectedSize;
       document.getElementById('checkoutProductPrice').textContent = formatPrice(selectedProduct.price);
@@ -564,7 +580,7 @@
         cont.innerHTML = '<div class="empty-cart"><svg viewBox="0 0 24 24" width="64" height="64"><path fill="var(--gray-300)" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg><h3>Carrinho vazio</h3><p>Adicione produtos ao carrinho</p></div>';
         if (tot) tot.style.display = 'none';
       } else {
-        cont.innerHTML = cart.map(i => { const p = products.find(x => x.id === i.productId); if (!p) return ''; return `<div class="cart-item"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/80'"><div class="cart-item-info"><p class="cart-item-name">${p.name}</p><p class="cart-item-size">Tamanho: ${i.size}</p><p class="cart-item-price">${formatPrice(p.price)}</p></div><div class="cart-item-actions"><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity-1})">-</button><span class="qty-value">${i.quantity}</span><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity+1})">+</button></div></div>`; }).join('');
+        cont.innerHTML = cart.map(i => { const p = products.find(x => x.id === i.productId); if (!p) return ''; const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : ''; return `<div class="cart-item"><div style="width:80px;height:80px;background:${p.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:32px;">${p.emoji}</span></div><div class="cart-item-info"><p class="cart-item-name">${p.name}</p><p class="cart-item-size">Tamanho: ${i.size}</p><p class="cart-item-price">${formatPrice(p.price)}</p></div><div class="cart-item-actions"><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity-1})">-</button><span class="qty-value">${i.quantity}</span><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity+1})">+</button></div></div>`; }).join('');
         if (tot) { tot.style.display = 'block'; tot.innerHTML = `<div class="checkout-total-row"><span>Subtotal</span><span>${formatPrice(CartManager.getTotal())}</span></div><div class="checkout-total-row"><span>Frete</span><span class="free-shipping">Gratis</span></div><div class="checkout-total-row total"><span>Total</span><span>${formatPrice(CartManager.getTotal())}</span></div><button class="checkout-btn" onclick="closeCartPage(); openCheckoutFromCart()">FINALIZAR COMPRA</button>`; }
       }
       page.classList.add('active'); document.body.style.overflow = 'hidden';
