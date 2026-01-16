@@ -3,328 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SpaceFut - Materiais Esportivos | Camisas Copa 2026</title>
-  <meta name="description" content="SpaceFut - Sua loja de materiais esportivos. Camisas oficiais da Copa do Mundo 2026, selecao brasileira, clubes nacionais e europeus. Frete gratis e parcelamento em ate 12x.">
-  <meta name="keywords" content="camisas futebol, copa 2026, selecao brasileira, flamengo, corinthians, palmeiras, real madrid, barcelona, materiais esportivos">
+  <title>SpaceFut - Camisas Oficiais Copa 2026 | Selecao Brasileira</title>
+  <meta name="description" content="SpaceFut - Camisas oficiais da Copa do Mundo 2026, selecao brasileira e clubes. Combos especiais, frete gratis para regiao e parcelamento em ate 12x.">
+  <meta name="keywords" content="camisas futebol, copa 2026, selecao brasileira, camisas de time, combo camisas, promocao">
   <meta name="theme-color" content="#009739">
-  <meta property="og:title" content="SpaceFut - Materiais Esportivos | Camisas Copa 2026">
-  <meta property="og:description" content="Camisas oficiais da Copa do Mundo 2026, selecao brasileira e clubes. Frete gratis e parcelamento em ate 12x sem juros.">
-  <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBESHhSp4t5L5PTB8-C43dR5I-7MFQWuZr3CSvIuKEolMPH-mjnkSW1qWLFcED4LWLuJWsqyyHS-eDXEoYCZmBE8oYNkWDPZjS8YX2EIWckvJWs4wqfRlLGbFGpEbOq_T-6X3B4X9hjZ8THA/s1600/camisa-selecao-brasileira-2020-nike-1.jpg">
+  <meta property="og:title" content="SpaceFut - Camisas Oficiais Copa 2026">
+  <meta property="og:description" content="Camisas oficiais da Copa do Mundo 2026. Combos especiais para casal, compre 2 leve 3!">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    :root {
-      --primary: #009739; --primary-dark: #006B2B; --yellow: #FEDD00; --black: #1a1a1a;
-      --white: #ffffff; --gray-100: #f5f5f5; --gray-200: #eeeeee; --gray-300: #e0e0e0;
-      --gray-500: #9e9e9e; --gray-700: #616161; --green: #00875f; --red: #E53935;
-    }
-    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); line-height: 1.4; overflow-x: hidden; padding-bottom: 70px; }
-
-    /* Header */
-    .header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--white); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--gray-200); }
-    .header-logo { height: 40px; }
-    .header-logo img { height: 100%; width: auto; }
-    .header-actions { display: flex; align-items: center; gap: 14px; }
-    .header-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
-    .header-icon svg { width: 22px; height: 22px; fill: var(--black); }
-    .cart-badge, .favorites-badge { position: absolute; top: -8px; right: -8px; min-width: 18px; height: 18px; background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; border-radius: 50%; display: none; align-items: center; justify-content: center; padding: 0 4px; }
-
-    /* Hero Banner */
-    .hero-banner { position: relative; width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a5f2a 0%, #0d3d1a 100%); overflow: hidden; }
-    .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%); }
-    .hero-badge { display: inline-block; background: var(--yellow); color: var(--black); padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-    .hero-title { font-size: 28px; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -1px; margin-bottom: 12px; }
-    .hero-btn { display: inline-block; background: var(--primary); color: var(--white); padding: 12px 24px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; border-radius: 6px; }
-
-    /* Categories */
-    .categories-section { padding: 20px 0; background: var(--white); }
-    .categories-scroll { display: flex; gap: 16px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
-    .categories-scroll::-webkit-scrollbar { display: none; }
-    .category-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; cursor: pointer; }
-    .category-item.active .category-circle { border-color: var(--primary); background: rgba(0, 151, 57, 0.1); }
-    .category-item.active .category-name { color: var(--primary); font-weight: 600; }
-    .category-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; border: 2px solid var(--gray-200); transition: all 0.2s; }
-    .category-circle:active { transform: scale(0.95); border-color: var(--primary); }
-    .category-circle span { font-size: 24px; }
-    .category-name { font-size: 11px; font-weight: 500; color: var(--gray-700); text-align: center; max-width: 64px; }
-
-    /* Section Headers */
-    .section-header { padding: 24px 16px 16px; }
-    .section-title { font-size: 20px; font-weight: 800; color: var(--black); letter-spacing: -0.5px; }
-    .section-title-small { font-size: 16px; font-weight: 700; color: var(--black); }
-
-    /* Banner Promo */
-    .banner-section { padding: 0 16px 20px; }
-    .banner-promo { width: 100%; border-radius: 12px; overflow: hidden; cursor: pointer; }
-    .banner-promo img { width: 100%; height: auto; display: block; }
-
-    /* Product Cards */
-    .products-carousel { display: flex; gap: 12px; padding: 0 16px 24px; overflow-x: auto; scrollbar-width: none; }
-    .products-carousel::-webkit-scrollbar { display: none; }
-    .product-card { flex-shrink: 0; width: 150px; background: var(--white); border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .product-card:active { transform: scale(0.98); }
-    .product-card-image { position: relative; width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .product-card-image img { width: 100%; height: 100%; object-fit: cover; }
-    .product-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
-    .product-badge.green { background: var(--primary); }
-    .product-favorite-btn { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; background: var(--white); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-    .product-favorite-btn svg { width: 18px; height: 18px; }
-    .product-card-info { padding: 12px; }
-    .product-card-name { font-size: 12px; font-weight: 500; color: var(--black); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; height: 32px; }
-    .product-card-price-old { font-size: 11px; color: var(--gray-500); text-decoration: line-through; }
-    .product-card-price { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .product-card-installment { font-size: 10px; color: var(--gray-700); margin-top: 2px; }
-
-    /* Ofertas Grid */
-    .ofertas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 24px; }
-    .oferta-card { background: var(--white); border-radius: 8px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .oferta-card-image { position: relative; width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .oferta-card-image img { width: 100%; height: 100%; object-fit: cover; }
-    .oferta-card-info { padding: 8px; text-align: center; }
-    .oferta-card-price-old { font-size: 10px; color: var(--gray-500); text-decoration: line-through; }
-    .oferta-card-price { font-size: 13px; font-weight: 700; color: var(--primary); }
-
-    /* Product Page */
-    .product-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 200; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; }
-    .product-page.active { transform: translateX(0); }
-    .product-page-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; position: sticky; top: 0; background: var(--white); z-index: 10; border-bottom: 1px solid var(--gray-200); }
-    .back-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
-    .back-btn svg { width: 24px; height: 24px; fill: var(--black); }
-    .product-page-image { width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .product-page-image img { width: 100%; height: 100%; object-fit: cover; }
-    .product-page-content { padding: 20px 16px 100px; }
-    .product-page-team { font-size: 13px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .product-page-name { font-size: 22px; font-weight: 700; color: var(--black); line-height: 1.2; margin-bottom: 16px; }
-    .product-page-price-old { font-size: 14px; color: var(--gray-500); text-decoration: line-through; }
-    .product-page-price { font-size: 28px; font-weight: 800; color: var(--primary); margin: 4px 0; }
-    .product-page-installment { font-size: 13px; color: var(--gray-700); margin-bottom: 24px; }
-    .sizes-section h4 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-    .sizes-container { display: flex; gap: 10px; flex-wrap: wrap; }
-    .size-btn { min-width: 48px; height: 48px; border: 2px solid var(--gray-300); background: var(--white); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .size-btn.selected { border-color: var(--primary); background: var(--primary); color: var(--white); }
-    .product-page-footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 16px; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; gap: 12px; z-index: 210; }
-    .btn-cart { flex: 1; padding: 16px; border: 2px solid var(--primary); background: var(--white); color: var(--primary); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-    .btn-buy { flex: 2; padding: 16px; border: none; background: var(--primary); color: var(--white); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-
-    /* Bottom Nav */
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; cursor: pointer; }
-    .nav-item svg { width: 24px; height: 24px; fill: var(--gray-500); }
-    .nav-item.active svg { fill: var(--primary); }
-    .nav-item span { font-size: 10px; color: var(--gray-500); }
-    .nav-item.active span { color: var(--primary); font-weight: 600; }
-
-    /* Checkout Modal */
-    .checkout-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; transition: all 0.3s; }
-    .checkout-overlay.active { opacity: 1; visibility: visible; }
-    .checkout-modal { width: 100%; max-height: 90vh; background: var(--white); border-radius: 20px 20px 0 0; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s; }
-    .checkout-overlay.active .checkout-modal { transform: translateY(0); }
-    .checkout-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; background: var(--white); }
-    .checkout-header h2 { font-size: 18px; font-weight: 700; }
-    .close-btn { width: 32px; height: 32px; border: none; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .close-btn svg { width: 20px; height: 20px; fill: var(--gray-700); }
-    .checkout-content { padding: 20px; }
-    .checkout-product { display: flex; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--gray-200); margin-bottom: 20px; }
-    .checkout-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
-    .checkout-product-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-    .checkout-product-info p { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
-    .checkout-product-info .price { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .form-section { margin-bottom: 24px; }
-    .form-section h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .form-section h3 span { width: 24px; height: 24px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-    .form-group { margin-bottom: 12px; position: relative; }
-    .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--gray-700); margin-bottom: 6px; }
-    .form-group input, .form-group select { width: 100%; padding: 14px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: inherit; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-    .form-group input.input-error { border-color: var(--red); background: rgba(229, 57, 53, 0.05); }
-    .error-message { color: var(--red); font-size: 11px; margin-top: 4px; }
-    .form-row { display: flex; gap: 12px; }
-    .form-row .form-group { flex: 1; }
-    .form-row .form-group:last-child { flex: 0 0 80px; }
-    .payment-options { display: flex; flex-direction: column; gap: 12px; }
-    .payment-option { display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-200); border-radius: 12px; cursor: pointer; transition: all 0.2s; }
-    .payment-option:has(input:checked) { border-color: var(--primary); background: rgba(0, 151, 57, 0.05); }
-    .payment-option input { display: none; }
-    .payment-radio { width: 20px; height: 20px; border: 2px solid var(--gray-300); border-radius: 50%; position: relative; }
-    .payment-option:has(input:checked) .payment-radio { border-color: var(--primary); }
-    .payment-option:has(input:checked) .payment-radio::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--primary); border-radius: 50%; }
-    .payment-info { flex: 1; }
-    .payment-info strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .payment-info span { font-size: 12px; color: var(--gray-500); }
-    .payment-icon { font-size: 24px; }
-    .checkout-total { background: var(--gray-100); padding: 16px; border-radius: 12px; margin-bottom: 20px; }
-    .checkout-total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
-    .checkout-total-row:last-child { margin-bottom: 0; }
-    .checkout-total-row.total { font-size: 18px; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--gray-300); margin-top: 8px; }
-    .free-shipping { color: var(--primary); font-weight: 600; }
-    .checkout-btn { width: 100%; padding: 18px; background: var(--primary); color: var(--white); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; }
-    .success-message { display: none; text-align: center; padding: 60px 20px; }
-    .success-message.active { display: block; }
-    .success-icon { width: 80px; height: 80px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 24px; }
-    .success-message h3 { font-size: 24px; margin-bottom: 8px; }
-    .success-message p { color: var(--gray-500); margin-bottom: 32px; }
-
-    /* Search */
-    .search-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 250; transform: translateY(-100%); transition: transform 0.3s ease; overflow-y: auto; }
-    .search-overlay.active { transform: translateY(0); }
-    .search-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; background: var(--white); }
-    .search-input-container { flex: 1; position: relative; }
-    .search-input-container input { width: 100%; padding: 12px 16px 12px 44px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: inherit; }
-    .search-input-container input:focus { outline: none; border-color: var(--primary); }
-    .search-input-container svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: var(--gray-500); }
-    .search-close-btn { padding: 8px 16px; background: none; border: none; color: var(--primary); font-size: 14px; font-weight: 600; cursor: pointer; }
-    .search-results { padding: 16px; }
-    .search-hint, .search-no-results { text-align: center; color: var(--gray-500); font-size: 14px; padding: 40px 20px; }
-    .search-result-item { display: flex; gap: 16px; padding: 16px; border-radius: 12px; cursor: pointer; }
-    .search-result-item:active { background: var(--gray-100); }
-    .search-result-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; }
-    .search-result-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    .search-result-name { font-size: 14px; font-weight: 500; color: var(--black); margin-bottom: 4px; }
-    .search-result-team { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
-    .search-result-price { font-size: 16px; font-weight: 700; color: var(--primary); }
-
-    /* Favorites & Cart Pages */
-    .favorites-page, .cart-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 200; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; padding-bottom: 70px; }
-    .favorites-page.active, .cart-page.active { transform: translateX(0); }
-    .page-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; position: sticky; top: 0; background: var(--white); z-index: 10; border-bottom: 1px solid var(--gray-200); }
-    .page-header h2 { font-size: 18px; font-weight: 700; }
-    .favorites-container, .cart-container { padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; }
-    .favorites-container .product-card { width: calc(50% - 6px); }
-    .empty-favorites, .empty-cart { width: 100%; text-align: center; padding: 60px 20px; }
-    .empty-favorites svg, .empty-cart svg { margin-bottom: 16px; }
-    .empty-favorites h3, .empty-cart h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .empty-favorites p, .empty-cart p { color: var(--gray-500); font-size: 14px; }
-    .cart-container { flex-direction: column; }
-    .cart-item { display: flex; gap: 16px; padding: 16px; background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
-    .cart-item-info { flex: 1; }
-    .cart-item-name { font-size: 14px; font-weight: 500; color: var(--black); margin-bottom: 4px; }
-    .cart-item-size { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
-    .cart-item-price { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .cart-item-actions { display: flex; align-items: center; gap: 8px; }
-    .qty-btn { width: 32px; height: 32px; border: 1px solid var(--gray-300); background: var(--white); border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .qty-value { font-size: 14px; font-weight: 600; min-width: 24px; text-align: center; }
-    .cart-total { position: fixed; bottom: 70px; left: 0; right: 0; background: var(--white); padding: 16px; border-top: 1px solid var(--gray-200); z-index: 10; }
-
-    /* Notification */
-    .notification { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--black); color: var(--white); padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 400; opacity: 0; visibility: hidden; transition: all 0.3s ease; white-space: nowrap; }
-    .notification.active { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-
-    /* Responsive */
-    @media (min-width: 768px) {
-      .ofertas-grid { grid-template-columns: repeat(4, 1fr); }
-      .product-card { width: 180px; }
-      .favorites-container .product-card { width: calc(33.333% - 8px); }
-    }
-    @media (min-width: 1024px) {
-      .ofertas-grid { grid-template-columns: repeat(6, 1fr); }
-      .checkout-modal { max-width: 500px; margin: auto; border-radius: 20px; }
-      .checkout-overlay { align-items: center; justify-content: center; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Notificacao Toast -->
   <div class="notification" id="notification"></div>
 
+  <!-- Header -->
   <header class="header">
     <div class="header-logo">
-      <span style="font-weight:800;font-size:20px;color:#009739">Space</span><span style="font-weight:800;font-size:20px;color:#FEDD00">Fut</span>
+      <span class="logo-space">Space</span><span class="logo-fut">Fut</span>
     </div>
     <div class="header-actions">
-      <div class="header-icon" onclick="SearchManager.open()">
+      <div class="header-icon" onclick="SearchManager.open()" aria-label="Buscar">
         <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       </div>
-      <div class="header-icon" onclick="showFavoritesPage()">
+      <div class="header-icon" onclick="showFavoritesPage()" aria-label="Favoritos">
         <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        <span class="favorites-badge"></span>
+        <span class="favorites-badge" id="favoritesBadge"></span>
       </div>
-      <div class="header-icon" onclick="showCartPage()">
+      <div class="header-icon" onclick="showCartPage()" aria-label="Carrinho">
         <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        <span class="cart-badge"></span>
+        <span class="cart-badge" id="cartBadge"></span>
       </div>
     </div>
   </header>
 
-  <section class="hero-banner" style="background: linear-gradient(135deg, #1a5f2a 0%, #0d3d1a 50%, #FEDD00 100%);">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0.15;font-size:120px;">&#9917;</div>
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <div class="hero-bg"></div>
     <div class="hero-content">
       <span class="hero-badge">Copa 2026</span>
-      <h1 class="hero-title">Camisas Oficiais<br>Copa 2026</h1>
-      <a href="#" class="hero-btn" onclick="scrollToProducts(); return false;">Ver Colecao</a>
+      <h1 class="hero-title">Camisas Oficiais<br>Selecao Brasileira</h1>
+      <p class="hero-subtitle">Combos especiais - Compre 2 e leve 3!</p>
+      <a href="#combos" class="hero-btn">Ver Ofertas</a>
     </div>
   </section>
 
+  <!-- Barra de Beneficios -->
+  <section class="benefits-bar">
+    <div class="benefit-item">
+      <span class="benefit-icon">🚚</span>
+      <span class="benefit-text">Frete R$5 para Sabara</span>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">💳</span>
+      <span class="benefit-text">12x sem juros</span>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🏠</span>
+      <span class="benefit-text">Pague na entrega</span>
+    </div>
+  </section>
+
+  <!-- Categorias -->
   <section class="categories-section">
     <div class="categories-scroll">
-      <div class="category-item active" data-category="todos" onclick="filterProducts('todos')"><div class="category-circle"><span>&#127942;</span></div><span class="category-name">Todos</span></div>
-      <div class="category-item" data-category="selecao" onclick="filterProducts('selecao')"><div class="category-circle"><span>&#127463;&#127479;</span></div><span class="category-name">Selecao</span></div>
-      <div class="category-item" data-category="clubes" onclick="filterProducts('clubes')"><div class="category-circle"><span>&#9917;</span></div><span class="category-name">Clubes BR</span></div>
-      <div class="category-item" data-category="europeus" onclick="filterProducts('europeus')"><div class="category-circle"><span>&#127757;</span></div><span class="category-name">Europeus</span></div>
-      <div class="category-item" data-category="retro" onclick="filterProducts('retro')"><div class="category-circle"><span>&#128085;</span></div><span class="category-name">Retro</span></div>
-      <div class="category-item" data-category="acessorios" onclick="filterProducts('acessorios')"><div class="category-circle"><span>&#127952;</span></div><span class="category-name">Acessorios</span></div>
+      <div class="category-item active" data-category="todos" onclick="filterProducts('todos')">
+        <div class="category-circle"><span>🏆</span></div>
+        <span class="category-name">Todos</span>
+      </div>
+      <div class="category-item" data-category="selecao" onclick="filterProducts('selecao')">
+        <div class="category-circle"><span>🇧🇷</span></div>
+        <span class="category-name">Selecao</span>
+      </div>
+      <div class="category-item" data-category="clubes" onclick="filterProducts('clubes')">
+        <div class="category-circle"><span>⚽</span></div>
+        <span class="category-name">Clubes BR</span>
+      </div>
+      <div class="category-item" data-category="europeus" onclick="filterProducts('europeus')">
+        <div class="category-circle"><span>🌍</span></div>
+        <span class="category-name">Europeus</span>
+      </div>
+      <div class="category-item" data-category="combos" onclick="filterProducts('combos')">
+        <div class="category-circle"><span>🎁</span></div>
+        <span class="category-name">Combos</span>
+      </div>
     </div>
   </section>
 
+  <!-- Combos Especiais -->
+  <section class="combos-section" id="combos">
+    <div class="section-header">
+      <h2 class="section-title">🎁 Combos Especiais</h2>
+      <p class="section-subtitle">Ofertas imperdveis para voce!</p>
+    </div>
+    <div class="combos-grid" id="combosGrid"></div>
+  </section>
+
+  <!-- Lancamentos -->
   <section>
-    <div class="section-header"><h2 class="section-title">&#128293; Lancamentos</h2></div>
+    <div class="section-header">
+      <h2 class="section-title">🔥 Lancamentos</h2>
+    </div>
     <div class="products-carousel" id="lancamentosCarousel"></div>
   </section>
 
+  <!-- Banner Promo -->
   <section class="banner-section">
-    <div class="banner-promo" onclick="filterProducts('selecao')" style="background: linear-gradient(90deg, #009739 0%, #FEDD00 50%, #002776 100%); padding: 24px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 20px;">
-      <span style="font-size: 48px;">&#127463;&#127479;</span>
-      <div style="text-align: center;">
-        <p style="font-size: 14px; color: white; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Colecao Especial</p>
-        <p style="font-size: 24px; font-weight: 800; color: white;">SELECAO BRASILEIRA</p>
-        <p style="font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px;">Clique para ver</p>
+    <div class="banner-promo" onclick="filterProducts('selecao')">
+      <div class="banner-content">
+        <span class="banner-emoji">🇧🇷</span>
+        <div class="banner-text">
+          <p class="banner-label">Colecao Especial</p>
+          <p class="banner-title">SELECAO BRASILEIRA</p>
+          <p class="banner-cta">Clique para ver →</p>
+        </div>
+        <span class="banner-emoji">⚽</span>
       </div>
-      <span style="font-size: 48px;">&#9917;</span>
     </div>
   </section>
 
+  <!-- Mais Vendidos -->
   <section>
-    <div class="section-header"><h2 class="section-title-small">&#9889; Ofertas Relampago</h2></div>
-    <div class="ofertas-grid" id="ofertasGrid"></div>
-  </section>
-
-  <section>
-    <div class="section-header"><h2 class="section-title">&#127941; Mais Vendidos</h2></div>
+    <div class="section-header">
+      <h2 class="section-title">🏆 Mais Vendidos</h2>
+    </div>
     <div class="products-carousel" id="maisVendidosCarousel"></div>
   </section>
 
+  <!-- Prova Social -->
+  <section class="social-proof-section">
+    <div class="section-header">
+      <h2 class="section-title">⭐ Avaliacoes dos Clientes</h2>
+    </div>
+    <div class="reviews-carousel" id="reviewsCarousel"></div>
+    <div class="trust-badges">
+      <div class="trust-badge">
+        <span class="trust-number">2.847</span>
+        <span class="trust-label">Vendas realizadas</span>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-number">4.9</span>
+        <span class="trust-label">Avaliacao media</span>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-number">98%</span>
+        <span class="trust-label">Clientes satisfeitos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navegacao Inferior -->
   <nav class="bottom-nav">
-    <div class="nav-item active" data-action="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Inicio</span></div>
-    <div class="nav-item" data-action="search"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Buscar</span></div>
-    <div class="nav-item" data-action="favorites"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Favoritos</span></div>
-    <div class="nav-item" data-action="profile"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Perfil</span></div>
+    <div class="nav-item active" data-action="home">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Inicio</span>
+    </div>
+    <div class="nav-item" data-action="search">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span>Buscar</span>
+    </div>
+    <div class="nav-item" data-action="tracking">
+      <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span>Rastrear</span>
+    </div>
+    <div class="nav-item" data-action="favorites">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>Favoritos</span>
+    </div>
   </nav>
 
+  <!-- Overlay de Busca -->
   <div class="search-overlay" id="searchOverlay">
     <div class="search-header">
       <div class="search-input-container">
         <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input type="text" id="searchInput" placeholder="Buscar produtos...">
+        <input type="text" id="searchInput" placeholder="Buscar camisas, times...">
       </div>
       <button class="search-close-btn" onclick="SearchManager.close()">Cancelar</button>
     </div>
-    <div class="search-results" id="searchResults"><p class="search-hint">Digite pelo menos 2 caracteres...</p></div>
+    <div class="search-results" id="searchResults">
+      <p class="search-hint">Digite pelo menos 2 caracteres...</p>
+    </div>
   </div>
 
+  <!-- Pagina de Favoritos -->
   <div class="favorites-page" id="favoritesPage">
     <div class="page-header">
-      <button class="back-btn" onclick="closeFavoritesPage()"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <button class="back-btn" onclick="closeFavoritesPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
       <h2>Meus Favoritos</h2>
       <div style="width:40px"></div>
     </div>
     <div class="favorites-container" id="favoritesContainer"></div>
   </div>
 
+  <!-- Pagina do Carrinho -->
   <div class="cart-page" id="cartPage">
     <div class="page-header">
-      <button class="back-btn" onclick="closeCartPage()"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <button class="back-btn" onclick="closeCartPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
       <h2>Meu Carrinho</h2>
       <div style="width:40px"></div>
     </div>
@@ -332,25 +213,81 @@
     <div class="cart-total" id="cartTotal"></div>
   </div>
 
+  <!-- Pagina de Rastreamento -->
+  <div class="tracking-page" id="trackingPage">
+    <div class="page-header">
+      <button class="back-btn" onclick="closeTrackingPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <h2>Rastrear Pedido</h2>
+      <div style="width:40px"></div>
+    </div>
+    <div class="tracking-content">
+      <div class="tracking-form">
+        <p class="tracking-info">Digite seu codigo de rastreio para acompanhar a entrega</p>
+        <div class="form-group">
+          <label>Codigo de Rastreio</label>
+          <input type="text" id="trackingCode" placeholder="Ex: BR123456789BR" maxlength="20">
+        </div>
+        <button class="btn-primary" onclick="TrackingManager.track()">RASTREAR</button>
+      </div>
+      <div class="tracking-result" id="trackingResult"></div>
+    </div>
+  </div>
+
+  <!-- Pagina do Produto -->
   <div class="product-page" id="productPage">
     <div class="product-page-header">
-      <button class="back-btn" onclick="closeProductPage()"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <button class="back-btn" onclick="closeProductPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
       <div class="header-actions">
-        <div class="header-icon" id="productPageFavorite" onclick="if(selectedProduct) FavoritesManager.toggleFavorite(selectedProduct.id)">
+        <div class="header-icon" id="productPageFavorite" onclick="toggleProductFavorite()">
           <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </div>
-        <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></div>
+        <div class="header-icon" onclick="shareProduct()">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        </div>
       </div>
     </div>
-    <div class="product-page-image" id="productPageImageContainer"></div>
+
+    <!-- Galeria de Imagens -->
+    <div class="product-gallery">
+      <div class="gallery-main" id="galleryMain"></div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+
     <div class="product-page-content">
+      <!-- Info do Produto -->
       <p class="product-page-team" id="productPageTeam"></p>
       <h1 class="product-page-name" id="productPageName"></h1>
-      <p class="product-page-price-old" id="productPageOldPrice"></p>
-      <p class="product-page-price" id="productPagePrice"></p>
-      <p class="product-page-installment" id="productPageInstallment"></p>
+
+      <!-- Prova Social do Produto -->
+      <div class="product-social-proof">
+        <div class="product-rating">
+          <span class="stars" id="productStars">★★★★★</span>
+          <span class="rating-count" id="productRatingCount">(127 avaliacoes)</span>
+        </div>
+        <div class="product-sold" id="productSold">
+          <span class="sold-icon">🔥</span>
+          <span>324 vendidos</span>
+        </div>
+      </div>
+
+      <!-- Precos -->
+      <div class="price-container">
+        <p class="product-page-price-old" id="productPageOldPrice"></p>
+        <p class="product-page-price" id="productPagePrice"></p>
+        <p class="product-page-installment" id="productPageInstallment"></p>
+        <span class="discount-badge" id="discountBadge"></span>
+      </div>
+
+      <!-- Selecao de Tamanho -->
       <div class="sizes-section">
-        <h4>Tamanho</h4>
+        <div class="sizes-header">
+          <h4>Tamanho</h4>
+          <button class="size-guide-btn" onclick="showSizeGuide()">Guia de medidas</button>
+        </div>
         <div class="sizes-container" id="sizesContainer">
           <button class="size-btn" data-size="P">P</button>
           <button class="size-btn" data-size="M">M</button>
@@ -359,247 +296,199 @@
           <button class="size-btn" data-size="XG">XG</button>
         </div>
       </div>
+
+      <!-- Descricao do Produto -->
+      <div class="product-description" id="productDescription">
+        <h4>Descricao</h4>
+        <div class="description-content"></div>
+      </div>
+
+      <!-- Tabela de Medidas Inline -->
+      <div class="size-table-section" id="sizeTableSection">
+        <h4>Tabela de Medidas</h4>
+        <div class="size-table-container">
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th>Tamanho</th>
+                <th>Largura</th>
+                <th>Comprimento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>P</td><td>48 cm</td><td>68 cm</td></tr>
+              <tr><td>M</td><td>52 cm</td><td>71 cm</td></tr>
+              <tr><td>G</td><td>56 cm</td><td>74 cm</td></tr>
+              <tr><td>GG</td><td>60 cm</td><td>77 cm</td></tr>
+              <tr><td>XG</td><td>64 cm</td><td>80 cm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
     <div class="product-page-footer">
       <button class="btn-cart" onclick="addToCart()">ADICIONAR</button>
-      <button class="btn-buy" onclick="openCheckout()">COMPRAR AGORA</button>
+      <button class="btn-buy" onclick="openCepModal()">COMPRAR AGORA</button>
     </div>
   </div>
 
+  <!-- Modal de CEP (obrigatorio antes do checkout) -->
+  <div class="modal-overlay" id="cepModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeCepModal()">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <div class="modal-icon">📍</div>
+      <h3>Calcular Frete e Entrega</h3>
+      <p class="modal-subtitle">Digite seu CEP para ver opcoes de entrega</p>
+
+      <div class="form-group">
+        <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="9">
+        <button class="cep-search-btn" onclick="FreteManager.calcular()">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </button>
+      </div>
+      <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" class="cep-link">Nao sei meu CEP</a>
+
+      <div class="frete-result" id="freteResult"></div>
+    </div>
+  </div>
+
+  <!-- Modal de Guia de Tamanhos -->
+  <div class="modal-overlay" id="sizeGuideModal">
+    <div class="modal-content modal-large">
+      <button class="modal-close" onclick="closeSizeGuide()">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <h3>📏 Guia de Medidas</h3>
+      <p class="modal-subtitle">Como medir sua camisa</p>
+
+      <div class="measure-guide">
+        <div class="measure-item">
+          <strong>Largura:</strong> Meca de uma axila a outra, com a camisa esticada.
+        </div>
+        <div class="measure-item">
+          <strong>Comprimento:</strong> Meca da gola ate a barra inferior.
+        </div>
+      </div>
+
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th>Tamanho</th>
+            <th>Largura (cm)</th>
+            <th>Comprimento (cm)</th>
+            <th>Indicado para</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>P</td><td>48</td><td>68</td><td>Peso: 50-60kg</td></tr>
+          <tr><td>M</td><td>52</td><td>71</td><td>Peso: 60-75kg</td></tr>
+          <tr><td>G</td><td>56</td><td>74</td><td>Peso: 75-90kg</td></tr>
+          <tr><td>GG</td><td>60</td><td>77</td><td>Peso: 90-105kg</td></tr>
+          <tr><td>XG</td><td>64</td><td>80</td><td>Peso: 105kg+</td></tr>
+        </tbody>
+      </table>
+
+      <button class="btn-primary" onclick="closeSizeGuide()">ENTENDI</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
   <div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckout(event)">
     <div class="checkout-modal" onclick="event.stopPropagation()">
-      <div class="checkout-header"><h2>Finalizar Compra</h2><button class="close-btn" onclick="closeCheckout()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
+      <div class="checkout-header">
+        <h2>Finalizar Compra</h2>
+        <button class="close-btn" onclick="closeCheckout()">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
       <div class="checkout-content" id="checkoutForm">
-        <div class="checkout-product"><div id="checkoutImage" style="width:80px;height:80px;background:#ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="font-size:32px;">&#9917;</span></div><div class="checkout-product-info"><h4 id="checkoutProductName"></h4><p>Tamanho: <span id="checkoutSize">G</span></p><span class="price" id="checkoutProductPrice"></span></div></div>
+        <!-- Produto -->
+        <div class="checkout-product" id="checkoutProductContainer"></div>
+
+        <!-- Endereco -->
         <div class="form-section">
           <h3><span>1</span> Endereco de Entrega</h3>
-          <div class="form-group"><label>Nome completo</label><input type="text" id="inputName" placeholder="Seu nome completo"></div>
-          <div class="form-group"><label>CEP</label><input type="text" id="inputCep" placeholder="00000-000" maxlength="9"></div>
-          <div class="form-group"><label>Endereco</label><input type="text" id="inputAddress" placeholder="Rua, numero, complemento"></div>
-          <div class="form-row"><div class="form-group"><label>Cidade</label><input type="text" id="inputCity" placeholder="Sua cidade"></div><div class="form-group"><label>UF</label><select id="inputState"><option value="">UF</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option></select></div></div>
-        </div>
-        <div class="form-section">
-          <h3><span>2</span> Forma de Pagamento</h3>
-          <div class="payment-options">
-            <label class="payment-option"><input type="radio" name="payment" value="pix" checked><div class="payment-radio"></div><div class="payment-info"><strong>PIX</strong><span>Aprovacao imediata</span></div><span class="payment-icon">&#128241;</span></label>
-            <label class="payment-option"><input type="radio" name="payment" value="credit"><div class="payment-radio"></div><div class="payment-info"><strong>Cartao de Credito</strong><span>Em ate 12x sem juros</span></div><span class="payment-icon">&#128179;</span></label>
-            <label class="payment-option"><input type="radio" name="payment" value="boleto"><div class="payment-radio"></div><div class="payment-info"><strong>Boleto</strong><span>Vencimento em 3 dias</span></div><span class="payment-icon">&#128196;</span></label>
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="inputName" placeholder="Seu nome completo">
+          </div>
+          <div class="form-group">
+            <label>Telefone/WhatsApp</label>
+            <input type="tel" id="inputPhone" placeholder="(31) 99999-9999" maxlength="15">
+          </div>
+          <div class="form-group">
+            <label>CEP</label>
+            <input type="text" id="inputCep" placeholder="00000-000" maxlength="9" readonly>
+          </div>
+          <div class="form-group">
+            <label>Endereco</label>
+            <input type="text" id="inputAddress" placeholder="Rua, numero">
+          </div>
+          <div class="form-group">
+            <label>Complemento</label>
+            <input type="text" id="inputComplement" placeholder="Apt, bloco (opcional)">
+          </div>
+          <div class="form-group">
+            <label>Bairro</label>
+            <input type="text" id="inputNeighborhood" placeholder="Seu bairro">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cidade</label>
+              <input type="text" id="inputCity" placeholder="Sua cidade" readonly>
+            </div>
+            <div class="form-group">
+              <label>UF</label>
+              <input type="text" id="inputState" placeholder="UF" maxlength="2" readonly>
+            </div>
           </div>
         </div>
-        <div class="checkout-total"><div class="checkout-total-row"><span>Subtotal</span><span id="checkoutSubtotal">R$ 349,90</span></div><div class="checkout-total-row"><span>Frete</span><span class="free-shipping">Gratis</span></div><div class="checkout-total-row total"><span>Total</span><span id="checkoutTotal">R$ 349,90</span></div></div>
-        <button class="checkout-btn" onclick="finalizePurchase()">FINALIZAR PEDIDO</button>
+
+        <!-- Frete -->
+        <div class="form-section" id="shippingSection">
+          <h3><span>2</span> Opcao de Entrega</h3>
+          <div class="shipping-options" id="shippingOptions"></div>
+        </div>
+
+        <!-- Pagamento -->
+        <div class="form-section" id="paymentSection">
+          <h3><span>3</span> Forma de Pagamento</h3>
+          <div class="payment-options" id="paymentOptions"></div>
+        </div>
+
+        <!-- Total -->
+        <div class="checkout-total" id="checkoutTotalContainer">
+          <div class="checkout-total-row">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">R$ 0,00</span>
+          </div>
+          <div class="checkout-total-row">
+            <span>Frete</span>
+            <span id="checkoutFrete">R$ 0,00</span>
+          </div>
+          <div class="checkout-total-row total">
+            <span>Total</span>
+            <span id="checkoutTotal">R$ 0,00</span>
+          </div>
+        </div>
+
+        <button class="checkout-btn" id="checkoutBtn" onclick="finalizePurchase()">FINALIZAR PEDIDO</button>
       </div>
-      <div class="success-message" id="successMessage"><div class="success-icon">&#10003;</div><h3>Pedido Realizado!</h3><p>Voce recebera os detalhes por e-mail.</p><button class="checkout-btn" onclick="closeCheckout(); closeProductPage();">VOLTAR A LOJA</button></div>
+
+      <div class="success-message" id="successMessage">
+        <div class="success-icon">✓</div>
+        <h3>Pedido Realizado!</h3>
+        <p>Voce recebera os detalhes por WhatsApp.</p>
+        <div class="order-number" id="orderNumber"></div>
+        <button class="checkout-btn" onclick="closeCheckout(); closeProductPage();">VOLTAR A LOJA</button>
+      </div>
     </div>
   </div>
 
-  <script>
-    // Produtos com cores e emojis como placeholders confiaveis
-    const products = [
-      { id: 1, name: 'Camisa Selecao Brasileira I 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: '-22%', color: '#FEDD00', emoji: '&#127463;&#127479;' },
-      { id: 2, name: 'Camisa Selecao Brasileira II 2024/25', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: 'Novo', badgeClass: 'green', color: '#002776', emoji: '&#127463;&#127479;' },
-      { id: 3, name: 'Camisa Flamengo I 2024', team: 'Flamengo', category: 'clubes', oldPrice: 349.90, price: 279.90, badge: '-20%', color: '#E53935', emoji: '&#9917;' },
-      { id: 4, name: 'Camisa Corinthians I 2024', team: 'Corinthians', category: 'clubes', oldPrice: 329.90, price: 269.90, badge: '-18%', color: '#1a1a1a', emoji: '&#9917;' },
-      { id: 5, name: 'Camisa Real Madrid I 2024/25', team: 'Real Madrid', category: 'europeus', oldPrice: 499.90, price: 399.90, badge: '-20%', color: '#ffffff', emoji: '&#9917;' },
-      { id: 6, name: 'Camisa Goleiro Brasil 2024', team: 'Brasil', category: 'selecao', oldPrice: 399.90, price: 319.90, badge: 'Novo', badgeClass: 'green', color: '#00875f', emoji: '&#127463;&#127479;' },
-      { id: 7, name: 'Camisa Palmeiras I 2024', team: 'Palmeiras', category: 'clubes', oldPrice: 349.90, price: 289.90, badge: '-17%', color: '#009739', emoji: '&#9917;' },
-      { id: 8, name: 'Camisa Barcelona I 2024/25', team: 'Barcelona', category: 'europeus', oldPrice: 499.90, price: 389.90, badge: '-22%', color: '#A50044', emoji: '&#9917;' },
-      { id: 9, name: 'Camisa Brasil Retro 1970', team: 'Brasil', category: 'retro', oldPrice: 299.90, price: 249.90, badge: 'Retro', badgeClass: 'green', color: '#FFD700', emoji: '&#127941;' },
-      { id: 10, name: 'Bola Trionda Copa 2026', team: 'FIFA', category: 'acessorios', oldPrice: 899.90, price: 749.90, badge: '-17%', color: '#009739', emoji: '&#9917;' }
-    ];
-
-    let selectedProduct = null, selectedSize = 'G';
-
-    // Cart Manager
-    const CartManager = {
-      STORAGE_KEY: 'spacefut_cart',
-      getCart() { return JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]'); },
-      saveCart(cart) { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart)); this.updateBadge(); },
-      addItem(productId, size, qty = 1) {
-        const cart = this.getCart();
-        const idx = cart.findIndex(i => i.productId === productId && i.size === size);
-        if (idx > -1) cart[idx].quantity += qty; else cart.push({ productId, size, quantity: qty });
-        this.saveCart(cart);
-        this.notify('Produto adicionado ao carrinho!');
-      },
-      removeItem(productId, size) { this.saveCart(this.getCart().filter(i => !(i.productId === productId && i.size === size))); },
-      updateQty(productId, size, qty) {
-        const cart = this.getCart();
-        const item = cart.find(i => i.productId === productId && i.size === size);
-        if (item) { item.quantity = Math.max(0, qty); if (item.quantity === 0) this.removeItem(productId, size); else this.saveCart(cart); }
-      },
-      getTotal() { return this.getCart().reduce((t, i) => { const p = products.find(x => x.id === i.productId); return t + (p ? p.price * i.quantity : 0); }, 0); },
-      getCount() { return this.getCart().reduce((c, i) => c + i.quantity, 0); },
-      clear() { localStorage.removeItem(this.STORAGE_KEY); this.updateBadge(); },
-      updateBadge() { const c = this.getCount(); document.querySelectorAll('.cart-badge').forEach(b => { b.textContent = c > 99 ? '99+' : c; b.style.display = c > 0 ? 'flex' : 'none'; }); },
-      notify(msg) { const n = document.getElementById('notification'); if (n) { n.textContent = msg; n.classList.add('active'); setTimeout(() => n.classList.remove('active'), 2500); } }
-    };
-
-    // Favorites Manager
-    const FavoritesManager = {
-      STORAGE_KEY: 'spacefut_favorites',
-      get() { return JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]'); },
-      save(favs) { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favs)); this.updateBadge(); },
-      toggle(id) {
-        const favs = this.get(), idx = favs.indexOf(id);
-        if (idx > -1) { favs.splice(idx, 1); CartManager.notify('Removido dos favoritos'); } else { favs.push(id); CartManager.notify('Adicionado aos favoritos!'); }
-        this.save(favs); this.updateIcons();
-      },
-      isFav(id) { return this.get().includes(id); },
-      updateBadge() { const c = this.get().length; document.querySelectorAll('.favorites-badge').forEach(b => { b.textContent = c > 99 ? '99+' : c; b.style.display = c > 0 ? 'flex' : 'none'; }); },
-      updateIcons() {
-        const favs = this.get();
-        document.querySelectorAll('[data-favorite-btn]').forEach(btn => { const id = parseInt(btn.dataset.productId); btn.querySelector('svg').style.fill = favs.includes(id) ? 'var(--red)' : 'var(--gray-300)'; });
-        const ppf = document.getElementById('productPageFavorite');
-        if (ppf && selectedProduct) ppf.querySelector('svg').style.fill = favs.includes(selectedProduct.id) ? 'var(--red)' : 'var(--black)';
-      }
-    };
-
-    // Search Manager
-    const SearchManager = {
-      isOpen: false,
-      open() { document.getElementById('searchOverlay').classList.add('active'); this.isOpen = true; setTimeout(() => document.getElementById('searchInput').focus(), 100); },
-      close() { document.getElementById('searchOverlay').classList.remove('active'); this.isOpen = false; document.getElementById('searchInput').value = ''; document.getElementById('searchResults').innerHTML = '<p class="search-hint">Digite pelo menos 2 caracteres...</p>'; },
-      search(q) {
-        const sr = document.getElementById('searchResults');
-        if (q.length < 2) { sr.innerHTML = '<p class="search-hint">Digite pelo menos 2 caracteres...</p>'; return; }
-        const nq = q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const res = products.filter(p => {
-          const nn = p.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          const nt = p.team.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          return nn.includes(nq) || nt.includes(nq) || p.category.includes(nq);
-        });
-        if (res.length === 0) { sr.innerHTML = '<p class="search-no-results">Nenhum produto encontrado</p>'; return; }
-        sr.innerHTML = res.map(p => { const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : ''; return `<div class="search-result-item" onclick="SearchManager.close(); openProductPage(${p.id})"><div style="width:70px;height:70px;background:${p.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:28px;">${p.emoji}</span></div><div class="search-result-info"><p class="search-result-name">${p.name}</p><p class="search-result-team">${p.team}</p><p class="search-result-price">${formatPrice(p.price)}</p></div></div>`; }).join('');
-      }
-    };
-
-    function formatPrice(v) { return 'R$ ' + v.toFixed(2).replace('.', ','); }
-
-    function renderProductCard(p) {
-      const isFav = FavoritesManager.isFav(p.id);
-      const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
-      return `<div class="product-card" onclick="openProductPage(${p.id})"><div class="product-card-image" style="background:${p.color};${border}display:flex;align-items:center;justify-content:center;"><span class="product-badge ${p.badgeClass||''}">${p.badge}</span><span style="font-size:48px;">${p.emoji}</span><button class="product-favorite-btn" data-favorite-btn data-product-id="${p.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${p.id})"><svg viewBox="0 0 24 24" style="fill:${isFav?'var(--red)':'var(--gray-300)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div><div class="product-card-info"><p class="product-card-name">${p.name}</p><p class="product-card-price-old">${formatPrice(p.oldPrice)}</p><p class="product-card-price">${formatPrice(p.price)}</p><p class="product-card-installment">ou 12x de ${formatPrice(p.price/12)}</p></div></div>`;
-    }
-
-    function renderOfertaCard(p) {
-      const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
-      return `<div class="oferta-card" onclick="openProductPage(${p.id})"><div class="oferta-card-image" style="background:${p.color};${border}display:flex;align-items:center;justify-content:center;"><span class="product-badge">${p.badge}</span><span style="font-size:32px;">${p.emoji}</span></div><div class="oferta-card-info"><p class="oferta-card-price-old">${formatPrice(p.oldPrice)}</p><p class="oferta-card-price">${formatPrice(p.price)}</p></div></div>`;
-    }
-
-    function initCarousels() {
-      const l = document.getElementById('lancamentosCarousel'), o = document.getElementById('ofertasGrid'), m = document.getElementById('maisVendidosCarousel');
-      if (l) { const np = products.filter(p => p.badgeClass === 'green'); l.innerHTML = (np.length > 0 ? np : products).slice(0,6).map(renderProductCard).join(''); }
-      if (o) o.innerHTML = products.filter(p => p.badge.includes('%')).slice(0,6).map(renderOfertaCard).join('');
-      if (m) m.innerHTML = products.slice(0,6).map(renderProductCard).join('');
-    }
-
-    function filterProducts(cat) {
-      const f = cat === 'todos' ? products : products.filter(p => p.category === cat);
-      document.querySelectorAll('.category-item').forEach(i => { i.classList.toggle('active', i.dataset.category === cat); });
-      const l = document.getElementById('lancamentosCarousel'), m = document.getElementById('maisVendidosCarousel');
-      if (l) l.innerHTML = f.slice(0,6).map(renderProductCard).join('');
-      if (m) m.innerHTML = f.slice(0,6).map(renderProductCard).join('');
-    }
-
-    function openProductPage(id) {
-      selectedProduct = products.find(p => p.id === id); if (!selectedProduct) return;
-      const imgDiv = document.getElementById('productPageImageContainer');
-      const border = selectedProduct.color === '#ffffff' ? 'border-bottom: 1px solid #ddd;' : '';
-      imgDiv.style.background = selectedProduct.color;
-      imgDiv.style.cssText += border;
-      imgDiv.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><span style="font-size:120px;">${selectedProduct.emoji}</span></div>`;
-      document.getElementById('productPageName').textContent = selectedProduct.name;
-      document.getElementById('productPageTeam').textContent = selectedProduct.team;
-      document.getElementById('productPageOldPrice').textContent = formatPrice(selectedProduct.oldPrice);
-      document.getElementById('productPagePrice').textContent = formatPrice(selectedProduct.price);
-      document.getElementById('productPageInstallment').textContent = 'ou 12x de ' + formatPrice(selectedProduct.price/12) + ' sem juros';
-      FavoritesManager.updateIcons();
-      selectedSize = 'G'; document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('selected', b.dataset.size === 'G'));
-      document.getElementById('productPage').classList.add('active'); document.body.style.overflow = 'hidden';
-    }
-
-    function closeProductPage() { document.getElementById('productPage').classList.remove('active'); document.body.style.overflow = ''; }
-    function addToCart() { if (selectedProduct) CartManager.addItem(selectedProduct.id, selectedSize); }
-    function scrollToProducts() { document.querySelector('.products-carousel').scrollIntoView({behavior:'smooth'}); }
-
-    function openCheckout() {
-      if (!selectedProduct) return;
-      const imgEl = document.getElementById('checkoutImage');
-      const border = selectedProduct.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
-      imgEl.style.background = selectedProduct.color;
-      imgEl.style.cssText = `width:80px;height:80px;background:${selectedProduct.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;`;
-      imgEl.innerHTML = `<span style="font-size:32px;">${selectedProduct.emoji}</span>`;
-      document.getElementById('checkoutProductName').textContent = selectedProduct.name;
-      document.getElementById('checkoutSize').textContent = selectedSize;
-      document.getElementById('checkoutProductPrice').textContent = formatPrice(selectedProduct.price);
-      document.getElementById('checkoutSubtotal').textContent = formatPrice(selectedProduct.price);
-      document.getElementById('checkoutTotal').textContent = formatPrice(selectedProduct.price);
-      document.getElementById('checkoutOverlay').classList.add('active');
-      document.getElementById('checkoutForm').style.display = 'block';
-      document.getElementById('successMessage').classList.remove('active');
-    }
-
-    function closeCheckout(e) { if (e && e.target !== e.currentTarget) return; document.getElementById('checkoutOverlay').classList.remove('active'); }
-
-    function finalizePurchase() {
-      const n = document.getElementById('inputName').value, c = document.getElementById('inputCep').value, a = document.getElementById('inputAddress').value;
-      document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-      document.querySelectorAll('.error-message').forEach(el => el.remove());
-      let err = false;
-      if (!n || n.trim().length < 3 || !n.includes(' ')) { showError('inputName', 'Nome completo obrigatorio'); err = true; }
-      if (!c || c.replace(/\D/g,'').length !== 8) { showError('inputCep', 'CEP invalido'); err = true; }
-      if (!a || a.trim().length < 5) { showError('inputAddress', 'Endereco obrigatorio'); err = true; }
-      if (err) return;
-      CartManager.clear();
-      document.getElementById('checkoutForm').style.display = 'none';
-      document.getElementById('successMessage').classList.add('active');
-    }
-
-    function showError(id, msg) {
-      const inp = document.getElementById(id); if (!inp) return;
-      inp.classList.add('input-error');
-      const div = document.createElement('div'); div.className = 'error-message'; div.textContent = msg;
-      inp.parentElement.appendChild(div);
-    }
-
-    function showFavoritesPage() {
-      const favs = FavoritesManager.get(), fp = products.filter(p => favs.includes(p.id));
-      const page = document.getElementById('favoritesPage'), cont = document.getElementById('favoritesContainer');
-      if (!page || !cont) return;
-      cont.innerHTML = fp.length === 0 ? '<div class="empty-favorites"><svg viewBox="0 0 24 24" width="64" height="64"><path fill="var(--gray-300)" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h3>Nenhum favorito ainda</h3><p>Toque no coracao para favoritar</p></div>' : fp.map(renderProductCard).join('');
-      page.classList.add('active'); document.body.style.overflow = 'hidden';
-    }
-
-    function closeFavoritesPage() { document.getElementById('favoritesPage').classList.remove('active'); document.body.style.overflow = ''; }
-
-    function showCartPage() {
-      const cart = CartManager.getCart(), page = document.getElementById('cartPage'), cont = document.getElementById('cartContainer'), tot = document.getElementById('cartTotal');
-      if (!page || !cont) return;
-      if (cart.length === 0) {
-        cont.innerHTML = '<div class="empty-cart"><svg viewBox="0 0 24 24" width="64" height="64"><path fill="var(--gray-300)" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg><h3>Carrinho vazio</h3><p>Adicione produtos ao carrinho</p></div>';
-        if (tot) tot.style.display = 'none';
-      } else {
-        cont.innerHTML = cart.map(i => { const p = products.find(x => x.id === i.productId); if (!p) return ''; const border = p.color === '#ffffff' ? 'border: 1px solid #ddd;' : ''; return `<div class="cart-item"><div style="width:80px;height:80px;background:${p.color};${border}border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:32px;">${p.emoji}</span></div><div class="cart-item-info"><p class="cart-item-name">${p.name}</p><p class="cart-item-size">Tamanho: ${i.size}</p><p class="cart-item-price">${formatPrice(p.price)}</p></div><div class="cart-item-actions"><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity-1})">-</button><span class="qty-value">${i.quantity}</span><button class="qty-btn" onclick="updateCartItem(${p.id},'${i.size}',${i.quantity+1})">+</button></div></div>`; }).join('');
-        if (tot) { tot.style.display = 'block'; tot.innerHTML = `<div class="checkout-total-row"><span>Subtotal</span><span>${formatPrice(CartManager.getTotal())}</span></div><div class="checkout-total-row"><span>Frete</span><span class="free-shipping">Gratis</span></div><div class="checkout-total-row total"><span>Total</span><span>${formatPrice(CartManager.getTotal())}</span></div><button class="checkout-btn" onclick="closeCartPage(); openCheckoutFromCart()">FINALIZAR COMPRA</button>`; }
-      }
-      page.classList.add('active'); document.body.style.overflow = 'hidden';
-    }
-
-    function closeCartPage() { document.getElementById('cartPage').classList.remove('active'); document.body.style.overflow = ''; }
-    function updateCartItem(pid, size, qty) { if (qty <= 0) CartManager.removeItem(pid, size); else CartManager.updateQty(pid, size, qty); showCartPage(); }
-    function openCheckoutFromCart() { const cart = CartManager.getCart(); if (cart.length === 0) return; const fi = cart[0]; selectedProduct = products.find(p => p.id === fi.productId); selectedSize = fi.size; if (selectedProduct) { openCheckout(); document.getElementById('checkoutSubtotal').textContent = formatPrice(CartManager.getTotal()); document.getElementById('checkoutTotal').textContent = formatPrice(CartManager.getTotal()); } }
-
-    // Init
-    document.addEventListener('DOMContentLoaded', function() {
-      initCarousels(); CartManager.updateBadge(); FavoritesManager.updateBadge();
-      document.getElementById('sizesContainer').addEventListener('click', e => { if (e.target.classList.contains('size-btn')) { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected')); e.target.classList.add('selected'); selectedSize = e.target.dataset.size; }});
-      document.getElementById('inputCep').addEventListener('input', function(e) { let v = e.target.value.replace(/\D/g,''); if (v.length > 5) v = v.slice(0,5)+'-'+v.slice(5,8); e.target.value = v; });
-      document.getElementById('inputCep').addEventListener('blur', async function(e) { const c = e.target.value.replace(/\D/g,''); if (c.length === 8) { try { const r = await fetch('https://viacep.com.br/ws/'+c+'/json/'); const d = await r.json(); if (!d.erro) { if (d.logradouro) document.getElementById('inputAddress').value = d.logradouro; if (d.localidade) document.getElementById('inputCity').value = d.localidade; if (d.uf) document.getElementById('inputState').value = d.uf; } } catch(err) {} }});
-      document.getElementById('searchInput').addEventListener('input', e => SearchManager.search(e.target.value));
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && SearchManager.isOpen) SearchManager.close(); });
-      document.querySelectorAll('.nav-item').forEach(item => { item.addEventListener('click', function() { const a = this.dataset.action; document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); if (a === 'home') { this.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); } else if (a === 'search') SearchManager.open(); else if (a === 'favorites') { this.classList.add('active'); showFavoritesPage(); } else if (a === 'profile') { this.classList.add('active'); CartManager.notify('Perfil em breve!'); } }); });
-    });
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>
