@@ -3,214 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SpaceFut - Materiais Esportivos</title>
+  <title>SpaceFut - Materiais Esportivos | Camisas Copa 2026</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="SpaceFut - Sua loja de materiais esportivos. Camisas oficiais da Copa do Mundo 2026, selecao brasileira, clubes nacionais e europeus. Frete gratis e parcelamento em ate 12x.">
+  <meta name="keywords" content="camisas futebol, copa 2026, selecao brasileira, flamengo, corinthians, palmeiras, real madrid, barcelona, materiais esportivos">
+  <meta name="author" content="SpaceFut">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://spacefut.com.br/">
+  <meta property="og:title" content="SpaceFut - Materiais Esportivos | Camisas Copa 2026">
+  <meta property="og:description" content="Camisas oficiais da Copa do Mundo 2026, selecao brasileira e clubes. Frete gratis e parcelamento em ate 12x sem juros.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=630&fit=crop">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://spacefut.com.br/">
+  <meta property="twitter:title" content="SpaceFut - Materiais Esportivos | Camisas Copa 2026">
+  <meta property="twitter:description" content="Camisas oficiais da Copa do Mundo 2026, selecao brasileira e clubes. Frete gratis e parcelamento em ate 12x sem juros.">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=630&fit=crop">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#009739">
+  <meta name="msapplication-TileColor" content="#009739">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://spacefut.com.br/">
+
+  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    :root {
-      --primary: #009739; --primary-dark: #006B2B; --yellow: #FEDD00; --black: #1a1a1a;
-      --white: #ffffff; --gray-100: #f5f5f5; --gray-200: #eeeeee; --gray-300: #e0e0e0;
-      --gray-500: #9e9e9e; --gray-700: #616161; --green: #00875f; --red: #E53935;
-    }
-    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--black); line-height: 1.4; overflow-x: hidden; padding-bottom: 70px; }
-    
-    .header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--white); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--gray-200); }
-    .header-logo { font-weight: 800; font-size: 20px; color: var(--primary); }
-    .header-actions { display: flex; align-items: center; gap: 14px; }
-    .header-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .header-icon svg { width: 22px; height: 22px; fill: var(--black); }
-    
-    .hero-banner { position: relative; width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a5f2a 0%, #0d3d1a 100%); overflow: hidden; }
-    .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%); }
-    .hero-badge { display: inline-block; background: var(--yellow); color: var(--black); padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-    .hero-title { font-size: 28px; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -1px; margin-bottom: 12px; }
-    .hero-btn { display: inline-block; background: var(--primary); color: var(--white); padding: 12px 24px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: none; border-radius: 6px; }
-    
-    .categories-section { padding: 20px 0; background: var(--white); }
-    .categories-scroll { display: flex; gap: 16px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
-    .categories-scroll::-webkit-scrollbar { display: none; }
-    .category-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; cursor: pointer; }
-    .category-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; border: 2px solid var(--gray-200); transition: all 0.2s; }
-    .category-circle:active { transform: scale(0.95); border-color: var(--primary); }
-    .category-circle span { font-size: 24px; }
-    .category-name { font-size: 11px; font-weight: 500; color: var(--gray-700); text-align: center; max-width: 64px; }
-    
-    .section-header { padding: 24px 16px 16px; }
-    .section-title { font-size: 20px; font-weight: 800; color: var(--black); letter-spacing: -0.5px; }
-    .section-title-small { font-size: 16px; font-weight: 700; color: var(--black); }
-    
-    .banner-section { padding: 0 16px 20px; }
-    .banner-promo { width: 100%; border-radius: 12px; overflow: hidden; cursor: pointer; }
-    .banner-promo img { width: 100%; height: auto; display: block; }
-    
-    .products-carousel { display: flex; gap: 12px; padding: 0 16px 24px; overflow-x: auto; scrollbar-width: none; }
-    .products-carousel::-webkit-scrollbar { display: none; }
-    .product-card { flex-shrink: 0; width: 150px; background: var(--white); border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .product-card:active { transform: scale(0.98); }
-    .product-card-image { position: relative; width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .product-card-image img { width: 100%; height: 100%; object-fit: cover; }
-    .product-badge { position: absolute; top: 8px; left: 8px; background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
-    .product-badge.green { background: var(--primary); }
-    .product-card-info { padding: 12px; }
-    .product-card-name { font-size: 12px; font-weight: 500; color: var(--black); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; height: 32px; }
-    .product-card-price-old { font-size: 11px; color: var(--gray-500); text-decoration: line-through; }
-    .product-card-price { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .product-card-installment { font-size: 10px; color: var(--gray-700); margin-top: 2px; }
-    
-    .ofertas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 24px; }
-    .oferta-card { background: var(--white); border-radius: 8px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .oferta-card-image { position: relative; width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .oferta-card-image img { width: 100%; height: 100%; object-fit: cover; }
-    .oferta-card-info { padding: 8px; text-align: center; }
-    .oferta-card-price-old { font-size: 10px; color: var(--gray-500); text-decoration: line-through; }
-    .oferta-card-price { font-size: 13px; font-weight: 700; color: var(--primary); }
-    
-    .product-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 200; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; }
-    .product-page.active { transform: translateX(0); }
-    .product-page-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; position: sticky; top: 0; background: var(--white); z-index: 10; border-bottom: 1px solid var(--gray-200); }
-    .back-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
-    .back-btn svg { width: 24px; height: 24px; fill: var(--black); }
-    .product-page-image { width: 100%; aspect-ratio: 1; background: var(--gray-100); }
-    .product-page-image img { width: 100%; height: 100%; object-fit: cover; }
-    .product-page-content { padding: 20px 16px 100px; }
-    .product-page-team { font-size: 13px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .product-page-name { font-size: 22px; font-weight: 700; color: var(--black); line-height: 1.2; margin-bottom: 16px; }
-    .product-page-price-old { font-size: 14px; color: var(--gray-500); text-decoration: line-through; }
-    .product-page-price { font-size: 28px; font-weight: 800; color: var(--primary); margin: 4px 0; }
-    .product-page-installment { font-size: 13px; color: var(--gray-700); margin-bottom: 24px; }
-    .sizes-section h4 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-    .sizes-container { display: flex; gap: 10px; flex-wrap: wrap; }
-    .size-btn { min-width: 48px; height: 48px; border: 2px solid var(--gray-300); background: var(--white); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .size-btn.selected { border-color: var(--primary); background: var(--primary); color: var(--white); }
-    .product-page-footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 16px; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; gap: 12px; z-index: 210; }
-    .btn-cart { flex: 1; padding: 16px; border: 2px solid var(--primary); background: var(--white); color: var(--primary); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-    .btn-buy { flex: 2; padding: 16px; border: none; background: var(--primary); color: var(--white); font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-    
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; cursor: pointer; }
-    .nav-item svg { width: 24px; height: 24px; fill: var(--gray-500); }
-    .nav-item.active svg { fill: var(--primary); }
-    .nav-item span { font-size: 10px; color: var(--gray-500); }
-    .nav-item.active span { color: var(--primary); font-weight: 600; }
-    
-    .checkout-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; transition: all 0.3s; }
-    .checkout-overlay.active { opacity: 1; visibility: visible; }
-    .checkout-modal { width: 100%; max-height: 90vh; background: var(--white); border-radius: 20px 20px 0 0; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s; }
-    .checkout-overlay.active .checkout-modal { transform: translateY(0); }
-    .checkout-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; background: var(--white); }
-    .checkout-header h2 { font-size: 18px; font-weight: 700; }
-    .close-btn { width: 32px; height: 32px; border: none; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .close-btn svg { width: 20px; height: 20px; fill: var(--gray-700); }
-    .checkout-content { padding: 20px; }
-    .checkout-product { display: flex; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--gray-200); margin-bottom: 20px; }
-    .checkout-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
-    .checkout-product-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-    .checkout-product-info p { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
-    .checkout-product-info .price { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .form-section { margin-bottom: 24px; }
-    .form-section h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .form-section h3 span { width: 24px; height: 24px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--gray-700); margin-bottom: 6px; }
-    .form-group input, .form-group select { width: 100%; padding: 14px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: inherit; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-    .form-row { display: flex; gap: 12px; }
-    .form-row .form-group { flex: 1; }
-    .form-row .form-group:last-child { flex: 0 0 80px; }
-    .payment-options { display: flex; flex-direction: column; gap: 12px; }
-    .payment-option { display: flex; align-items: center; gap: 12px; padding: 16px; border: 2px solid var(--gray-200); border-radius: 12px; cursor: pointer; transition: all 0.2s; }
-    .payment-option:has(input:checked) { border-color: var(--primary); background: rgba(0, 151, 57, 0.05); }
-    .payment-option input { display: none; }
-    .payment-radio { width: 20px; height: 20px; border: 2px solid var(--gray-300); border-radius: 50%; position: relative; }
-    .payment-option:has(input:checked) .payment-radio { border-color: var(--primary); }
-    .payment-option:has(input:checked) .payment-radio::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--primary); border-radius: 50%; }
-    .payment-info { flex: 1; }
-    .payment-info strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .payment-info span { font-size: 12px; color: var(--gray-500); }
-    .payment-icon { font-size: 24px; }
-    .checkout-total { background: var(--gray-100); padding: 16px; border-radius: 12px; margin-bottom: 20px; }
-    .checkout-total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
-    .checkout-total-row:last-child { margin-bottom: 0; }
-    .checkout-total-row.total { font-size: 18px; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--gray-300); margin-top: 8px; }
-    .free-shipping { color: var(--primary); font-weight: 600; }
-    .checkout-btn { width: 100%; padding: 18px; background: var(--primary); color: var(--white); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; }
-    .success-message { display: none; text-align: center; padding: 60px 20px; }
-    .success-message.active { display: block; }
-    .success-icon { width: 80px; height: 80px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 24px; }
-    .success-message h3 { font-size: 24px; margin-bottom: 8px; }
-    .success-message p { color: var(--gray-500); margin-bottom: 32px; }
-  </style>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Notificacao Toast -->
+  <div class="notification" id="notification"></div>
+
+  <!-- Header -->
   <header class="header">
     <div class="header-logo">SpaceFut</div>
     <div class="header-actions">
-      <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
-      <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-      <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+      <div class="header-icon" onclick="SearchManager.open()">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </div>
+      <div class="header-icon" onclick="showFavoritesPage()">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span class="favorites-badge"></span>
+      </div>
+      <div class="header-icon" onclick="showCartPage()">
+        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span class="cart-badge"></span>
+      </div>
     </div>
   </header>
 
+  <!-- Hero Banner -->
   <section class="hero-banner">
-    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=450&fit=crop" alt="Copa do Mundo 2026">
+    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=450&fit=crop" alt="Copa do Mundo 2026" loading="eager">
     <div class="hero-content">
-      <span class="hero-badge">Pré-venda</span>
+      <span class="hero-badge">Pre-venda</span>
       <h1 class="hero-title">Camisas Oficiais<br>Copa 2026</h1>
-      <a href="#" class="hero-btn" onclick="scrollToProducts(); return false;">Ver Coleção</a>
+      <a href="#" class="hero-btn" onclick="scrollToProducts(); return false;">Ver Colecao</a>
     </div>
   </section>
 
+  <!-- Categories -->
   <section class="categories-section">
     <div class="categories-scroll">
-      <div class="category-item" onclick="filterProducts('todos')"><div class="category-circle"><span>🏆</span></div><span class="category-name">Todos</span></div>
-      <div class="category-item" onclick="filterProducts('selecao')"><div class="category-circle"><span>🇧🇷</span></div><span class="category-name">Seleção</span></div>
-      <div class="category-item" onclick="filterProducts('clubes')"><div class="category-circle"><span>⚽</span></div><span class="category-name">Clubes BR</span></div>
-      <div class="category-item" onclick="filterProducts('europeus')"><div class="category-circle"><span>🌍</span></div><span class="category-name">Europeus</span></div>
-      <div class="category-item" onclick="filterProducts('retro')"><div class="category-circle"><span>👕</span></div><span class="category-name">Retrô</span></div>
-      <div class="category-item" onclick="filterProducts('acessorios')"><div class="category-circle"><span>🎒</span></div><span class="category-name">Acessórios</span></div>
+      <div class="category-item active" data-category="todos" onclick="filterProducts('todos')">
+        <div class="category-circle"><span>&#127942;</span></div>
+        <span class="category-name">Todos</span>
+      </div>
+      <div class="category-item" data-category="selecao" onclick="filterProducts('selecao')">
+        <div class="category-circle"><span>&#127463;&#127479;</span></div>
+        <span class="category-name">Selecao</span>
+      </div>
+      <div class="category-item" data-category="clubes" onclick="filterProducts('clubes')">
+        <div class="category-circle"><span>&#9917;</span></div>
+        <span class="category-name">Clubes BR</span>
+      </div>
+      <div class="category-item" data-category="europeus" onclick="filterProducts('europeus')">
+        <div class="category-circle"><span>&#127757;</span></div>
+        <span class="category-name">Europeus</span>
+      </div>
+      <div class="category-item" data-category="retro" onclick="filterProducts('retro')">
+        <div class="category-circle"><span>&#128085;</span></div>
+        <span class="category-name">Retro</span>
+      </div>
+      <div class="category-item" data-category="acessorios" onclick="filterProducts('acessorios')">
+        <div class="category-circle"><span>&#127952;</span></div>
+        <span class="category-name">Acessorios</span>
+      </div>
     </div>
   </section>
 
+  <!-- Lancamentos -->
   <section>
-    <div class="section-header"><h2 class="section-title">🔥 Lançamentos</h2></div>
+    <div class="section-header">
+      <h2 class="section-title">&#128293; Lancamentos</h2>
+    </div>
     <div class="products-carousel" id="lancamentosCarousel"></div>
   </section>
 
+  <!-- Banner Promocional -->
   <section class="banner-section">
     <div class="banner-promo" onclick="filterProducts('selecao')">
-      <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=200&fit=crop" alt="Promoção Seleção">
+      <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=200&fit=crop" alt="Promocao Selecao" loading="lazy">
     </div>
   </section>
 
+  <!-- Ofertas Relampago -->
   <section>
-    <div class="section-header"><h2 class="section-title-small">⚡ Ofertas Relâmpago</h2></div>
+    <div class="section-header">
+      <h2 class="section-title-small">&#9889; Ofertas Relampago</h2>
+    </div>
     <div class="ofertas-grid" id="ofertasGrid"></div>
   </section>
 
+  <!-- Mais Vendidos -->
   <section>
-    <div class="section-header"><h2 class="section-title">🏅 Mais Vendidos</h2></div>
+    <div class="section-header">
+      <h2 class="section-title">&#127941; Mais Vendidos</h2>
+    </div>
     <div class="products-carousel" id="maisVendidosCarousel"></div>
   </section>
 
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-    <div class="nav-item active"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Início</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Buscar</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Favoritos</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Perfil</span></div>
+    <div class="nav-item active" data-action="home">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Inicio</span>
+    </div>
+    <div class="nav-item" data-action="search">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span>Buscar</span>
+    </div>
+    <div class="nav-item" data-action="favorites">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span>Favoritos</span>
+    </div>
+    <div class="nav-item" data-action="profile">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>Perfil</span>
+    </div>
   </nav>
 
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-header">
+      <div class="search-input-container">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar produtos...">
+      </div>
+      <button class="search-close-btn" onclick="SearchManager.close()">Cancelar</button>
+    </div>
+    <div class="search-results" id="searchResults">
+      <p class="search-hint">Digite pelo menos 2 caracteres para buscar...</p>
+    </div>
+  </div>
+
+  <!-- Favorites Page -->
+  <div class="favorites-page" id="favoritesPage">
+    <div class="page-header">
+      <button class="back-btn" onclick="closeFavoritesPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <h2>Meus Favoritos</h2>
+      <div style="width: 40px;"></div>
+    </div>
+    <div class="favorites-container" id="favoritesContainer"></div>
+  </div>
+
+  <!-- Cart Page -->
+  <div class="cart-page" id="cartPage">
+    <div class="page-header">
+      <button class="back-btn" onclick="closeCartPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <h2>Meu Carrinho</h2>
+      <div style="width: 40px;"></div>
+    </div>
+    <div class="cart-container" id="cartContainer"></div>
+    <div class="cart-total" id="cartTotal"></div>
+  </div>
+
+  <!-- Product Page -->
   <div class="product-page" id="productPage">
     <div class="product-page-header">
-      <button class="back-btn" onclick="closeProductPage()"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <button class="back-btn" onclick="closeProductPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
       <div class="header-actions">
-        <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-        <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></div>
+        <div class="header-icon" id="productPageFavorite" onclick="if(selectedProduct) FavoritesManager.toggleFavorite(selectedProduct.id)">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        </div>
       </div>
     </div>
-    <div class="product-page-image"><img id="productPageImage" src="" alt=""></div>
+    <div class="product-page-image">
+      <img id="productPageImage" src="" alt="" loading="lazy">
+    </div>
     <div class="product-page-content">
       <p class="product-page-team" id="productPageTeam"></p>
       <h1 class="product-page-name" id="productPageName"></h1>
@@ -229,66 +231,146 @@
       </div>
     </div>
     <div class="product-page-footer">
-      <button class="btn-cart">ADICIONAR</button>
+      <button class="btn-cart" onclick="addToCart()">ADICIONAR</button>
       <button class="btn-buy" onclick="openCheckout()">COMPRAR AGORA</button>
     </div>
   </div>
 
+  <!-- Checkout Overlay -->
   <div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckout(event)">
     <div class="checkout-modal" onclick="event.stopPropagation()">
-      <div class="checkout-header"><h2>Finalizar Compra</h2><button class="close-btn" onclick="closeCheckout()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
+      <div class="checkout-header">
+        <h2>Finalizar Compra</h2>
+        <button class="close-btn" onclick="closeCheckout()">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
       <div class="checkout-content" id="checkoutForm">
-        <div class="checkout-product"><img id="checkoutImage" src="" alt=""><div class="checkout-product-info"><h4 id="checkoutProductName"></h4><p>Tamanho: <span id="checkoutSize">G</span></p><span class="price" id="checkoutProductPrice"></span></div></div>
-        <div class="form-section">
-          <h3><span>1</span> Endereço de Entrega</h3>
-          <div class="form-group"><label>Nome completo</label><input type="text" placeholder="Seu nome" id="inputName"></div>
-          <div class="form-group"><label>CEP</label><input type="text" placeholder="00000-000" id="inputCep" maxlength="9"></div>
-          <div class="form-group"><label>Endereço</label><input type="text" placeholder="Rua, número" id="inputAddress"></div>
-          <div class="form-row"><div class="form-group"><label>Cidade</label><input type="text" placeholder="Cidade" id="inputCity"></div><div class="form-group"><label>UF</label><select id="inputState"><option value="">UF</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option></select></div></div>
+        <div class="checkout-product">
+          <img id="checkoutImage" src="" alt="">
+          <div class="checkout-product-info">
+            <h4 id="checkoutProductName"></h4>
+            <p>Tamanho: <span id="checkoutSize">G</span></p>
+            <span class="price" id="checkoutProductPrice"></span>
+          </div>
         </div>
+
+        <div class="form-section">
+          <h3><span>1</span> Endereco de Entrega</h3>
+          <div class="form-group">
+            <label for="inputName">Nome completo</label>
+            <input type="text" id="inputName" placeholder="Seu nome completo">
+          </div>
+          <div class="form-group">
+            <label for="inputCep">CEP</label>
+            <input type="text" id="inputCep" placeholder="00000-000" maxlength="9">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Endereco</label>
+            <input type="text" id="inputAddress" placeholder="Rua, numero, complemento">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="inputCity">Cidade</label>
+              <input type="text" id="inputCity" placeholder="Sua cidade">
+            </div>
+            <div class="form-group">
+              <label for="inputState">UF</label>
+              <select id="inputState">
+                <option value="">UF</option>
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div class="form-section">
           <h3><span>2</span> Forma de Pagamento</h3>
           <div class="payment-options">
-            <label class="payment-option"><input type="radio" name="payment" value="pix" checked><div class="payment-radio"></div><div class="payment-info"><strong>PIX</strong><span>Aprovação imediata</span></div><span class="payment-icon">📱</span></label>
-            <label class="payment-option"><input type="radio" name="payment" value="credit"><div class="payment-radio"></div><div class="payment-info"><strong>Cartão de Crédito</strong><span>Em até 12x sem juros</span></div><span class="payment-icon">💳</span></label>
-            <label class="payment-option"><input type="radio" name="payment" value="boleto"><div class="payment-radio"></div><div class="payment-info"><strong>Boleto</strong><span>Vencimento em 3 dias</span></div><span class="payment-icon">📄</span></label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="pix" checked>
+              <div class="payment-radio"></div>
+              <div class="payment-info">
+                <strong>PIX</strong>
+                <span>Aprovacao imediata</span>
+              </div>
+              <span class="payment-icon">&#128241;</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="credit">
+              <div class="payment-radio"></div>
+              <div class="payment-info">
+                <strong>Cartao de Credito</strong>
+                <span>Em ate 12x sem juros</span>
+              </div>
+              <span class="payment-icon">&#128179;</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="boleto">
+              <div class="payment-radio"></div>
+              <div class="payment-info">
+                <strong>Boleto</strong>
+                <span>Vencimento em 3 dias</span>
+              </div>
+              <span class="payment-icon">&#128196;</span>
+            </label>
           </div>
         </div>
-        <div class="checkout-total"><div class="checkout-total-row"><span>Subtotal</span><span id="checkoutSubtotal">R$ 349,90</span></div><div class="checkout-total-row"><span>Frete</span><span class="free-shipping">Grátis</span></div><div class="checkout-total-row total"><span>Total</span><span id="checkoutTotal">R$ 349,90</span></div></div>
+
+        <div class="checkout-total">
+          <div class="checkout-total-row">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">R$ 349,90</span>
+          </div>
+          <div class="checkout-total-row">
+            <span>Frete</span>
+            <span class="free-shipping">Gratis</span>
+          </div>
+          <div class="checkout-total-row total">
+            <span>Total</span>
+            <span id="checkoutTotal">R$ 349,90</span>
+          </div>
+        </div>
+
         <button class="checkout-btn" onclick="finalizePurchase()">FINALIZAR PEDIDO</button>
       </div>
-      <div class="success-message" id="successMessage"><div class="success-icon">✓</div><h3>Pedido Realizado!</h3><p>Você receberá os detalhes por e-mail.</p><button class="checkout-btn" onclick="closeCheckout(); closeProductPage();">VOLTAR À LOJA</button></div>
+
+      <div class="success-message" id="successMessage">
+        <div class="success-icon">&#10003;</div>
+        <h3>Pedido Realizado!</h3>
+        <p>Voce recebera os detalhes por e-mail.</p>
+        <button class="checkout-btn" onclick="closeCheckout(); closeProductPage();">VOLTAR A LOJA</button>
+      </div>
     </div>
   </div>
 
-  <script>
-    const products = [
-      { id: 1, name: 'Camisa Seleção Brasileira I 2026', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: '-22%', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=400&fit=crop' },
-      { id: 2, name: 'Camisa Seleção Brasileira II 2026', team: 'Brasil', category: 'selecao', oldPrice: 449.90, price: 349.90, badge: 'Novo', badgeClass: 'green', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop' },
-      { id: 3, name: 'Camisa Flamengo I 2025', team: 'Flamengo', category: 'clubes', oldPrice: 349.90, price: 279.90, badge: '-20%', image: 'https://images.unsplash.com/photo-1551854838-212c50b4c184?w=400&h=400&fit=crop' },
-      { id: 4, name: 'Camisa Corinthians I 2025', team: 'Corinthians', category: 'clubes', oldPrice: 329.90, price: 269.90, badge: '-18%', image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=400&fit=crop' },
-      { id: 5, name: 'Camisa Real Madrid I 2025', team: 'Real Madrid', category: 'europeus', oldPrice: 499.90, price: 399.90, badge: '-20%', image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=400&fit=crop' },
-      { id: 6, name: 'Camisa Goleiro Brasil 2026', team: 'Brasil', category: 'selecao', oldPrice: 399.90, price: 319.90, badge: 'Novo', badgeClass: 'green', image: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=400&fit=crop' },
-      { id: 7, name: 'Camisa Palmeiras I 2025', team: 'Palmeiras', category: 'clubes', oldPrice: 349.90, price: 289.90, badge: '-17%', image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=400&fit=crop' },
-      { id: 8, name: 'Camisa Barcelona I 2025', team: 'Barcelona', category: 'europeus', oldPrice: 499.90, price: 389.90, badge: '-22%', image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=400&h=400&fit=crop' },
-      { id: 9, name: 'Camisa Brasil Retrô 1970', team: 'Brasil', category: 'retro', oldPrice: 299.90, price: 249.90, badge: 'Retrô', badgeClass: 'green', image: 'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=400&h=400&fit=crop' },
-      { id: 10, name: 'Bola Trionda Copa 2026', team: 'FIFA', category: 'acessorios', oldPrice: 899.90, price: 749.90, badge: '-17%', image: 'https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=400&h=400&fit=crop' }
-    ];
-    let selectedProduct = null, selectedSize = 'G';
-    function formatPrice(v) { return 'R$ ' + v.toFixed(2).replace('.', ','); }
-    function renderProductCard(p) { return '<div class="product-card" onclick="openProductPage('+p.id+')"><div class="product-card-image"><span class="product-badge '+(p.badgeClass||'')+'">'+p.badge+'</span><img src="'+p.image+'" alt="'+p.name+'"></div><div class="product-card-info"><p class="product-card-name">'+p.name+'</p><p class="product-card-price-old">'+formatPrice(p.oldPrice)+'</p><p class="product-card-price">'+formatPrice(p.price)+'</p><p class="product-card-installment">ou 12x de '+formatPrice(p.price/12)+'</p></div></div>'; }
-    function renderOfertaCard(p) { return '<div class="oferta-card" onclick="openProductPage('+p.id+')"><div class="oferta-card-image"><span class="product-badge">'+p.badge+'</span><img src="'+p.image+'" alt="'+p.name+'"></div><div class="oferta-card-info"><p class="oferta-card-price-old">'+formatPrice(p.oldPrice)+'</p><p class="oferta-card-price">'+formatPrice(p.price)+'</p></div></div>'; }
-    function initCarousels() { document.getElementById('lancamentosCarousel').innerHTML = products.filter(p=>p.badgeClass==='green').slice(0,6).map(renderProductCard).join('') || products.slice(0,6).map(renderProductCard).join(''); document.getElementById('ofertasGrid').innerHTML = products.filter(p=>p.badge.includes('%')).slice(0,6).map(renderOfertaCard).join(''); document.getElementById('maisVendidosCarousel').innerHTML = products.slice(0,6).map(renderProductCard).join(''); }
-    function filterProducts(c) { const f = c==='todos' ? products : products.filter(p=>p.category===c); document.getElementById('lancamentosCarousel').innerHTML = f.slice(0,6).map(renderProductCard).join(''); document.getElementById('maisVendidosCarousel').innerHTML = f.slice(0,6).map(renderProductCard).join(''); }
-    function openProductPage(id) { selectedProduct = products.find(p=>p.id===id); if(!selectedProduct)return; document.getElementById('productPageImage').src=selectedProduct.image; document.getElementById('productPageName').textContent=selectedProduct.name; document.getElementById('productPageTeam').textContent=selectedProduct.team; document.getElementById('productPageOldPrice').textContent=formatPrice(selectedProduct.oldPrice); document.getElementById('productPagePrice').textContent=formatPrice(selectedProduct.price); document.getElementById('productPageInstallment').textContent='ou 12x de '+formatPrice(selectedProduct.price/12)+' sem juros'; document.getElementById('productPage').classList.add('active'); document.body.style.overflow='hidden'; }
-    function closeProductPage() { document.getElementById('productPage').classList.remove('active'); document.body.style.overflow=''; }
-    document.getElementById('sizesContainer').addEventListener('click', e=>{ if(e.target.classList.contains('size-btn')){ document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected')); e.target.classList.add('selected'); selectedSize=e.target.dataset.size; }});
-    function openCheckout() { if(!selectedProduct)return; document.getElementById('checkoutImage').src=selectedProduct.image; document.getElementById('checkoutProductName').textContent=selectedProduct.name; document.getElementById('checkoutSize').textContent=selectedSize; document.getElementById('checkoutProductPrice').textContent=formatPrice(selectedProduct.price); document.getElementById('checkoutSubtotal').textContent=formatPrice(selectedProduct.price); document.getElementById('checkoutTotal').textContent=formatPrice(selectedProduct.price); document.getElementById('checkoutOverlay').classList.add('active'); document.getElementById('checkoutForm').style.display='block'; document.getElementById('successMessage').classList.remove('active'); }
-    function closeCheckout(e) { if(e&&e.target!==e.currentTarget)return; document.getElementById('checkoutOverlay').classList.remove('active'); }
-    function finalizePurchase() { if(!document.getElementById('inputName').value||!document.getElementById('inputCep').value||!document.getElementById('inputAddress').value){alert('Preencha todos os campos.');return;} document.getElementById('checkoutForm').style.display='none'; document.getElementById('successMessage').classList.add('active'); }
-    document.getElementById('inputCep').addEventListener('input', function(e){ let v=e.target.value.replace(/\D/g,''); if(v.length>5)v=v.slice(0,5)+'-'+v.slice(5,8); e.target.value=v; });
-    function scrollToProducts() { document.querySelector('.products-carousel').scrollIntoView({behavior:'smooth'}); }
-    initCarousels();
-  </script>
+  <!-- JavaScript -->
+  <script src="main.js"></script>
 </body>
 </html>
