@@ -837,36 +837,24 @@ function quickAddToCart(productId) {
 }
 
 function renderProductListItem(product) {
-  const isFavorite = FavoritesManager.isFavorite(product.id);
-  const border = product.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
-  const discount = Math.round((1 - product.price / product.oldPrice) * 100);
+  const border = product.color === '#ffffff' ? 'border: 1px solid #eee;' : '';
   const initials = getTeamInitials(product.team);
 
   return `
-    <div class="product-list-item" onclick="openProductPage(${product.id})">
-      <div class="product-list-image" style="background: ${product.color}; ${border}">
-        <span class="product-list-badge ${product.badgeClass || ''}">${product.badge}</span>
-        <span class="product-list-initials">${initials}</span>
+    <div class="list-item" onclick="openProductPage(${product.id})">
+      <div class="list-item-img" style="background: ${product.color}; ${border}">
+        <span class="list-item-initials">${initials}</span>
       </div>
-      <div class="product-list-info">
-        <p class="product-list-name">${product.name}</p>
-        <p class="product-list-team">${product.team}</p>
-        <div class="product-list-rating">
-          <span class="stars">${getStars(product.rating)}</span>
-          <span class="sold">${product.sold}+ vendidos</span>
-        </div>
-        <div class="product-list-prices">
-          <span class="product-list-price">${formatPrice(product.price)}</span>
-          <span class="product-list-old-price">${formatPrice(product.oldPrice)}</span>
-          <span class="product-list-discount">-${discount}%</span>
-        </div>
+      <div class="list-item-content">
+        <p class="list-item-title">${product.name}</p>
+        <p class="list-item-subtitle">${product.team}</p>
+        <p class="list-item-sold">${product.sold}+ vendidos</p>
+        <p class="list-item-price">${formatPrice(product.price)}</p>
+        <p class="list-item-old">${formatPrice(product.oldPrice)}</p>
       </div>
-      <div class="product-list-actions">
-        <button class="product-list-buy-btn" onclick="event.stopPropagation(); quickAddToCart(${product.id})">COMPRAR</button>
-        <button class="product-list-fav-btn" data-favorite-btn data-product-id="${product.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${product.id})">
-          <svg viewBox="0 0 24 24" style="fill: ${isFavorite ? 'var(--red)' : 'var(--gray-400)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </button>
-      </div>
+      <button class="list-item-btn" onclick="event.stopPropagation(); quickAddToCart(${product.id})">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm0-3l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1v2h2l3.6 7.59L3.62 17H19v-2H7z"/></svg>
+      </button>
     </div>
   `;
 }
