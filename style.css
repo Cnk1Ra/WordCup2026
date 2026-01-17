@@ -491,6 +491,144 @@ body {
   color: rgba(255,255,255,0.8);
 }
 
+/* Banner com Imagem Full */
+.banner-image-container {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.banner-image-container:active {
+  transform: scale(0.99);
+}
+
+.banner-full-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.banner-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  padding: 40px 20px 16px;
+}
+
+.banner-image-text {
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Banner Bola */
+.banner-bola {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.banner-bola:active {
+  transform: scale(0.99);
+}
+
+.banner-bola-image {
+  width: 120px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.banner-bola-content {
+  flex: 1;
+  padding-left: 16px;
+}
+
+.banner-bola-label {
+  font-size: 10px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.banner-bola-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.banner-bola-cta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Banner Camisa */
+.banner-camisa {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #009739 0%, #006B2B 100%);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.banner-camisa:active {
+  transform: scale(0.99);
+}
+
+.banner-camisa-content {
+  flex: 1;
+}
+
+.banner-camisa-label {
+  font-size: 10px;
+  color: var(--yellow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.banner-camisa-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.banner-camisa-price {
+  font-size: 14px;
+  color: var(--yellow);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.banner-camisa-cta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+}
+
+.banner-camisa-image {
+  width: 100px;
+  height: auto;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
 /* ============================================
    PRODUCT CARDS
    ============================================ */

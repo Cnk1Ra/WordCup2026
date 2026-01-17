@@ -843,6 +843,7 @@ function initCarousels() {
   const combosGrid = document.getElementById('combosGrid');
   const lancamentos = document.getElementById('lancamentosCarousel');
   const maisVendidos = document.getElementById('maisVendidosCarousel');
+  const clubesCarousel = document.getElementById('clubesCarousel');
   const reviewsCarousel = document.getElementById('reviewsCarousel');
 
   if (combosGrid) {
@@ -857,6 +858,11 @@ function initCarousels() {
   if (maisVendidos) {
     const sorted = [...products].sort((a, b) => b.sold - a.sold);
     maisVendidos.innerHTML = sorted.slice(0, 6).map(renderProductCard).join('');
+  }
+
+  if (clubesCarousel) {
+    const clubes = products.filter(p => p.category === 'clubes');
+    clubesCarousel.innerHTML = clubes.map(renderProductCard).join('');
   }
 
   if (reviewsCarousel) {
