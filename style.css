@@ -1075,6 +1075,46 @@ body {
   padding: 0 4px;
 }
 
+/* Home Button Circle */
+.nav-item-home {
+  position: relative;
+  margin-top: -20px;
+}
+
+.nav-home-circle {
+  width: 56px;
+  height: 56px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 151, 57, 0.3);
+  transition: var(--transition);
+}
+
+.nav-home-circle:active {
+  transform: scale(0.95);
+}
+
+.nav-home-circle svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--white);
+}
+
+.nav-item-home.active .nav-home-circle {
+  background: var(--primary);
+}
+
+.nav-item-home.active .nav-home-circle svg {
+  fill: var(--white);
+}
+
+.nav-item-home span {
+  margin-top: 4px;
+}
+
 /* ============================================
    SEARCH OVERLAY
    ============================================ */
@@ -2856,4 +2896,151 @@ body {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+  background: var(--gray-100);
+  padding: 32px 16px 100px;
+  margin-top: 20px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  text-align: center;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  margin-bottom: 12px;
+}
+
+.footer-description {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.footer-links {
+  text-align: center;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  display: block;
+  font-size: 13px;
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 8px 0;
+  transition: var(--transition);
+}
+
+.footer-links a:active {
+  color: var(--primary);
+}
+
+.footer-contact {
+  text-align: center;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 8px 0;
+  transition: var(--transition);
+}
+
+.footer-contact-item:active {
+  color: var(--primary);
+}
+
+.footer-contact-item svg {
+  flex-shrink: 0;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-300);
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  color: var(--gray-500);
+}
+
+/* Policy Pages */
+.policy-page {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+.policy-page.active {
+  transform: translateX(0);
+}
+
+.policy-content {
+  padding: 20px 16px;
+}
+
+.policy-content h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--black);
+}
+
+.policy-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 10px;
+  color: var(--black);
+}
+
+.policy-content p {
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.policy-content ul {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.policy-content li {
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.7;
+  margin-bottom: 6px;
 }

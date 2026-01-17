@@ -1053,6 +1053,90 @@ function filterProducts(category) {
 }
 
 // ============================================
+// PAGINAS DE POLITICAS
+// ============================================
+const policyContent = {
+  delivery: {
+    title: 'Politica de Entrega',
+    content: `
+      <h2>Politica de Entrega</h2>
+      <h3>Regioes Atendidas</h3>
+      <p>Realizamos entregas para todo o Brasil atraves de transportadoras parceiras. Para a regiao de Sabara-MG, oferecemos entrega local com frete reduzido.</p>
+
+      <h3>Prazos de Entrega</h3>
+      <ul>
+        <li><strong>Sabara-MG:</strong> 1-2 dias uteis - Frete R$5,00</li>
+        <li><strong>Belo Horizonte-MG:</strong> 2-3 dias uteis - Frete R$30,00</li>
+        <li><strong>Demais regioes:</strong> Calculado no checkout conforme CEP</li>
+      </ul>
+
+      <h3>Rastreamento</h3>
+      <p>Apos o envio, voce recebera o codigo de rastreio por WhatsApp para acompanhar sua entrega em tempo real.</p>
+
+      <h3>Problemas na Entrega</h3>
+      <p>Em caso de problemas com a entrega, entre em contato conosco imediatamente pelo WhatsApp ou email.</p>
+    `
+  },
+  privacy: {
+    title: 'Politica de Privacidade',
+    content: `
+      <h2>Politica de Privacidade</h2>
+      <h3>Coleta de Dados</h3>
+      <p>Coletamos apenas os dados necessarios para processar seu pedido: nome, endereco, telefone e email.</p>
+
+      <h3>Uso dos Dados</h3>
+      <p>Seus dados sao utilizados exclusivamente para:</p>
+      <ul>
+        <li>Processar e entregar seu pedido</li>
+        <li>Enviar atualizacoes sobre o status do pedido</li>
+        <li>Contato em caso de duvidas sobre o pedido</li>
+      </ul>
+
+      <h3>Protecao dos Dados</h3>
+      <p>Nao compartilhamos seus dados com terceiros, exceto transportadoras para realizacao da entrega.</p>
+
+      <h3>Seus Direitos</h3>
+      <p>Voce pode solicitar a exclusao dos seus dados a qualquer momento entrando em contato conosco.</p>
+    `
+  },
+  terms: {
+    title: 'Termos de Uso',
+    content: `
+      <h2>Termos de Uso</h2>
+      <h3>Aceitacao dos Termos</h3>
+      <p>Ao utilizar nosso site e realizar compras, voce concorda com estes termos de uso.</p>
+
+      <h3>Produtos</h3>
+      <p>Todos os produtos vendidos sao de alta qualidade. As imagens sao ilustrativas e podem apresentar pequenas variacoes de cor.</p>
+
+      <h3>Precos e Pagamento</h3>
+      <p>Os precos podem ser alterados sem aviso previo. Aceitamos pagamento via PIX, cartao de credito e boleto bancario.</p>
+
+      <h3>Trocas e Devolucoes</h3>
+      <p>Aceitamos trocas em ate 7 dias apos o recebimento, desde que o produto esteja em perfeitas condicoes, com etiquetas e embalagem original.</p>
+
+      <h3>Contato</h3>
+      <p>Para duvidas ou problemas, entre em contato pelo WhatsApp (31) 99999-9999 ou email contato@spacefut.shop</p>
+    `
+  }
+};
+
+function openPolicyPage(type) {
+  const policy = policyContent[type];
+  if (!policy) return;
+
+  document.getElementById('policyPageTitle').textContent = policy.title;
+  document.getElementById('policyContent').innerHTML = policy.content;
+  document.getElementById('policyPage').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePolicyPage() {
+  document.getElementById('policyPage').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ============================================
 // PAGINA DO PRODUTO
 // ============================================
 function openProductPage(id) {
