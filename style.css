@@ -1914,6 +1914,19 @@ body {
   background: var(--primary-dark);
 }
 
+/* Inline Action Buttons */
+.product-actions-inline {
+  display: none;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.product-actions-inline .btn-cart,
+.product-actions-inline .btn-buy {
+  flex: 1;
+  padding: 16px 24px;
+}
+
 /* Desktop Product Page Layout */
 @media (min-width: 768px) {
   .product-page-wrapper {
@@ -1945,12 +1958,14 @@ body {
     font-size: 28px;
   }
 
+  /* Show inline buttons on desktop */
+  .product-actions-inline {
+    display: flex;
+  }
+
+  /* Hide fixed footer on desktop */
   .product-page-footer {
-    position: relative;
-    background: transparent;
-    border-top: none;
-    padding: 20px 0;
-    max-width: 400px;
+    display: none;
   }
 }
 
