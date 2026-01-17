@@ -345,9 +345,13 @@ function generateOrderNumber() {
 }
 
 function getStars(rating) {
+  let stars = '';
   const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5 ? 1 : 0;
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+  for (let i = 0; i < 5; i++) {
+    const fill = i < full ? 'var(--orange)' : 'var(--gray-300)';
+    stars += `<svg viewBox="0 0 24 24" width="12" height="12" style="fill: ${fill}"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+  }
+  return stars;
 }
 
 // ============================================
@@ -429,10 +433,17 @@ const CartManager = {
 
   updateBadge() {
     const count = this.getCount();
+    // Header badge
     const badge = document.getElementById('cartBadge');
     if (badge) {
       badge.textContent = count > 99 ? '99+' : count;
       badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+    // Nav badge
+    const navBadge = document.getElementById('navCartBadge');
+    if (navBadge) {
+      navBadge.textContent = count > 99 ? '99+' : count;
+      navBadge.style.display = count > 0 ? 'flex' : 'none';
     }
   }
 };
@@ -777,15 +788,25 @@ const TrackingManager = {
 // ============================================
 // RENDERIZACAO DE PRODUTOS
 // ============================================
+function getTeamInitials(team) {
+  const words = team.split(' ');
+  if (words.length === 1) return team.substring(0, 3).toUpperCase();
+  return words.map(w => w[0]).join('').substring(0, 3).toUpperCase();
+}
+
 function renderProductCard(product) {
   const isFavorite = FavoritesManager.isFavorite(product.id);
   const border = product.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
+  const discount = Math.round((1 - product.price / product.oldPrice) * 100);
+  const isPopular = product.sold > 1000;
+  const initials = getTeamInitials(product.team);
 
   return `
     <div class="product-card" onclick="openProductPage(${product.id})">
       <div class="product-card-image" style="background: ${product.color}; ${border}">
         <span class="product-badge ${product.badgeClass || ''}">${product.badge}</span>
-        <span style="font-size: 48px;">${product.emoji}</span>
+        ${isPopular ? '<span class="product-popular-badge">Popular</span>' : ''}
+        <span class="product-initials">${initials}</span>
         <button class="product-favorite-btn" data-favorite-btn data-product-id="${product.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${product.id})">
           <svg viewBox="0 0 24 24" style="fill: ${isFavorite ? 'var(--red)' : 'var(--gray-300)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
@@ -796,9 +817,55 @@ function renderProductCard(product) {
           <span class="stars">${getStars(product.rating)}</span>
           <span class="count">(${product.reviews})</span>
         </div>
+        <p class="product-card-sold">${product.sold}+ vendidos</p>
+        <div class="product-card-prices">
+          <p class="product-card-price">${formatPrice(product.price)}</p>
+          <span class="product-card-discount">-${discount}%</span>
+        </div>
         <p class="product-card-price-old">${formatPrice(product.oldPrice)}</p>
-        <p class="product-card-price">${formatPrice(product.price)}</p>
         <p class="product-card-installment">ou 12x de ${formatPrice(product.price / 12)}</p>
+        <button class="product-card-buy-btn" onclick="event.stopPropagation(); quickAddToCart(${product.id})">
+          COMPRAR
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function quickAddToCart(productId) {
+  CartManager.addItem(productId, 'G', 1);
+}
+
+function renderProductListItem(product) {
+  const isFavorite = FavoritesManager.isFavorite(product.id);
+  const border = product.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
+  const discount = Math.round((1 - product.price / product.oldPrice) * 100);
+  const initials = getTeamInitials(product.team);
+
+  return `
+    <div class="product-list-item" onclick="openProductPage(${product.id})">
+      <div class="product-list-image" style="background: ${product.color}; ${border}">
+        <span class="product-list-badge ${product.badgeClass || ''}">${product.badge}</span>
+        <span class="product-list-initials">${initials}</span>
+      </div>
+      <div class="product-list-info">
+        <p class="product-list-name">${product.name}</p>
+        <p class="product-list-team">${product.team}</p>
+        <div class="product-list-rating">
+          <span class="stars">${getStars(product.rating)}</span>
+          <span class="sold">${product.sold}+ vendidos</span>
+        </div>
+        <div class="product-list-prices">
+          <span class="product-list-price">${formatPrice(product.price)}</span>
+          <span class="product-list-old-price">${formatPrice(product.oldPrice)}</span>
+          <span class="product-list-discount">-${discount}%</span>
+        </div>
+      </div>
+      <div class="product-list-actions">
+        <button class="product-list-buy-btn" onclick="event.stopPropagation(); quickAddToCart(${product.id})">COMPRAR</button>
+        <button class="product-list-fav-btn" data-favorite-btn data-product-id="${product.id}" onclick="event.stopPropagation(); FavoritesManager.toggle(${product.id})">
+          <svg viewBox="0 0 24 24" style="fill: ${isFavorite ? 'var(--red)' : 'var(--gray-400)'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
       </div>
     </div>
   `;
@@ -819,6 +886,15 @@ function renderComboCard(combo) {
   `;
 }
 
+function renderStarsSVG(rating) {
+  let stars = '';
+  for (let i = 0; i < 5; i++) {
+    const fill = i < rating ? 'var(--orange)' : 'var(--gray-300)';
+    stars += `<svg viewBox="0 0 24 24" width="14" height="14" style="fill: ${fill}"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+  }
+  return stars;
+}
+
 function renderReviewCard(review) {
   return `
     <div class="review-card">
@@ -828,46 +904,123 @@ function renderReviewCard(review) {
           <p class="review-name">${review.name}</p>
           <p class="review-date">${review.date}</p>
         </div>
-        <span class="review-stars">${'★'.repeat(review.rating)}</span>
+        <span class="review-stars">${renderStarsSVG(review.rating)}</span>
       </div>
       <p class="review-text">${review.text}</p>
-      ${review.verified ? '<p class="review-verified">✓ Compra verificada</p>' : ''}
+      ${review.verified ? '<p class="review-verified"><svg viewBox="0 0 24 24" width="14" height="14" style="fill: var(--primary); vertical-align: middle; margin-right: 4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Compra verificada</p>' : ''}
     </div>
   `;
 }
 
 // ============================================
-// INICIALIZACAO DOS CARROSEIS
+// INICIALIZACAO DOS GRIDS E CARROSEIS
 // ============================================
+const HOME_PRODUCTS_LIMIT = 8;
+
 function initCarousels() {
   const combosGrid = document.getElementById('combosGrid');
-  const lancamentos = document.getElementById('lancamentosCarousel');
-  const maisVendidos = document.getElementById('maisVendidosCarousel');
-  const clubesCarousel = document.getElementById('clubesCarousel');
+  const lancamentosGrid = document.getElementById('lancamentosGrid');
+  const maisVendidosList = document.getElementById('maisVendidosList');
+  const clubesGrid = document.getElementById('clubesGrid');
   const reviewsCarousel = document.getElementById('reviewsCarousel');
 
   if (combosGrid) {
     combosGrid.innerHTML = combos.map(renderComboCard).join('');
   }
 
-  if (lancamentos) {
+  if (lancamentosGrid) {
     const newProducts = products.filter(p => p.badgeClass === 'green');
-    lancamentos.innerHTML = (newProducts.length > 0 ? newProducts : products).slice(0, 6).map(renderProductCard).join('');
+    const productsToShow = newProducts.length > 0 ? newProducts : products;
+    lancamentosGrid.innerHTML = productsToShow.slice(0, HOME_PRODUCTS_LIMIT).map(renderProductCard).join('');
   }
 
-  if (maisVendidos) {
+  // Mais Vendidos em formato lista (empilhado)
+  if (maisVendidosList) {
     const sorted = [...products].sort((a, b) => b.sold - a.sold);
-    maisVendidos.innerHTML = sorted.slice(0, 6).map(renderProductCard).join('');
+    maisVendidosList.innerHTML = sorted.slice(0, 5).map(renderProductListItem).join('');
   }
 
-  if (clubesCarousel) {
+  if (clubesGrid) {
     const clubes = products.filter(p => p.category === 'clubes');
-    clubesCarousel.innerHTML = clubes.map(renderProductCard).join('');
+    clubesGrid.innerHTML = clubes.slice(0, HOME_PRODUCTS_LIMIT).map(renderProductCard).join('');
   }
 
   if (reviewsCarousel) {
     reviewsCarousel.innerHTML = reviews.map(renderReviewCard).join('');
   }
+}
+
+// ============================================
+// PAGINA DE COLECAO
+// ============================================
+let currentCollectionFilter = 'todos';
+
+function openCollectionPage(category) {
+  currentCollectionFilter = category || 'todos';
+
+  // Atualiza filtros
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === currentCollectionFilter);
+  });
+
+  // Renderiza produtos
+  renderCollectionProducts();
+
+  // Abre pagina
+  document.getElementById('collectionPage').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCollectionPage() {
+  document.getElementById('collectionPage').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function filterCollection(category) {
+  currentCollectionFilter = category;
+
+  // Atualiza filtros
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === category);
+  });
+
+  // Renderiza produtos filtrados
+  renderCollectionProducts();
+}
+
+function renderCollectionProducts() {
+  const grid = document.getElementById('collectionGrid');
+  const title = document.getElementById('collectionTitle');
+
+  if (!grid || !title) return;
+
+  // Filtra produtos
+  let filtered;
+  let titleText;
+
+  switch(currentCollectionFilter) {
+    case 'selecao':
+      filtered = products.filter(p => p.category === 'selecao');
+      titleText = 'Selecoes';
+      break;
+    case 'clubes':
+      filtered = products.filter(p => p.category === 'clubes');
+      titleText = 'Clubes Brasileiros';
+      break;
+    case 'europeus':
+      filtered = products.filter(p => p.category === 'europeus');
+      titleText = 'Clubes Europeus';
+      break;
+    default:
+      filtered = products;
+      titleText = 'Todos os Produtos';
+  }
+
+  title.textContent = titleText;
+  grid.innerHTML = filtered.map(renderProductCard).join('');
+
+  // Atualiza icones de favoritos
+  FavoritesManager.updateIcons();
 }
 
 // ============================================
@@ -884,22 +1037,31 @@ function filterProducts(category) {
     item.classList.toggle('active', item.dataset.category === category);
   });
 
-  const lancamentos = document.getElementById('lancamentosCarousel');
-  const maisVendidos = document.getElementById('maisVendidosCarousel');
+  const lancamentosGrid = document.getElementById('lancamentosGrid');
+  const maisVendidosList = document.getElementById('maisVendidosList');
+  const clubesGrid = document.getElementById('clubesGrid');
   const combosSection = document.querySelector('.combos-section');
 
   if (category === 'combos') {
     if (combosSection) combosSection.style.display = 'block';
-    if (lancamentos) lancamentos.innerHTML = '';
-    if (maisVendidos) maisVendidos.innerHTML = '';
+    if (lancamentosGrid) lancamentosGrid.innerHTML = '';
+    if (maisVendidosList) maisVendidosList.innerHTML = '';
+    if (clubesGrid) clubesGrid.innerHTML = '';
   } else {
     if (combosSection) combosSection.style.display = category === 'todos' ? 'block' : 'none';
-    if (lancamentos) lancamentos.innerHTML = filtered.slice(0, 6).map(renderProductCard).join('');
-    if (maisVendidos) {
+    if (lancamentosGrid) lancamentosGrid.innerHTML = filtered.slice(0, HOME_PRODUCTS_LIMIT).map(renderProductCard).join('');
+    if (maisVendidosList) {
       const sorted = [...filtered].sort((a, b) => b.sold - a.sold);
-      maisVendidos.innerHTML = sorted.slice(0, 6).map(renderProductCard).join('');
+      maisVendidosList.innerHTML = sorted.slice(0, 5).map(renderProductListItem).join('');
+    }
+    if (clubesGrid) {
+      const clubes = filtered.filter(p => p.category === 'clubes');
+      clubesGrid.innerHTML = clubes.slice(0, HOME_PRODUCTS_LIMIT).map(renderProductCard).join('');
     }
   }
+
+  // Atualiza icones de favoritos
+  FavoritesManager.updateIcons();
 }
 
 // ============================================
@@ -914,9 +1076,9 @@ function openProductPage(id) {
 
   document.getElementById('productPageTeam').textContent = selectedProduct.team;
   document.getElementById('productPageName').textContent = selectedProduct.name;
-  document.getElementById('productStars').textContent = getStars(selectedProduct.rating);
+  document.getElementById('productStars').innerHTML = getStars(selectedProduct.rating);
   document.getElementById('productRatingCount').textContent = `(${selectedProduct.reviews} avaliacoes)`;
-  document.getElementById('productSold').innerHTML = `<span class="sold-icon">🔥</span><span>${selectedProduct.sold} vendidos</span>`;
+  document.getElementById('productSold').innerHTML = `<svg class="sold-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="var(--orange)" d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg><span>${selectedProduct.sold} vendidos</span>`;
   document.getElementById('productPageOldPrice').textContent = formatPrice(selectedProduct.oldPrice);
   document.getElementById('productPagePrice').textContent = formatPrice(selectedProduct.price);
   document.getElementById('productPageInstallment').textContent = `ou 12x de ${formatPrice(selectedProduct.price / 12)} sem juros`;
@@ -953,18 +1115,19 @@ function updateGallery() {
 
   const mainContainer = document.getElementById('galleryMain');
   const thumbsContainer = document.getElementById('galleryThumbs');
-  const images = selectedProduct.images || [selectedProduct.emoji];
+  const initials = getTeamInitials(selectedProduct.team);
+  const images = selectedProduct.images || [initials];
   const border = selectedProduct.color === '#ffffff' ? 'border-bottom: 1px solid #ddd;' : '';
 
   mainContainer.style.background = selectedProduct.color;
   mainContainer.style.cssText += border;
-  mainContainer.innerHTML = `<span class="placeholder">${images[currentGalleryIndex]}</span>`;
+  mainContainer.innerHTML = `<span class="gallery-initials">${initials}</span>`;
 
   thumbsContainer.innerHTML = images.map((img, index) => `
     <div class="gallery-thumb ${index === currentGalleryIndex ? 'active' : ''}"
          onclick="selectGalleryImage(${index})"
          style="background: ${selectedProduct.color};">
-      <span style="font-size: 24px;">${img}</span>
+      <span class="thumb-initials">${initials}</span>
     </div>
   `).join('');
 }
@@ -1372,10 +1535,15 @@ function initBottomNav() {
           closeFavoritesPage();
           closeCartPage();
           closeTrackingPage();
+          closeCollectionPage();
           window.scrollTo({ top: 0, behavior: 'smooth' });
           break;
         case 'search':
           SearchManager.open();
+          break;
+        case 'cart':
+          this.classList.add('active');
+          showCartPage();
           break;
         case 'tracking':
           this.classList.add('active');

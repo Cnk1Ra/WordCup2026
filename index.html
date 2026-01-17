@@ -52,43 +52,72 @@
     </div>
   </section>
 
+  <!-- Barra de Urgencia -->
+  <div class="urgency-bar">
+    <svg class="urgency-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    <span class="urgency-text"><strong>COPA 2026</strong> - Garanta sua camisa antes que acabe!</span>
+    <svg class="urgency-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+  </div>
+
   <!-- Barra de Beneficios -->
   <section class="benefits-bar">
     <div class="benefit-item">
-      <span class="benefit-icon">🚚</span>
-      <span class="benefit-text">Frete R$5 para Sabara</span>
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="var(--primary)" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <span class="benefit-text">Qualidade Premium</span>
     </div>
     <div class="benefit-item">
-      <span class="benefit-icon">💳</span>
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="var(--primary)" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      </div>
       <span class="benefit-text">12x sem juros</span>
     </div>
     <div class="benefit-item">
-      <span class="benefit-icon">🏠</span>
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="var(--primary)" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
       <span class="benefit-text">Pague na entrega</span>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="var(--primary)" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+      </div>
+      <span class="benefit-text">Compra Segura</span>
     </div>
   </section>
 
   <!-- Categorias -->
   <section class="categories-section">
     <div class="categories-scroll">
-      <div class="category-item active" data-category="todos" onclick="filterProducts('todos')">
-        <div class="category-circle"><span>🏆</span></div>
+      <div class="category-item active" data-category="todos" onclick="openCollectionPage('todos')">
+        <div class="category-circle">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path fill="var(--primary)" d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+        </div>
         <span class="category-name">Todos</span>
       </div>
-      <div class="category-item" data-category="selecao" onclick="filterProducts('selecao')">
-        <div class="category-circle"><span>🇧🇷</span></div>
-        <span class="category-name">Selecao</span>
+      <div class="category-item" data-category="selecao" onclick="openCollectionPage('selecao')">
+        <div class="category-circle">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path fill="var(--primary)" d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>
+        </div>
+        <span class="category-name">Selecoes</span>
       </div>
-      <div class="category-item" data-category="clubes" onclick="filterProducts('clubes')">
-        <div class="category-circle"><span>⚽</span></div>
+      <div class="category-item" data-category="clubes" onclick="openCollectionPage('clubes')">
+        <div class="category-circle">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path fill="var(--primary)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
         <span class="category-name">Clubes BR</span>
       </div>
-      <div class="category-item" data-category="europeus" onclick="filterProducts('europeus')">
-        <div class="category-circle"><span>🌍</span></div>
+      <div class="category-item" data-category="europeus" onclick="openCollectionPage('europeus')">
+        <div class="category-circle">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path fill="var(--primary)" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+        </div>
         <span class="category-name">Europeus</span>
       </div>
-      <div class="category-item" data-category="combos" onclick="filterProducts('combos')">
-        <div class="category-circle"><span>🎁</span></div>
+      <div class="category-item" data-category="combos" onclick="openCollectionPage('todos')">
+        <div class="category-circle">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path fill="var(--primary)" d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+        </div>
         <span class="category-name">Combos</span>
       </div>
     </div>
@@ -97,23 +126,15 @@
   <!-- Combos Especiais -->
   <section class="combos-section" id="combos">
     <div class="section-header">
-      <h2 class="section-title">🎁 Combos Especiais</h2>
-      <p class="section-subtitle">Ofertas imperdveis para voce!</p>
+      <h2 class="section-title">Combos Especiais</h2>
+      <p class="section-subtitle">Ofertas imperdiveis para voce!</p>
     </div>
     <div class="combos-grid" id="combosGrid"></div>
   </section>
 
-  <!-- Lancamentos -->
-  <section>
-    <div class="section-header">
-      <h2 class="section-title">🔥 Lancamentos</h2>
-    </div>
-    <div class="products-carousel" id="lancamentosCarousel"></div>
-  </section>
-
   <!-- Banner Poster Copa 2026 -->
   <section class="banner-section">
-    <div class="banner-image-container" onclick="filterProducts('selecao')">
+    <div class="banner-image-container" onclick="openCollectionPage('selecao')">
       <img src="images/poster-copa2026.webp" alt="FIFA World Cup 2026" class="banner-full-image">
       <div class="banner-image-overlay">
         <p class="banner-image-text">Ver Colecao Copa 2026 →</p>
@@ -121,37 +142,34 @@
     </div>
   </section>
 
-  <!-- Mais Vendidos -->
-  <section>
+  <!-- Lancamentos (Grid) -->
+  <section class="products-section">
     <div class="section-header">
-      <h2 class="section-title">🏆 Mais Vendidos</h2>
+      <h2 class="section-title">Lancamentos</h2>
+      <button class="see-all-btn" onclick="openCollectionPage('todos')">Ver todos</button>
     </div>
-    <div class="products-carousel" id="maisVendidosCarousel"></div>
+    <div class="products-grid" id="lancamentosGrid"></div>
   </section>
 
   <!-- Banner Bola Copa 2026 -->
   <section class="banner-section">
-    <div class="banner-bola" onclick="filterProducts('todos')">
-      <img src="images/bola-copa2026.png" alt="Bola Adidas Trionda Copa 2026" class="banner-bola-image">
-      <div class="banner-bola-content">
-        <p class="banner-bola-label">Novidade</p>
-        <p class="banner-bola-title">Bola Oficial<br>Copa 2026</p>
-        <p class="banner-bola-cta">Em breve →</p>
-      </div>
+    <div class="banner-bola-full" onclick="openCollectionPage('todos')">
+      <img src="images/bola-copa2026.png" alt="Bola Adidas Trionda Copa 2026" class="banner-bola-full-image">
     </div>
   </section>
 
-  <!-- Colecao Clubes -->
-  <section>
+  <!-- Mais Vendidos (Lista) -->
+  <section class="products-section">
     <div class="section-header">
-      <h2 class="section-title">⚽ Clubes Brasileiros</h2>
+      <h2 class="section-title">Mais Vendidos</h2>
+      <button class="see-all-btn" onclick="openCollectionPage('todos')">Ver todos</button>
     </div>
-    <div class="products-carousel" id="clubesCarousel"></div>
+    <div class="products-list" id="maisVendidosList"></div>
   </section>
 
   <!-- Banner Camisa Brasil -->
   <section class="banner-section">
-    <div class="banner-camisa" onclick="filterProducts('selecao')">
+    <div class="banner-camisa" onclick="openCollectionPage('selecao')">
       <div class="banner-camisa-content">
         <p class="banner-camisa-label">Lancamento</p>
         <p class="banner-camisa-title">Camisa Oficial<br>Brasil 2026</p>
@@ -162,10 +180,26 @@
     </div>
   </section>
 
+  <!-- Colecao Clubes -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title">Clubes Brasileiros</h2>
+      <button class="see-all-btn" onclick="openCollectionPage('clubes')">Ver todos</button>
+    </div>
+    <div class="products-grid" id="clubesGrid"></div>
+  </section>
+
+  <!-- Banner Mascotes Copa 2026 -->
+  <section class="banner-section">
+    <div class="banner-mascotes">
+      <img src="images/banner-mascotes-copa26.jpg" alt="Mascotes Copa 2026 - Maple, Zayu, Clutch" class="banner-mascotes-image">
+    </div>
+  </section>
+
   <!-- Prova Social -->
   <section class="social-proof-section">
     <div class="section-header">
-      <h2 class="section-title">⭐ Avaliacoes dos Clientes</h2>
+      <h2 class="section-title">Avaliacoes dos Clientes</h2>
     </div>
     <div class="reviews-carousel" id="reviewsCarousel"></div>
     <div class="trust-badges">
@@ -194,9 +228,16 @@
       <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       <span>Buscar</span>
     </div>
+    <div class="nav-item" data-action="cart">
+      <div class="nav-cart-icon">
+        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span class="nav-cart-badge" id="navCartBadge"></span>
+      </div>
+      <span>Carrinho</span>
+    </div>
     <div class="nav-item" data-action="tracking">
       <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-      <span>Rastrear</span>
+      <span>Pedidos</span>
     </div>
     <div class="nav-item" data-action="favorites">
       <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -216,6 +257,28 @@
     <div class="search-results" id="searchResults">
       <p class="search-hint">Digite pelo menos 2 caracteres...</p>
     </div>
+  </div>
+
+  <!-- Pagina de Colecao -->
+  <div class="collection-page" id="collectionPage">
+    <div class="page-header">
+      <button class="back-btn" onclick="closeCollectionPage()">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <div class="header-logo">
+        <img src="images/logo.png" alt="SpaceFut" class="logo-image">
+      </div>
+      <div style="width:40px"></div>
+    </div>
+    <!-- Filtros de Categoria -->
+    <div class="collection-filters">
+      <button class="filter-btn active" data-filter="todos" onclick="filterCollection('todos')">Todos</button>
+      <button class="filter-btn" data-filter="selecao" onclick="filterCollection('selecao')">Selecao</button>
+      <button class="filter-btn" data-filter="clubes" onclick="filterCollection('clubes')">Clubes BR</button>
+      <button class="filter-btn" data-filter="europeus" onclick="filterCollection('europeus')">Europeus</button>
+    </div>
+    <h2 class="collection-title" id="collectionTitle">Todos os Produtos</h2>
+    <div class="collection-grid" id="collectionGrid"></div>
   </div>
 
   <!-- Pagina de Favoritos -->
