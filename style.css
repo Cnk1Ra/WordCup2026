@@ -1228,6 +1228,16 @@ body {
   border-bottom: 1px solid var(--gray-200);
 }
 
+.product-page-header .header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.product-page-header .header-actions {
+  margin-left: auto;
+}
+
 /* Product Gallery */
 .product-gallery {
   position: relative;
