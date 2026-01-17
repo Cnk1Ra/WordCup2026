@@ -39,16 +39,47 @@
     </div>
   </header>
 
-  <!-- Hero Banner -->
-  <section class="hero-banner">
-    <img src="images/banner-mascotes-copa26.jpg" alt="Copa 2026 - Maple, Zayu e Clutch" class="hero-image">
-    <div class="hero-overlay">
-      <div class="hero-content">
-        <span class="hero-badge">Copa 2026</span>
-        <h1 class="hero-title">Camisas Oficiais<br>Selecao Brasileira</h1>
-        <p class="hero-subtitle">Combos especiais - Compre 2 e leve 3!</p>
-        <a href="#combos" class="hero-btn">Ver Ofertas</a>
+  <!-- Hero Banner Carousel -->
+  <section class="hero-carousel">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide active">
+        <img src="images/banner-1.jpg" alt="Selecao Brasileira 2026" class="hero-slide-image">
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-content">
+            <span class="hero-badge">Lancamento</span>
+            <h1 class="hero-title">Camisa Brasil<br>2026</h1>
+            <p class="hero-subtitle">Nova colecao oficial</p>
+            <a href="#" onclick="openCollectionPage('selecao')" class="hero-btn">Ver Colecao</a>
+          </div>
+        </div>
       </div>
+      <div class="hero-slide">
+        <img src="images/banner-2.jpg" alt="Selecao Brasileira 2026" class="hero-slide-image">
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-content">
+            <span class="hero-badge">Exclusivo</span>
+            <h1 class="hero-title">Qualidade<br>Premium</h1>
+            <p class="hero-subtitle">Material oficial Nike</p>
+            <a href="#" onclick="openCollectionPage('selecao')" class="hero-btn">Comprar Agora</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <img src="images/banner-3.jpg" alt="Selecao Brasileira 2026" class="hero-slide-image">
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-content">
+            <span class="hero-badge">Copa 2026</span>
+            <h1 class="hero-title">Vista a<br>Amarelinha</h1>
+            <p class="hero-subtitle">Frete gratis para Sabara</p>
+            <a href="#combos" class="hero-btn">Ver Ofertas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <span class="hero-dot active" onclick="goToSlide(0)"></span>
+      <span class="hero-dot" onclick="goToSlide(1)"></span>
+      <span class="hero-dot" onclick="goToSlide(2)"></span>
     </div>
   </section>
 

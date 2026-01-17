@@ -1599,6 +1599,53 @@ function initInputMasks() {
 }
 
 // ============================================
+// HERO CAROUSEL
+// ============================================
+let currentSlide = 0;
+let heroCarouselInterval;
+
+function initHeroCarousel() {
+  startHeroCarousel();
+}
+
+function goToSlide(index) {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dot');
+
+  if (slides.length === 0) return;
+
+  slides.forEach(slide => slide.classList.remove('active'));
+  dots.forEach(dot => dot.classList.remove('active'));
+
+  currentSlide = index;
+  if (currentSlide >= slides.length) currentSlide = 0;
+  if (currentSlide < 0) currentSlide = slides.length - 1;
+
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+
+  // Restart timer
+  restartHeroCarousel();
+}
+
+function nextSlide() {
+  goToSlide(currentSlide + 1);
+}
+
+function prevSlide() {
+  goToSlide(currentSlide - 1);
+}
+
+function startHeroCarousel() {
+  heroCarouselInterval = setInterval(nextSlide, 4000);
+}
+
+function restartHeroCarousel() {
+  clearInterval(heroCarouselInterval);
+  startHeroCarousel();
+}
+
+// ============================================
 // INICIALIZACAO
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -1606,6 +1653,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initSizeSelection();
   initBottomNav();
   initInputMasks();
+  initHeroCarousel();
 
   // Atualiza badges
   CartManager.updateBadge();
