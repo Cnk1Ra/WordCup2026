@@ -876,11 +876,27 @@ body {
   border-radius: 4px;
 }
 
-.product-card-sold {
+.product-card-social-proof {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 10px;
-  color: var(--green);
+  color: var(--gray-600);
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.product-card-social-proof svg {
+  flex-shrink: 0;
+}
+
+.social-proof-dot {
+  color: var(--gray-400);
+}
+
+.social-proof-recent {
+  color: var(--orange);
   font-weight: 600;
-  margin-bottom: 4px;
 }
 
 .product-initials {
@@ -1898,6 +1914,60 @@ body {
   background: var(--primary-dark);
 }
 
+/* Desktop Product Page Layout */
+@media (min-width: 768px) {
+  .product-page-wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  .product-gallery {
+    flex: 1;
+    max-width: 500px;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+  }
+
+  .gallery-main {
+    border-radius: var(--radius-md);
+  }
+
+  .product-page-content {
+    flex: 1;
+    padding: 0 20px 40px;
+  }
+
+  .product-page-name {
+    font-size: 28px;
+  }
+
+  .product-page-footer {
+    position: relative;
+    background: transparent;
+    border-top: none;
+    padding: 20px 0;
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-page-wrapper {
+    gap: 60px;
+  }
+
+  .product-gallery {
+    max-width: 550px;
+  }
+
+  .product-page-name {
+    font-size: 32px;
+  }
+}
+
 /* ============================================
    MODALS
    ============================================ */
@@ -2902,7 +2972,7 @@ body {
    FOOTER
    ============================================ */
 .site-footer {
-  background: var(--gray-100);
+  background: #1a1a1a;
   padding: 32px 16px 100px;
   margin-top: 20px;
 }
@@ -2917,17 +2987,12 @@ body {
 
 .footer-brand {
   text-align: center;
-}
-
-.footer-logo {
-  height: 40px;
-  width: auto;
   margin-bottom: 12px;
 }
 
 .footer-description {
   font-size: 13px;
-  color: var(--gray-600);
+  color: var(--gray-400);
   line-height: 1.5;
 }
 
@@ -2939,14 +3004,14 @@ body {
 .footer-contact h4 {
   font-size: 14px;
   font-weight: 700;
-  color: var(--black);
+  color: var(--white);
   margin-bottom: 12px;
 }
 
 .footer-links a {
   display: block;
   font-size: 13px;
-  color: var(--gray-700);
+  color: var(--gray-400);
   text-decoration: none;
   padding: 8px 0;
   transition: var(--transition);
@@ -2966,7 +3031,7 @@ body {
   justify-content: center;
   gap: 8px;
   font-size: 13px;
-  color: var(--gray-700);
+  color: var(--gray-400);
   text-decoration: none;
   padding: 8px 0;
   transition: var(--transition);
@@ -2984,7 +3049,7 @@ body {
   text-align: center;
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid var(--gray-300);
+  border-top: 1px solid var(--gray-700);
 }
 
 .footer-bottom p {

@@ -35,7 +35,7 @@ const CONFIG = {
 const products = [
   {
     id: 1,
-    name: 'Camisa Selecao Brasileira I 2026',
+    name: 'Camisa Seleção Brasileira I 2026',
     team: 'Brasil',
     category: 'selecao',
     oldPrice: 449.90,
@@ -47,12 +47,12 @@ const products = [
     rating: 4.9,
     reviews: 234,
     sold: 1247,
-    description: 'Camisa oficial da Selecao Brasileira para a Copa do Mundo 2026. Tecido Dri-FIT de alta performance, que mantem voce seco e confortavel. Design inspirado na rica tradicao do futebol brasileiro.',
-    features: ['Tecido Dri-FIT', 'Gola em V', 'Brasao bordado', 'Escudo CBF oficial']
+    description: 'Camisa oficial da Seleção Brasileira para a Copa do Mundo 2026. Tecido Dri-FIT de alta performance, que mantém você seco e confortável. Design inspirado na rica tradição do futebol brasileiro.',
+    features: ['Tecido Dri-FIT', 'Gola em V', 'Brasão bordado', 'Escudo CBF oficial']
   },
   {
     id: 2,
-    name: 'Camisa Selecao Brasileira II 2026',
+    name: 'Camisa Seleção Brasileira II 2026',
     team: 'Brasil',
     category: 'selecao',
     oldPrice: 449.90,
@@ -65,8 +65,8 @@ const products = [
     rating: 4.8,
     reviews: 189,
     sold: 892,
-    description: 'Camisa reserva da Selecao Brasileira na cor azul tradicional. Ideal para torcer com estilo nos jogos da copa.',
-    features: ['Tecido Dri-FIT', 'Gola careca', 'Brasao bordado', 'Escudo CBF oficial']
+    description: 'Camisa reserva da Seleção Brasileira na cor azul tradicional. Ideal para torcer com estilo nos jogos da copa.',
+    features: ['Tecido Dri-FIT', 'Gola careca', 'Brasão bordado', 'Escudo CBF oficial']
   },
   {
     id: 3,
@@ -83,8 +83,8 @@ const products = [
     rating: 4.7,
     reviews: 87,
     sold: 342,
-    description: 'Camisa de goleiro da Selecao Brasileira. Na tradicional cor verde, perfeita para quem defende o gol.',
-    features: ['Tecido acolchoado nos cotovelos', 'Protecao UV', 'Brasao bordado']
+    description: 'Camisa de goleiro da Seleção Brasileira. Na tradicional cor verde, perfeita para quem defende o gol.',
+    features: ['Tecido acolchoado nos cotovelos', 'Proteção UV', 'Brasão bordado']
   },
   {
     id: 4,
@@ -100,7 +100,7 @@ const products = [
     rating: 4.9,
     reviews: 456,
     sold: 2341,
-    description: 'Camisa oficial do Flamengo temporada 2025. O manto sagrado rubro-negro para a Nacao.',
+    description: 'Camisa oficial do Flamengo temporada 2025. O manto sagrado rubro-negro para a Nação.',
     features: ['Tecido leve', 'Listras tradicionais', 'Escudo bordado']
   },
   {
@@ -118,7 +118,7 @@ const products = [
     reviews: 312,
     sold: 1567,
     description: 'Camisa oficial do Corinthians. O alvinegro mais querido do Brasil.',
-    features: ['Tecido respiravel', 'Design classico', 'Escudo bordado']
+    features: ['Tecido respirável', 'Design clássico', 'Escudo bordado']
   },
   {
     id: 6,
@@ -134,7 +134,7 @@ const products = [
     rating: 4.8,
     reviews: 278,
     sold: 1234,
-    description: 'Camisa oficial do Palmeiras. O Verdao para a torcida mais apaixonada.',
+    description: 'Camisa oficial do Palmeiras. O Verdão para a torcida mais apaixonada.',
     features: ['Tecido premium', 'Verde tradicional', 'Escudo bordado']
   },
   {
@@ -151,7 +151,7 @@ const products = [
     rating: 4.9,
     reviews: 198,
     sold: 876,
-    description: 'Camisa oficial do Real Madrid. O clube mais vitorioso da historia.',
+    description: 'Camisa oficial do Real Madrid. O clube mais vitorioso da história.',
     features: ['Tecido importado', 'Design elegante', 'Escudo bordado']
   },
   {
@@ -186,8 +186,8 @@ const products = [
     rating: 4.9,
     reviews: 156,
     sold: 567,
-    description: 'Camisa retro da Selecao Brasileira de 1970. O time mais vitorioso da historia das copas.',
-    features: ['Design vintage', 'Algodao premium', 'Edicao limitada']
+    description: 'Camisa retrô da Seleção Brasileira de 1970. O time mais vitorioso da história das copas.',
+    features: ['Design vintage', 'Algodão premium', 'Edição limitada']
   },
   {
     id: 10,
@@ -203,7 +203,7 @@ const products = [
     rating: 4.7,
     reviews: 123,
     sold: 432,
-    description: 'Camisa oficial da Selecao Argentina. La Albiceleste para a Copa 2026.',
+    description: 'Camisa oficial da Seleção Argentina. La Albiceleste para a Copa 2026.',
     features: ['Tecido Dri-FIT', 'Listras tradicionais', 'Escudo bordado']
   }
 ];
@@ -215,7 +215,7 @@ const combos = [
   {
     id: 101,
     name: 'Combo Casal Brasil',
-    description: '2 Camisas da Selecao (Masculina + Feminina)',
+    description: '2 Camisas da Seleção (Masculina + Feminina)',
     products: [1, 2],
     oldPrice: 699.80,
     price: 549.90,
@@ -225,17 +225,17 @@ const combos = [
   {
     id: 102,
     name: 'Compre 2 Leve 3',
-    description: '3 Camisas da Selecao pelo preco de 2',
+    description: '3 Camisas da Seleção pelo preço de 2',
     products: [1, 2, 3],
     oldPrice: 1019.70,
     price: 699.80,
     badge: 'Super Oferta',
-    savings: 'Ganhe 1 camisa gratis!'
+    savings: 'Ganhe 1 camisa grátis!'
   },
   {
     id: 103,
     name: 'Combo Time do Coracao',
-    description: 'Camisa da Selecao + Camisa do seu time',
+    description: 'Camisa da Seleção + Camisa do seu time',
     products: [1],
     oldPrice: 629.80,
     price: 499.90,
@@ -800,6 +800,7 @@ function renderProductCard(product) {
   const discount = Math.round((1 - product.price / product.oldPrice) * 100);
   const isPopular = product.sold > 1000;
   const initials = getTeamInitials(product.team);
+  const recentBuyers = Math.floor(Math.random() * 15) + 5;
 
   return `
     <div class="product-card" onclick="openProductPage(${product.id})">
@@ -817,7 +818,12 @@ function renderProductCard(product) {
           <span class="stars">${getStars(product.rating)}</span>
           <span class="count">(${product.reviews})</span>
         </div>
-        <p class="product-card-sold">${product.sold}+ vendidos</p>
+        <div class="product-card-social-proof">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path fill="var(--orange)" d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
+          <span>${product.sold}+ vendidos</span>
+          <span class="social-proof-dot">•</span>
+          <span class="social-proof-recent">${recentBuyers} compraram hoje</span>
+        </div>
         <div class="product-card-prices">
           <p class="product-card-price">${formatPrice(product.price)}</p>
           <span class="product-card-discount">-${discount}%</span>
@@ -919,7 +925,7 @@ function initCarousels() {
   if (lancamentosGrid) {
     const newProducts = products.filter(p => p.badgeClass === 'green');
     const productsToShow = newProducts.length > 0 ? newProducts : products;
-    lancamentosGrid.innerHTML = productsToShow.slice(0, HOME_PRODUCTS_LIMIT).map(renderProductCard).join('');
+    lancamentosGrid.innerHTML = productsToShow.slice(0, 6).map(renderProductCard).join('');
   }
 
   // Mais Vendidos em formato lista (empilhado)
@@ -1057,66 +1063,66 @@ function filterProducts(category) {
 // ============================================
 const policyContent = {
   delivery: {
-    title: 'Politica de Entrega',
+    title: 'Política de Entrega',
     content: `
-      <h2>Politica de Entrega</h2>
-      <h3>Regioes Atendidas</h3>
-      <p>Realizamos entregas para todo o Brasil atraves de transportadoras parceiras. Para a regiao de Sabara-MG, oferecemos entrega local com frete reduzido.</p>
+      <h2>Política de Entrega</h2>
+      <h3>Regiões Atendidas</h3>
+      <p>Realizamos entregas para todo o Brasil através de transportadoras parceiras. Para a região de Sabará-MG, oferecemos entrega local com frete reduzido.</p>
 
       <h3>Prazos de Entrega</h3>
       <ul>
-        <li><strong>Sabara-MG:</strong> 1-2 dias uteis - Frete R$5,00</li>
-        <li><strong>Belo Horizonte-MG:</strong> 2-3 dias uteis - Frete R$30,00</li>
-        <li><strong>Demais regioes:</strong> Calculado no checkout conforme CEP</li>
+        <li><strong>Sabará-MG:</strong> 1-2 dias úteis - Frete R$5,00</li>
+        <li><strong>Belo Horizonte-MG:</strong> 2-3 dias úteis - Frete R$30,00</li>
+        <li><strong>Demais regiões:</strong> Calculado no checkout conforme CEP</li>
       </ul>
 
       <h3>Rastreamento</h3>
-      <p>Apos o envio, voce recebera o codigo de rastreio por WhatsApp para acompanhar sua entrega em tempo real.</p>
+      <p>Após o envio, você receberá o código de rastreio por WhatsApp para acompanhar sua entrega em tempo real.</p>
 
       <h3>Problemas na Entrega</h3>
       <p>Em caso de problemas com a entrega, entre em contato conosco imediatamente pelo WhatsApp ou email.</p>
     `
   },
   privacy: {
-    title: 'Politica de Privacidade',
+    title: 'Política de Privacidade',
     content: `
-      <h2>Politica de Privacidade</h2>
+      <h2>Política de Privacidade</h2>
       <h3>Coleta de Dados</h3>
-      <p>Coletamos apenas os dados necessarios para processar seu pedido: nome, endereco, telefone e email.</p>
+      <p>Coletamos apenas os dados necessários para processar seu pedido: nome, endereço, telefone e email.</p>
 
       <h3>Uso dos Dados</h3>
-      <p>Seus dados sao utilizados exclusivamente para:</p>
+      <p>Seus dados são utilizados exclusivamente para:</p>
       <ul>
         <li>Processar e entregar seu pedido</li>
-        <li>Enviar atualizacoes sobre o status do pedido</li>
-        <li>Contato em caso de duvidas sobre o pedido</li>
+        <li>Enviar atualizações sobre o status do pedido</li>
+        <li>Contato em caso de dúvidas sobre o pedido</li>
       </ul>
 
-      <h3>Protecao dos Dados</h3>
-      <p>Nao compartilhamos seus dados com terceiros, exceto transportadoras para realizacao da entrega.</p>
+      <h3>Proteção dos Dados</h3>
+      <p>Não compartilhamos seus dados com terceiros, exceto transportadoras para realização da entrega.</p>
 
       <h3>Seus Direitos</h3>
-      <p>Voce pode solicitar a exclusao dos seus dados a qualquer momento entrando em contato conosco.</p>
+      <p>Você pode solicitar a exclusão dos seus dados a qualquer momento entrando em contato conosco.</p>
     `
   },
   terms: {
     title: 'Termos de Uso',
     content: `
       <h2>Termos de Uso</h2>
-      <h3>Aceitacao dos Termos</h3>
-      <p>Ao utilizar nosso site e realizar compras, voce concorda com estes termos de uso.</p>
+      <h3>Aceitação dos Termos</h3>
+      <p>Ao utilizar nosso site e realizar compras, você concorda com estes termos de uso.</p>
 
       <h3>Produtos</h3>
-      <p>Todos os produtos vendidos sao de alta qualidade. As imagens sao ilustrativas e podem apresentar pequenas variacoes de cor.</p>
+      <p>Todos os produtos vendidos são de alta qualidade. As imagens são ilustrativas e podem apresentar pequenas variações de cor.</p>
 
-      <h3>Precos e Pagamento</h3>
-      <p>Os precos podem ser alterados sem aviso previo. Aceitamos pagamento via PIX, cartao de credito e boleto bancario.</p>
+      <h3>Preços e Pagamento</h3>
+      <p>Os preços podem ser alterados sem aviso prévio. Aceitamos pagamento via PIX, cartão de crédito e boleto bancário.</p>
 
-      <h3>Trocas e Devolucoes</h3>
-      <p>Aceitamos trocas em ate 7 dias apos o recebimento, desde que o produto esteja em perfeitas condicoes, com etiquetas e embalagem original.</p>
+      <h3>Trocas e Devoluções</h3>
+      <p>Aceitamos trocas em até 7 dias após o recebimento, desde que o produto esteja em perfeitas condições, com etiquetas e embalagem original.</p>
 
       <h3>Contato</h3>
-      <p>Para duvidas ou problemas, entre em contato pelo WhatsApp (31) 99999-9999 ou email contato@spacefut.shop</p>
+      <p>Para dúvidas ou problemas, entre em contato pelo WhatsApp (31) 99999-9999 ou email contato@spacefut.shop</p>
     `
   }
 };
@@ -1149,7 +1155,7 @@ function openProductPage(id) {
   document.getElementById('productPageTeam').textContent = selectedProduct.team;
   document.getElementById('productPageName').textContent = selectedProduct.name;
   document.getElementById('productStars').innerHTML = getStars(selectedProduct.rating);
-  document.getElementById('productRatingCount').textContent = `(${selectedProduct.reviews} avaliacoes)`;
+  document.getElementById('productRatingCount').textContent = `(${selectedProduct.reviews} avaliações)`;
   document.getElementById('productSold').innerHTML = `<svg class="sold-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="var(--orange)" d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg><span>${selectedProduct.sold} vendidos</span>`;
   document.getElementById('productPageOldPrice').textContent = formatPrice(selectedProduct.oldPrice);
   document.getElementById('productPagePrice').textContent = formatPrice(selectedProduct.price);
@@ -1674,8 +1680,8 @@ function initInputMasks() {
 // ANNOUNCEMENT BAR (Rotating Messages)
 // ============================================
 const announcementMessages = [
-  'Frete R$5 para Sabara - Entrega Rapida',
-  'Parcele em ate 12x sem juros',
+  'Frete R$5 para Sabará - Entrega Rápida',
+  'Parcele em até 12x sem juros',
   'Copa 2026 - Garanta sua camisa!',
   'Qualidade Premium - Material Oficial',
   'Atendimento via WhatsApp'
