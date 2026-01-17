@@ -11,15 +11,15 @@ const CONFIG = {
     state: 'MG',
     cep: '34505-000'
   },
-  // Frete por distancia
+  // Frete - APENAS Sabara e BH tem entrega local
   shipping: {
-    local: { price: 5, maxDistance: 30, name: 'Entrega Local', time: '1-2 dias uteis' },
-    regional: { price: 15, maxDistance: 100, name: 'Entrega Regional', time: '3-5 dias uteis' },
-    national: { price: 25, maxDistance: 500, name: 'Entrega Nacional', time: '5-10 dias uteis' },
-    far: { price: 30, maxDistance: 2000, name: 'Entrega Distante', time: '7-15 dias uteis' }
+    sabara: { price: 5, name: 'Pronta Entrega', time: '1-2 dias uteis', allowDeliveryPayment: true },
+    bh: { price: 30, name: 'Entrega em BH', time: '2-3 dias uteis', allowDeliveryPayment: false }
   },
-  // CEPs de Sabara e regiao proxima (para entrega local)
-  localCeps: ['34505', '34500', '34501', '34502', '34503', '34504', '34506', '34507', '34508', '34510', '34515', '34520', '31710', '31720', '31730', '31740', '31750', '31755', '31760', '31765'],
+  // CEPs de Sabara (frete R$5 + pagamento na entrega disponivel)
+  sabaraCeps: ['34505', '34500', '34501', '34502', '34503', '34504', '34506', '34507', '34508', '34510', '34515', '34520'],
+  // CEPs de BH (frete R$30, SEM pagamento na entrega)
+  bhCeps: ['30', '31', '32'],  // Prefixos de CEP de BH e regiao metropolitana
   // Cartpanda
   cartpanda: {
     checkoutUrl: 'https://pay.cartpanda.com.br/', // Substituir pela URL real
@@ -573,6 +573,18 @@ const SearchManager = {
 // GERENCIADOR DE FRETE
 // ============================================
 const FreteManager = {
+  // Verifica se CEP e de Sabara
+  isSabara(cep) {
+    const prefix = cep.substring(0, 5);
+    return CONFIG.sabaraCeps.includes(prefix);
+  },
+
+  // Verifica se CEP e de BH ou regiao metropolitana
+  isBH(cep) {
+    const prefix2 = cep.substring(0, 2);
+    return CONFIG.bhCeps.includes(prefix2);
+  },
+
   async calcular() {
     const cepInput = document.getElementById('cepInput');
     const cep = cepInput?.value.replace(/\D/g, '');
@@ -598,54 +610,65 @@ const FreteManager = {
       checkoutData.city = data.localidade;
       checkoutData.state = data.uf;
 
-      // Verifica se e local (Sabara e regiao)
-      const cepPrefix = cep.substring(0, 5);
-      checkoutData.isLocal = CONFIG.localCeps.includes(cepPrefix);
+      // Verifica a regiao
+      const isSabara = this.isSabara(cep);
+      const isBH = this.isBH(cep);
 
-      this.showOptions(data.localidade, data.uf, checkoutData.isLocal);
+      checkoutData.isSabara = isSabara;
+      checkoutData.isBH = isBH;
+      checkoutData.isLocal = isSabara || isBH;
+      checkoutData.allowDeliveryPayment = isSabara; // So Sabara tem pagamento na entrega
+
+      this.showOptions(data.localidade, data.uf, isSabara, isBH);
 
     } catch (error) {
       resultContainer.innerHTML = '<p class="frete-unavailable">Erro ao buscar CEP. Tente novamente.</p>';
     }
   },
 
-  showOptions(city, state, isLocal) {
+  showOptions(city, state, isSabara, isBH) {
     const resultContainer = document.getElementById('freteResult');
-    let options = [];
 
-    if (isLocal) {
-      options.push({
-        type: 'local',
-        name: '🏠 Entrega Local + Pagamento na Entrega',
-        time: '1-2 dias uteis',
-        price: CONFIG.shipping.local.price
-      });
+    // Se nao e Sabara nem BH, redireciona para checkout padrao (Cartpanda)
+    if (!isSabara && !isBH) {
+      resultContainer.innerHTML = `
+        <p style="text-align: center; margin-bottom: 12px; font-size: 13px;">
+          <strong>${city} - ${state}</strong>
+        </p>
+        <div style="text-align: center; padding: 20px; background: var(--gray-50); border-radius: 12px;">
+          <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 12px;">
+            📦 Para sua regiao, o envio sera pelos Correios.
+          </p>
+          <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 16px;">
+            O frete sera calculado no checkout.
+          </p>
+        </div>
+        <button class="btn-primary" style="margin-top: 16px;" onclick="FreteManager.redirectToCartpanda()">IR PARA CHECKOUT</button>
+      `;
+      checkoutData.shipping = { type: 'correios', price: 0 };
+      return;
     }
 
-    if (state === 'MG') {
+    let options = [];
+
+    if (isSabara) {
+      // Sabara: R$5 + pagamento na entrega disponivel
       options.push({
-        type: 'regional',
-        name: '🚚 Entrega Regional',
-        time: '3-5 dias uteis',
-        price: CONFIG.shipping.regional.price
+        type: 'sabara',
+        name: '🏠 Pronta Entrega em Sabara',
+        time: '1-2 dias uteis',
+        price: CONFIG.shipping.sabara.price,
+        extra: '+ Opcao de pagar na entrega!'
       });
-    } else {
-      const nearStates = ['SP', 'RJ', 'ES', 'GO', 'DF', 'BA'];
-      if (nearStates.includes(state)) {
-        options.push({
-          type: 'national',
-          name: '🚚 Entrega Padrao',
-          time: '5-10 dias uteis',
-          price: CONFIG.shipping.national.price
-        });
-      } else {
-        options.push({
-          type: 'far',
-          name: '🚚 Entrega Expressa',
-          time: '7-15 dias uteis',
-          price: CONFIG.shipping.far.price
-        });
-      }
+    } else if (isBH) {
+      // BH: R$30, SEM pagamento na entrega
+      options.push({
+        type: 'bh',
+        name: '🚚 Entrega em BH',
+        time: '2-3 dias uteis',
+        price: CONFIG.shipping.bh.price,
+        extra: ''
+      });
     }
 
     resultContainer.innerHTML = `
@@ -657,6 +680,7 @@ const FreteManager = {
           <div class="frete-option-info">
             <span class="frete-option-name">${opt.name}</span>
             <span class="frete-option-time">${opt.time}</span>
+            ${opt.extra ? `<span style="color: var(--primary); font-size: 11px; font-weight: 600;">${opt.extra}</span>` : ''}
           </div>
           <span class="frete-option-price">${formatPrice(opt.price)}</span>
         </div>
@@ -677,6 +701,26 @@ const FreteManager = {
   confirm() {
     closeCepModal();
     openCheckout();
+  },
+
+  redirectToCartpanda() {
+    // Redireciona para checkout Cartpanda
+    if (CONFIG.cartpanda.enabled && CONFIG.cartpanda.checkoutUrl) {
+      // Monta URL com dados do produto
+      const params = new URLSearchParams();
+      if (selectedProduct) {
+        params.set('product', selectedProduct.id);
+        params.set('size', selectedSize);
+      }
+      params.set('cep', checkoutData.cep);
+
+      // Abre checkout Cartpanda
+      window.location.href = CONFIG.cartpanda.checkoutUrl + '?' + params.toString();
+    } else {
+      // Fallback: abre checkout interno
+      closeCepModal();
+      openCheckout();
+    }
   }
 };
 
@@ -1201,8 +1245,8 @@ function renderPaymentOptions() {
     { value: 'boleto', name: 'Boleto', desc: 'Vencimento em 3 dias', icon: '📄' }
   ];
 
-  // Adiciona opcao de pagamento na entrega se for local
-  if (checkoutData.isLocal) {
+  // Adiciona opcao de pagamento na entrega APENAS para Sabara
+  if (checkoutData.allowDeliveryPayment) {
     options.push({ value: 'delivery', name: 'Pagar na Entrega', desc: 'Dinheiro ou cartao', icon: '🏠' });
   }
 
@@ -1222,10 +1266,13 @@ function renderPaymentOptions() {
 function updateCheckoutTotals() {
   const subtotal = selectedProduct ? selectedProduct.price : CartManager.getTotal();
   const shippingInput = document.querySelector('input[name="shipping"]:checked');
-  let shippingPrice = checkoutData.shipping?.price || 15;
+  let shippingPrice = checkoutData.shipping?.price || 0;
 
-  if (shippingInput?.value === 'local') {
-    shippingPrice = CONFIG.shipping.local.price;
+  // Atualiza preco do frete baseado na selecao
+  if (shippingInput?.value === 'sabara') {
+    shippingPrice = CONFIG.shipping.sabara.price;
+  } else if (shippingInput?.value === 'bh') {
+    shippingPrice = CONFIG.shipping.bh.price;
   }
 
   const total = subtotal + shippingPrice;
