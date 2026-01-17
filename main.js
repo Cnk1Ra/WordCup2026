@@ -1587,6 +1587,33 @@ function initInputMasks() {
 }
 
 // ============================================
+// ANNOUNCEMENT BAR (Rotating Messages)
+// ============================================
+const announcementMessages = [
+  'Frete R$5 para Sabara - Entrega Rapida',
+  'Parcele em ate 12x sem juros',
+  'Copa 2026 - Garanta sua camisa!',
+  'Qualidade Premium - Material Oficial',
+  'Atendimento via WhatsApp'
+];
+
+let currentAnnouncementIndex = 0;
+
+function initAnnouncementBar() {
+  setInterval(() => {
+    currentAnnouncementIndex = (currentAnnouncementIndex + 1) % announcementMessages.length;
+    const textElement = document.getElementById('announcementText');
+    if (textElement) {
+      textElement.style.opacity = '0';
+      setTimeout(() => {
+        textElement.textContent = announcementMessages[currentAnnouncementIndex];
+        textElement.style.opacity = '1';
+      }, 300);
+    }
+  }, 4000);
+}
+
+// ============================================
 // HERO CAROUSEL
 // ============================================
 let currentSlide = 0;
@@ -1642,6 +1669,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initBottomNav();
   initInputMasks();
   initHeroCarousel();
+  initAnnouncementBar();
 
   // Atualiza badges
   CartManager.updateBadge();
