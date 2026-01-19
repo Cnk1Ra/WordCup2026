@@ -1230,7 +1230,6 @@ function renderProductCard(product) {
   const isPopular = product.sold > 1000;
   const initials = getTeamInitials(product.team);
   const recentBuyers = Math.floor(Math.random() * 15) + 5;
-  const randomReview = getRandomReview(product.id);
 
   return `
     <div class="product-card" onclick="openProductPage(${product.id})">
@@ -1253,10 +1252,6 @@ function renderProductCard(product) {
           <span>${product.sold}+ vendidos</span>
           <span class="social-proof-dot">•</span>
           <span class="social-proof-recent">${recentBuyers} compraram hoje</span>
-        </div>
-        <div class="product-card-review">
-          <span class="review-quote">"${randomReview.text.substring(0, 60)}${randomReview.text.length > 60 ? '...' : ''}"</span>
-          <span class="review-author">- ${randomReview.name}</span>
         </div>
         <div class="product-card-prices">
           <p class="product-card-price">${formatPrice(product.price)}</p>
@@ -1620,6 +1615,24 @@ function openProductPage(id) {
         </ul>
       ` : ''}
     `;
+  }
+
+  // Avaliacoes dos clientes
+  const reviewsList = document.getElementById('reviewsList');
+  if (reviewsList && productComments[selectedProduct.id]) {
+    const comments = productComments[selectedProduct.id];
+    reviewsList.innerHTML = comments.map(comment => `
+      <div class="review-item">
+        <div class="review-header">
+          <span class="review-name">${comment.name}</span>
+          <span class="review-rating">${'★'.repeat(comment.rating)}${'☆'.repeat(5 - comment.rating)}</span>
+        </div>
+        <p class="review-text">${comment.text}</p>
+        <span class="review-date">${comment.date}</span>
+      </div>
+    `).join('');
+  } else if (reviewsList) {
+    reviewsList.innerHTML = '<p class="no-reviews">Sem avaliacoes ainda.</p>';
   }
 
   FavoritesManager.updateIcons();
