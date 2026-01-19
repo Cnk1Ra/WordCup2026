@@ -35,270 +35,616 @@ const CONFIG = {
 const products = [
   {
     id: 1,
+    sku: 'BRA-I-2026',
     name: 'Camisa Seleção Brasileira I 2026',
     team: 'Brasil',
     category: 'selecao',
-    oldPrice: 449.90,
-    price: 349.90,
-    badge: '-22%',
+    oldPrice: 199.90,
+    price: 157.90,
+    badge: '-21%',
     color: '#FEDD00',
     emoji: '🇧🇷',
-    images: ['🇧🇷', '⚽', '🏆'],
+    images: ['/images/brasil-i-2026-frente.jpg', '/images/brasil-i-2026-costas.jpg', '/images/brasil-i-2026-detalhe.jpg'],
     rating: 4.9,
     reviews: 234,
     sold: 1247,
-    description: 'Camisa oficial da Seleção Brasileira para a Copa do Mundo 2026. Tecido Dri-FIT de alta performance, que mantém você seco e confortável. Design inspirado na rica tradição do futebol brasileiro.',
-    features: ['Tecido Dri-FIT', 'Gola em V', 'Brasão bordado', 'Escudo CBF oficial']
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Vista a amarelinha e entre em campo com a Seleção! Camisa oficial da Seleção Brasileira para a Copa do Mundo 2026. Confeccionada em tecido Dri-FIT de alta performance com tecnologia de absorção de suor. Escudo da CBF bordado no peito, gola V clássica com detalhes em verde, e o icônico amarelo ouro que representa nossa nação.',
+    features: ['Tecido Dri-FIT', 'Gola V clássica', 'Escudo CBF bordado', 'Absorção de suor'],
+    destaque: true
   },
   {
     id: 2,
+    sku: 'BRA-II-2026',
     name: 'Camisa Seleção Brasileira II 2026',
     team: 'Brasil',
     category: 'selecao',
-    oldPrice: 449.90,
-    price: 349.90,
-    badge: 'Novo',
-    badgeClass: 'green',
+    oldPrice: 199.90,
+    price: 157.90,
+    badge: '-21%',
     color: '#002776',
     emoji: '🇧🇷',
-    images: ['🇧🇷', '⚽', '🏆'],
+    images: ['/images/brasil-ii-2026-frente.jpg', '/images/brasil-ii-2026-costas.jpg', '/images/brasil-ii-2026-detalhe.jpg'],
     rating: 4.8,
     reviews: 189,
     sold: 892,
-    description: 'Camisa reserva da Seleção Brasileira na cor azul tradicional. Ideal para torcer com estilo nos jogos da copa.',
-    features: ['Tecido Dri-FIT', 'Gola careca', 'Brasão bordado', 'Escudo CBF oficial']
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'A força do azul brasileiro! Camisa reserva da Seleção Brasileira para a Copa do Mundo 2026. Design moderno em azul royal com detalhes em amarelo e verde. Tecido Dri-FIT respirável que mantém você seco e confortável.',
+    features: ['Tecido Dri-FIT', 'Gola redonda', 'Escudo CBF bordado', 'Design moderno'],
+    destaque: true
   },
   {
     id: 3,
-    name: 'Camisa Goleiro Brasil 2026',
+    sku: 'BRA-GK-2026',
+    name: 'Camisa Goleiro Seleção Brasileira 2026',
     team: 'Brasil',
     category: 'selecao',
-    oldPrice: 399.90,
-    price: 319.90,
-    badge: 'Novo',
-    badgeClass: 'green',
+    oldPrice: 219.90,
+    price: 167.90,
+    badge: '-24%',
     color: '#00875f',
     emoji: '🧤',
-    images: ['🧤', '🇧🇷', '⚽'],
+    images: ['/images/brasil-goleiro-2026-frente.jpg', '/images/brasil-goleiro-2026-costas.jpg', '/images/brasil-goleiro-2026-detalhe.jpg'],
     rating: 4.7,
     reviews: 87,
     sold: 342,
-    description: 'Camisa de goleiro da Seleção Brasileira. Na tradicional cor verde, perfeita para quem defende o gol.',
-    features: ['Tecido acolchoado nos cotovelos', 'Proteção UV', 'Brasão bordado']
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Defenda como os grandes! Camisa oficial de goleiro da Seleção Brasileira para a Copa 2026. Design exclusivo em verde vibrante com detalhes em amarelo. Tecido acolchoado nos cotovelos para proteção extra em defesas.',
+    features: ['Tecido acolchoado nos cotovelos', 'Corte amplo', 'Verde vibrante', 'Proteção extra'],
+    destaque: false
   },
   {
     id: 4,
-    name: 'Camisa Flamengo I 2025',
-    team: 'Flamengo',
-    category: 'clubes',
-    oldPrice: 349.90,
-    price: 279.90,
-    badge: '-20%',
-    color: '#E53935',
-    emoji: '🔴⚫',
-    images: ['🔴⚫', '⚽', '🏆'],
+    sku: 'BRA-FEM-2026',
+    name: 'Camisa Seleção Brasileira Feminina 2026',
+    team: 'Brasil',
+    category: 'selecao',
+    oldPrice: 199.90,
+    price: 157.90,
+    badge: '-21%',
+    color: '#FEDD00',
+    emoji: '🇧🇷',
+    images: ['/images/brasil-fem-2026-frente.jpg', '/images/brasil-fem-2026-costas.jpg', '/images/brasil-fem-2026-detalhe.jpg'],
     rating: 4.9,
-    reviews: 456,
-    sold: 2341,
-    description: 'Camisa oficial do Flamengo temporada 2025. O manto sagrado rubro-negro para a Nação.',
-    features: ['Tecido leve', 'Listras tradicionais', 'Escudo bordado']
+    reviews: 156,
+    sold: 678,
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    description: 'Força feminina em campo! Camisa oficial feminina da Seleção Brasileira para a Copa 2026. Modelagem especial que valoriza o corpo feminino com corte mais ajustado na cintura. Mesmo tecido Dri-FIT de alta performance.',
+    features: ['Modelagem feminina', 'Corte ajustado', 'Tecido Dri-FIT', 'Escudo CBF bordado'],
+    destaque: true
   },
   {
     id: 5,
-    name: 'Camisa Corinthians I 2025',
-    team: 'Corinthians',
+    sku: 'FLA-I-2025',
+    name: 'Camisa Flamengo I 2025',
+    team: 'Flamengo',
     category: 'clubes',
-    oldPrice: 329.90,
-    price: 269.90,
-    badge: '-18%',
-    color: '#1a1a1a',
-    emoji: '⚫⚪',
-    images: ['⚫⚪', '⚽', '🏆'],
-    rating: 4.8,
-    reviews: 312,
-    sold: 1567,
-    description: 'Camisa oficial do Corinthians. O alvinegro mais querido do Brasil.',
-    features: ['Tecido respirável', 'Design clássico', 'Escudo bordado']
+    oldPrice: 179.90,
+    price: 139.90,
+    badge: '-22%',
+    color: '#E53935',
+    emoji: '🔴⚫',
+    images: ['/images/flamengo-i-2025-frente.jpg', '/images/flamengo-i-2025-costas.jpg', '/images/flamengo-i-2025-detalhe.jpg'],
+    rating: 4.9,
+    reviews: 456,
+    sold: 2341,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Uma vez Flamengo, sempre Flamengo! Camisa oficial do Mengão para a temporada 2025. As tradicionais listras em rubro-negro que fazem a maior torcida do Brasil vibrar. Tecido de alta performance com tecnologia de ventilação.',
+    features: ['Listras tradicionais', 'Escudo bordado', 'Tecido ventilado', 'Patrocínios atualizados'],
+    destaque: true
   },
   {
     id: 6,
-    name: 'Camisa Palmeiras I 2025',
-    team: 'Palmeiras',
+    sku: 'COR-I-2025',
+    name: 'Camisa Corinthians I 2025',
+    team: 'Corinthians',
     category: 'clubes',
-    oldPrice: 349.90,
-    price: 289.90,
-    badge: '-17%',
-    color: '#009739',
-    emoji: '💚',
-    images: ['💚', '⚽', '🏆'],
+    oldPrice: 179.90,
+    price: 139.90,
+    badge: '-22%',
+    color: '#1a1a1a',
+    emoji: '⚫⚪',
+    images: ['/images/corinthians-i-2025-frente.jpg', '/images/corinthians-i-2025-costas.jpg', '/images/corinthians-i-2025-detalhe.jpg'],
     rating: 4.8,
-    reviews: 278,
-    sold: 1234,
-    description: 'Camisa oficial do Palmeiras. O Verdão para a torcida mais apaixonada.',
-    features: ['Tecido premium', 'Verde tradicional', 'Escudo bordado']
+    reviews: 312,
+    sold: 1567,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Vai Corinthians! Camisa oficial do Timão para a temporada 2025. O clássico preto e branco que representa a fiel torcida. Tecido respirável de alta qualidade, escudo bordado.',
+    features: ['Design clássico', 'Escudo bordado', 'Tecido respirável', 'Preto e branco'],
+    destaque: false
   },
   {
     id: 7,
-    name: 'Camisa Real Madrid I 2025',
-    team: 'Real Madrid',
-    category: 'europeus',
-    oldPrice: 499.90,
-    price: 399.90,
-    badge: '-20%',
-    color: '#ffffff',
-    emoji: '⚪',
-    images: ['⚪', '⚽', '🏆'],
-    rating: 4.9,
-    reviews: 198,
-    sold: 876,
-    description: 'Camisa oficial do Real Madrid. O clube mais vitorioso da história.',
-    features: ['Tecido importado', 'Design elegante', 'Escudo bordado']
+    sku: 'PAL-I-2025',
+    name: 'Camisa Palmeiras I 2025',
+    team: 'Palmeiras',
+    category: 'clubes',
+    oldPrice: 179.90,
+    price: 139.90,
+    badge: '-22%',
+    color: '#009739',
+    emoji: '💚',
+    images: ['/images/palmeiras-i-2025-frente.jpg', '/images/palmeiras-i-2025-costas.jpg', '/images/palmeiras-i-2025-detalhe.jpg'],
+    rating: 4.8,
+    reviews: 278,
+    sold: 1234,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Avanti Palestra! Camisa oficial do Palmeiras para a temporada 2025. O verde alviverde que carrega mais de um século de glórias. Tecido premium com tecnologia de absorção.',
+    features: ['Verde alviverde', 'Escudo bordado', 'Tecido premium', 'Maior campeão brasileiro'],
+    destaque: false
   },
   {
     id: 8,
-    name: 'Camisa Barcelona I 2025',
-    team: 'Barcelona',
-    category: 'europeus',
-    oldPrice: 499.90,
-    price: 389.90,
+    sku: 'SAO-I-2025',
+    name: 'Camisa São Paulo I 2025',
+    team: 'São Paulo',
+    category: 'clubes',
+    oldPrice: 179.90,
+    price: 139.90,
     badge: '-22%',
-    color: '#A50044',
-    emoji: '🔵🔴',
-    images: ['🔵🔴', '⚽', '🏆'],
+    color: '#ffffff',
+    emoji: '🔴⚪⚫',
+    images: ['/images/saopaulo-i-2025-frente.jpg', '/images/saopaulo-i-2025-costas.jpg', '/images/saopaulo-i-2025-detalhe.jpg'],
     rating: 4.8,
-    reviews: 167,
-    sold: 743,
-    description: 'Camisa oficial do Barcelona. As listras blaugrana mais famosas do mundo.',
-    features: ['Tecido premium', 'Listras tradicionais', 'Escudo bordado']
+    reviews: 198,
+    sold: 876,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Soberano! Camisa oficial do São Paulo FC para a temporada 2025. O tradicional branco com as faixas tricolores que representam décadas de conquistas. Tecido de alta performance.',
+    features: ['Faixas tricolores', 'Escudo bordado', 'Tecido premium', 'Design clássico'],
+    destaque: false
   },
   {
     id: 9,
-    name: 'Camisa Brasil Retro 1970',
-    team: 'Brasil',
-    category: 'selecao',
-    oldPrice: 299.90,
-    price: 249.90,
-    badge: 'Retro',
-    badgeClass: 'green',
-    color: '#FFD700',
-    emoji: '🏆',
-    images: ['🏆', '🇧🇷', '⚽'],
-    rating: 4.9,
-    reviews: 156,
-    sold: 567,
-    description: 'Camisa retrô da Seleção Brasileira de 1970. O time mais vitorioso da história das copas.',
-    features: ['Design vintage', 'Algodão premium', 'Edição limitada']
+    sku: 'FLU-I-2025',
+    name: 'Camisa Fluminense I 2025',
+    team: 'Fluminense',
+    category: 'clubes',
+    oldPrice: 179.90,
+    price: 139.90,
+    badge: '-22%',
+    color: '#8B0000',
+    emoji: '🔴⚪💚',
+    images: ['/images/fluminense-i-2025-frente.jpg', '/images/fluminense-i-2025-costas.jpg', '/images/fluminense-i-2025-detalhe.jpg'],
+    rating: 4.7,
+    reviews: 167,
+    sold: 654,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Time de Guerreiros! Camisa oficial do Fluminense para a temporada 2025. O tricolor grená, branco e verde que encanta o mundo. Tecido respirável de alta qualidade.',
+    features: ['Tricolor tradicional', 'Escudo bordado', 'Tecido respirável', 'Atual campeão'],
+    destaque: false
   },
   {
     id: 10,
-    name: 'Camisa Argentina I 2026',
-    team: 'Argentina',
-    category: 'selecao',
-    oldPrice: 449.90,
-    price: 349.90,
+    sku: 'BOT-I-2025',
+    name: 'Camisa Botafogo I 2025',
+    team: 'Botafogo',
+    category: 'clubes',
+    oldPrice: 179.90,
+    price: 139.90,
     badge: '-22%',
-    color: '#75AADB',
-    emoji: '🇦🇷',
-    images: ['🇦🇷', '⚽', '🏆'],
+    color: '#1a1a1a',
+    emoji: '⭐⚫⚪',
+    images: ['/images/botafogo-i-2025-frente.jpg', '/images/botafogo-i-2025-costas.jpg', '/images/botafogo-i-2025-detalhe.jpg'],
     rating: 4.7,
-    reviews: 123,
-    sold: 432,
-    description: 'Camisa oficial da Seleção Argentina. La Albiceleste para a Copa 2026.',
-    features: ['Tecido Dri-FIT', 'Listras tradicionais', 'Escudo bordado']
+    reviews: 145,
+    sold: 543,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Botafogo! Camisa oficial do Glorioso para a temporada 2025. As listras preto e branco que representam a estrela solitária. Tecido premium com tecnologia avançada.',
+    features: ['Listras tradicionais', 'Estrela solitária', 'Escudo bordado', 'Tecido premium'],
+    destaque: false
+  },
+  {
+    id: 11,
+    sku: 'VAS-I-2025',
+    name: 'Camisa Vasco I 2025',
+    team: 'Vasco',
+    category: 'clubes',
+    oldPrice: 179.90,
+    price: 139.90,
+    badge: '-22%',
+    color: '#1a1a1a',
+    emoji: '⚪⚫✝️',
+    images: ['/images/vasco-i-2025-frente.jpg', '/images/vasco-i-2025-costas.jpg', '/images/vasco-i-2025-detalhe.jpg'],
+    rating: 4.7,
+    reviews: 134,
+    sold: 487,
+    sizes: ['PP', 'P', 'M', 'G', 'GG', 'XGG'],
+    description: 'Vascaíno! Camisa oficial do Vasco da Gama para a temporada 2025. A tradicional faixa diagonal com a cruz de malta que representa um gigante. Tecido de alta performance.',
+    features: ['Faixa diagonal', 'Cruz de Malta', 'Escudo bordado', 'Gigante da Colina'],
+    destaque: false
+  },
+  {
+    id: 12,
+    sku: 'KIT-INF-BRA',
+    name: 'Camisa Infantil Brasil Copa 2026',
+    team: 'Brasil',
+    category: 'infantil',
+    oldPrice: 149.90,
+    price: 119.90,
+    badge: '-20%',
+    color: '#FEDD00',
+    emoji: '👶🇧🇷',
+    images: ['/images/brasil-infantil.jpg', '/images/brasil-infantil-2.jpg', '/images/brasil-infantil-3.jpg'],
+    rating: 4.9,
+    reviews: 98,
+    sold: 456,
+    sizes: ['2', '4', '6', '8', '10', '12', '14'],
+    description: 'Pequeno torcedor! Camisa oficial infantil da Seleção Brasileira para a Copa 2026. Modelagem especial para crianças com tecido macio e confortável. Escudo CBF bordado, acabamento seguro.',
+    features: ['Modelagem infantil', 'Tecido macio', 'Escudo CBF bordado', 'Acabamento seguro'],
+    destaque: true
   }
 ];
 
 // ============================================
-// COMBOS ESPECIAIS
+// COMBOS ESPECIAIS (KITS)
 // ============================================
 const combos = [
+  // KITS BRASIL
   {
     id: 101,
-    name: 'Combo Casal Brasil',
-    description: '2 Camisas da Seleção (Masculina + Feminina)',
-    products: [1, 2],
-    oldPrice: 699.80,
-    price: 549.90,
+    sku: 'KIT-DUPLA-BRA',
+    name: 'Kit Dupla Brasil Copa 2026',
+    description: '2 camisas da Seleção (pode escolher cores)',
+    composicao: '2x Camisas Brasil',
+    category: 'kits-brasil',
+    oldPrice: 315.80,
+    price: 279.90,
     badge: 'Mais Vendido',
-    savings: 'Economia de R$ 149,90'
+    badgeClass: '',
+    savings: 'Economia de R$ 35,90',
+    destaque: true,
+    color: '#FEDD00',
+    emoji: '🇧🇷🇧🇷'
   },
   {
     id: 102,
-    name: 'Compre 2 Leve 3',
-    description: '3 Camisas da Seleção pelo preço de 2',
-    products: [1, 2, 3],
-    oldPrice: 1019.70,
-    price: 699.80,
-    badge: 'Super Oferta',
-    savings: 'Ganhe 1 camisa grátis!'
+    sku: 'KIT-FAMILIA-BRA',
+    name: 'Kit Família Brasil Copa 2026',
+    description: '3 camisas para toda família torcer junta',
+    composicao: '3x Camisas Brasil',
+    category: 'kits-brasil',
+    oldPrice: 473.70,
+    price: 399.90,
+    badge: 'Kit Família',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 73,80',
+    destaque: true,
+    color: '#FEDD00',
+    emoji: '👨‍👩‍👧🇧🇷'
   },
   {
     id: 103,
-    name: 'Combo Time do Coracao',
-    description: 'Camisa da Seleção + Camisa do seu time',
-    products: [1],
-    oldPrice: 629.80,
+    sku: 'KIT-TORCIDA-BRA',
+    name: 'Kit Torcida Brasil Copa 2026',
+    description: '4 camisas para a galera toda',
+    composicao: '4x Camisas Brasil',
+    category: 'kits-brasil',
+    oldPrice: 631.60,
     price: 499.90,
-    badge: 'Exclusivo',
-    savings: 'Economia de R$ 129,90'
+    badge: '-21%',
+    badgeClass: '',
+    savings: 'Economia de R$ 131,70',
+    destaque: true,
+    color: '#FEDD00',
+    emoji: '🎉🇧🇷'
   },
+  // KITS CASAL
   {
     id: 104,
-    name: 'Combo Goleiro',
-    description: 'Camisa Principal + Camisa de Goleiro',
-    products: [1, 3],
-    oldPrice: 669.80,
+    sku: 'KIT-CASAL-BRA',
+    name: 'Kit Casal Brasil Copa 2026',
+    description: '1 camisa masculina + 1 feminina',
+    composicao: '1x Masc + 1x Fem',
+    category: 'kits-casal',
+    oldPrice: 315.80,
+    price: 289.90,
+    badge: 'Casal',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 25,90',
+    destaque: true,
+    color: '#FEDD00',
+    emoji: '💑🇧🇷'
+  },
+  {
+    id: 105,
+    sku: 'KIT-CASAL-COMP',
+    name: 'Kit Casal Completo Brasil 2026',
+    description: '2 masculinas + 2 femininas',
+    composicao: '2x Masc + 2x Fem',
+    category: 'kits-casal',
+    oldPrice: 631.60,
     price: 529.90,
-    badge: 'Novidade',
-    savings: 'Economia de R$ 139,90'
+    badge: '-16%',
+    badgeClass: '',
+    savings: 'Economia de R$ 101,70',
+    destaque: false,
+    color: '#FEDD00',
+    emoji: '💕🇧🇷'
+  },
+  // KITS BRASIL + CLUBE
+  {
+    id: 106,
+    sku: 'KIT-PAIXAO',
+    name: 'Kit Paixão Nacional',
+    description: '1 Brasil + 1 do seu time do coração',
+    composicao: '1x Brasil + 1x Clube',
+    category: 'kits-misto',
+    oldPrice: 297.80,
+    price: 269.90,
+    badge: 'Exclusivo',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 27,90',
+    destaque: true,
+    color: '#009739',
+    emoji: '🇧🇷❤️'
+  },
+  {
+    id: 107,
+    sku: 'KIT-RAIZ',
+    name: 'Kit Torcedor Raiz',
+    description: '2 Brasil + 1 do seu clube',
+    composicao: '2x Brasil + 1x Clube',
+    category: 'kits-misto',
+    oldPrice: 455.70,
+    price: 389.90,
+    badge: '-14%',
+    badgeClass: '',
+    savings: 'Economia de R$ 65,80',
+    destaque: false,
+    color: '#009739',
+    emoji: '🇧🇷⚽'
+  },
+  {
+    id: 108,
+    sku: 'KIT-COLEC',
+    name: 'Kit Colecionador',
+    description: '1 Brasil + 2 clubes à escolha',
+    composicao: '1x Brasil + 2x Clubes',
+    category: 'kits-misto',
+    oldPrice: 437.70,
+    price: 399.90,
+    badge: 'Coleção',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 37,80',
+    destaque: false,
+    color: '#009739',
+    emoji: '🏆⚽'
+  },
+  // KITS PROMOCIONAIS
+  {
+    id: 109,
+    sku: 'KIT-LEVE3-PAGUE2',
+    name: 'Leve 3 Pague 2 - Super Promo',
+    description: 'Compre 2 Brasil e GANHE 1 do clube',
+    composicao: '2x Brasil + 1x Clube GRÁTIS',
+    category: 'kits-promo',
+    oldPrice: 437.70,
+    price: 315.80,
+    badge: 'GRÁTIS',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 121,90',
+    destaque: true,
+    color: '#E53935',
+    emoji: '🎁🔥'
+  },
+  {
+    id: 110,
+    sku: 'KIT-SUPER-COPA',
+    name: 'Super Kit Copa 2026',
+    description: '3 Brasil + 1 clube de brinde',
+    composicao: '3x Brasil + 1x Clube GRÁTIS',
+    category: 'kits-promo',
+    oldPrice: 613.60,
+    price: 449.90,
+    badge: 'SUPER',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 163,70',
+    destaque: true,
+    color: '#E53935',
+    emoji: '🏆🎁'
+  },
+  {
+    id: 111,
+    sku: 'KIT-REVENDEDOR',
+    name: 'Kit Revendedor Inicial',
+    description: '5 camisas mistas para revenda',
+    composicao: '5x Camisas Mistas',
+    category: 'kits-promo',
+    oldPrice: 788.50,
+    price: 599.90,
+    badge: '-24%',
+    badgeClass: '',
+    savings: 'Economia de R$ 188,60',
+    destaque: false,
+    color: '#1976D2',
+    emoji: '💰📦'
+  },
+  {
+    id: 112,
+    sku: 'KIT-MEGA-TORCIDA',
+    name: 'Kit Mega Torcida',
+    description: '6 camisas Brasil (3 amarela + 3 azul)',
+    composicao: '3x Amarela + 3x Azul',
+    category: 'kits-promo',
+    oldPrice: 947.40,
+    price: 799.90,
+    badge: 'MEGA',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 147,50',
+    destaque: false,
+    color: '#FEDD00',
+    emoji: '🎊🇧🇷'
+  },
+  // KIT FAMÍLIA COMPLETA
+  {
+    id: 113,
+    sku: 'KIT-FAMILIA-COMP',
+    name: 'Kit Família Completa Copa 2026',
+    description: 'Pai + Mãe + Filho vestindo a amarelinha',
+    composicao: '1x Masc + 1x Fem + 1x Infantil',
+    category: 'kits-familia',
+    oldPrice: 477.70,
+    price: 399.90,
+    badge: 'Família',
+    badgeClass: 'green',
+    savings: 'Economia de R$ 77,80',
+    destaque: true,
+    color: '#FEDD00',
+    emoji: '👨‍👩‍👦🇧🇷'
   }
 ];
 
 // ============================================
-// AVALIACOES (Prova Social)
+// AVALIACOES (Prova Social) - Com erros realistas
 // ============================================
 const reviews = [
   {
     name: 'Carlos M.',
     avatar: 'CM',
     rating: 5,
-    date: 'ha 2 dias',
-    text: 'Camisa de otima qualidade! Chegou rapido e bem embalada. Recomendo demais!',
+    date: 'há 2 dias',
+    text: 'Camisa mtooo boa!! chegou rapido e bem embalada. super recomendo 👍',
     verified: true
   },
   {
     name: 'Ana Paula S.',
     avatar: 'AS',
     rating: 5,
-    date: 'ha 5 dias',
-    text: 'Comprei o combo casal e adorei! Material excelente, igual a original. Entrega super rapida.',
+    date: 'há 5 dias',
+    text: 'ameiiii demais!! comprei o combo casal e ficou perfeito, material igualzinho a original',
     verified: true
   },
   {
     name: 'Roberto F.',
     avatar: 'RF',
     rating: 5,
-    date: 'ha 1 semana',
-    text: 'Ja e a terceira vez que compro. Qualidade impecavel e preco justo. Loja de confianca!',
+    date: 'há 1 semana',
+    text: 'ja é a terceira vez q compro aqui, qualidade sempre top! recomendo msm',
     verified: true
   },
   {
-    name: 'Julia R.',
+    name: 'Júlia R.',
     avatar: 'JR',
     rating: 4,
-    date: 'ha 1 semana',
-    text: 'Gostei muito da camisa, tecido confortavel. So achei que poderia ter mais opcoes de tamanho.',
+    date: 'há 1 semana',
+    text: 'gostei mto da camisa, tecido confortavel.. só achei q demorou um pouco pra chegar mas veio certinho',
     verified: true
   },
   {
     name: 'Marcos V.',
     avatar: 'MV',
     rating: 5,
-    date: 'ha 2 semanas',
-    text: 'Produto de primeira! Vou usar na copa com orgulho. Atendimento excelente tambem.',
+    date: 'há 2 semanas',
+    text: 'produto show de bola! vou usar na copa kkk atendimento pelo whats foi otimo tbm',
+    verified: true
+  },
+  {
+    name: 'Fernanda L.',
+    avatar: 'FL',
+    rating: 5,
+    date: 'há 3 dias',
+    text: 'meu marido amouuu o presente, camisa linda e de ótima qualidade. entrega foi bem rapida',
+    verified: true
+  },
+  {
+    name: 'João Pedro',
+    avatar: 'JP',
+    rating: 5,
+    date: 'há 4 dias',
+    text: 'camisa top dms, material bom msm. comprei a do brasil e ja to querendo a do flamengo kkk',
+    verified: true
+  },
+  {
+    name: 'Luciana Costa',
+    avatar: 'LC',
+    rating: 4,
+    date: 'há 6 dias',
+    text: 'bonita a camisa, só o tamanho q ficou um pouco grande.. mas a qualidade é boa sim',
+    verified: true
+  },
+  {
+    name: 'Thiago S.',
+    avatar: 'TS',
+    rating: 5,
+    date: 'há 1 semana',
+    text: 'comprei 3 camisas no combo e todas vieram perfeitas!! preço muito bom comparado c outras lojas',
+    verified: true
+  },
+  {
+    name: 'Patrícia Almeida',
+    avatar: 'PA',
+    rating: 5,
+    date: 'há 5 dias',
+    text: 'entrega super rapida aqui em BH, camisa igualzinha da foto. amei!! ja indiquei p minhas amigas',
     verified: true
   }
 ];
+
+// Comentários específicos por produto (com erros realistas)
+const productComments = {
+  1: [ // Brasil I
+    { name: 'Ricardo M.', text: 'amarelinha lindaaa, qualidade top msm', rating: 5, date: 'há 2 dias' },
+    { name: 'Camila F.', text: 'chegou antes do prazo, amei!! vai ser sucesso na copa', rating: 5, date: 'há 4 dias' },
+    { name: 'Bruno S.', text: 'material mto bom, parece a original msm. recomendo', rating: 5, date: 'há 1 semana' },
+    { name: 'Juliana R.', text: 'camisa perfeita!! meu marido amou o presente kkk', rating: 5, date: 'há 3 dias' }
+  ],
+  2: [ // Brasil II (Azul)
+    { name: 'Felipe A.', text: 'azul lindo dms, comprei pra mim e pro meu pai', rating: 5, date: 'há 3 dias' },
+    { name: 'Mariana L.', text: 'tecido confortavel, nao esquenta. perfeita pro verao', rating: 5, date: 'há 5 dias' },
+    { name: 'Pedro H.', text: 'camisa reserva mto bonita, material excelente tbm', rating: 5, date: 'há 1 semana' }
+  ],
+  3: [ // Goleiro Brasil
+    { name: 'Marcos A.', text: 'camisa de goleiro mto linda, verde perfeito!', rating: 5, date: 'há 2 dias' },
+    { name: 'Lucas F.', text: 'comprei p jogar pelada kk material resistente', rating: 5, date: 'há 4 dias' },
+    { name: 'Gustavo R.', text: 'tecido acolchoado nos cotovelos é show!! proteção top', rating: 5, date: 'há 6 dias' }
+  ],
+  4: [ // Brasil Feminina
+    { name: 'Amanda S.', text: 'modelagem feminina perfeita!! finalmente uma q serve bem', rating: 5, date: 'há 2 dias' },
+    { name: 'Carla M.', text: 'ameiiii!! tecido leve e nao marca nada', rating: 5, date: 'há 4 dias' },
+    { name: 'Patricia L.', text: 'comprei pra mim e pra minha mae, as duas amaram!!', rating: 5, date: 'há 1 semana' }
+  ],
+  5: [ // Flamengo
+    { name: 'Diego R.', text: 'mengooo!! manto sagrado chegou perfeito 🔴⚫', rating: 5, date: 'há 2 dias' },
+    { name: 'Rafaela C.', text: 'presente pro meu namorado, ele amou! qualidade otima', rating: 5, date: 'há 6 dias' },
+    { name: 'Anderson P.', text: 'ja comprei 2 camisas do mengão aqui, sempre vem perfeita', rating: 5, date: 'há 1 semana' },
+    { name: 'Thiago M.', text: 'manto do mengao lindo demais!! vou usar na libertadores', rating: 5, date: 'há 3 dias' }
+  ],
+  6: [ // Corinthians
+    { name: 'Leandro F.', text: 'timãooo!! camisa linda, material de primeira', rating: 5, date: 'há 3 dias' },
+    { name: 'Tatiane M.', text: 'comprei pro meu filho, ele adorou. tamanho certinho', rating: 5, date: 'há 4 dias' },
+    { name: 'Roberto S.', text: 'vai corintia!! camisa top dms, vou comprar outra', rating: 5, date: 'há 1 semana' }
+  ],
+  7: [ // Palmeiras
+    { name: 'Gustavo H.', text: 'verdão representado!! camisa show de bola', rating: 5, date: 'há 2 dias' },
+    { name: 'Daniela S.', text: 'amei a qualidade, ja é a segunda q compro. super recomendo', rating: 5, date: 'há 5 dias' },
+    { name: 'Henrique L.', text: 'porcooo!! camisa linda, entrega foi rapida tbm', rating: 5, date: 'há 4 dias' }
+  ],
+  8: [ // São Paulo
+    { name: 'Gabriel R.', text: 'tricolor paulista lindoooo!! qualidade top', rating: 5, date: 'há 2 dias' },
+    { name: 'Amanda F.', text: 'camisa do spfc perfeita, faixas lindas', rating: 5, date: 'há 5 dias' },
+    { name: 'Lucas M.', text: 'soberano!! camisa chegou rapido e muito bem embalada', rating: 5, date: 'há 1 semana' }
+  ],
+  9: [ // Fluminense
+    { name: 'Fernando L.', text: 'tricolor das laranjeiras!! camisa mto linda', rating: 5, date: 'há 2 dias' },
+    { name: 'Sandra M.', text: 'flu campeão!! qualidade incrível da camisa', rating: 5, date: 'há 6 dias' },
+    { name: 'Antonio R.', text: 'time de guerreiros!! material excelente', rating: 5, date: 'há 1 semana' }
+  ],
+  10: [ // Botafogo
+    { name: 'Eduardo P.', text: 'botafogooo!! estrela solitária representada', rating: 5, date: 'há 3 dias' },
+    { name: 'Bianca S.', text: 'glorioso demais!! camisa chegou perfeita', rating: 5, date: 'há 5 dias' },
+    { name: 'Rafael M.', text: 'material excelente, listras lindas', rating: 5, date: 'há 4 dias' }
+  ],
+  11: [ // Vasco
+    { name: 'Carlos V.', text: 'vascoooo!! cruz de malta no peito, emocionante', rating: 5, date: 'há 2 dias' },
+    { name: 'Juliana G.', text: 'gigante da colina!! camisa linda demais', rating: 5, date: 'há 5 dias' },
+    { name: 'Marcos R.', text: 'qualidade top!! faixa diagonal perfeita', rating: 5, date: 'há 1 semana' }
+  ],
+  12: [ // Infantil Brasil
+    { name: 'Patricia M.', text: 'meu filho amouuuu!! tecido bem macio', rating: 5, date: 'há 2 dias' },
+    { name: 'Renata S.', text: 'tamanho certinho, acabamento seguro p criança', rating: 5, date: 'há 4 dias' },
+    { name: 'Ana L.', text: 'comprei pros meus 2 filhos, os dois ficaram lindos!!', rating: 5, date: 'há 6 dias' }
+  ]
+};
 
 // ============================================
 // ESTADO DA APLICACAO
@@ -794,6 +1140,16 @@ function getTeamInitials(team) {
   return words.map(w => w[0]).join('').substring(0, 3).toUpperCase();
 }
 
+function getRandomReview(productId) {
+  // Primeiro tenta pegar um comentario especifico do produto
+  if (productComments[productId] && productComments[productId].length > 0) {
+    const comments = productComments[productId];
+    return comments[Math.floor(Math.random() * comments.length)];
+  }
+  // Senao, pega da lista geral de reviews
+  return reviews[Math.floor(Math.random() * reviews.length)];
+}
+
 function renderProductCard(product) {
   const isFavorite = FavoritesManager.isFavorite(product.id);
   const border = product.color === '#ffffff' ? 'border: 1px solid #ddd;' : '';
@@ -801,6 +1157,7 @@ function renderProductCard(product) {
   const isPopular = product.sold > 1000;
   const initials = getTeamInitials(product.team);
   const recentBuyers = Math.floor(Math.random() * 15) + 5;
+  const randomReview = getRandomReview(product.id);
 
   return `
     <div class="product-card" onclick="openProductPage(${product.id})">
@@ -823,6 +1180,10 @@ function renderProductCard(product) {
           <span>${product.sold}+ vendidos</span>
           <span class="social-proof-dot">•</span>
           <span class="social-proof-recent">${recentBuyers} compraram hoje</span>
+        </div>
+        <div class="product-card-review">
+          <span class="review-quote">"${randomReview.text.substring(0, 60)}${randomReview.text.length > 60 ? '...' : ''}"</span>
+          <span class="review-author">- ${randomReview.name}</span>
         </div>
         <div class="product-card-prices">
           <p class="product-card-price">${formatPrice(product.price)}</p>
@@ -866,11 +1227,14 @@ function renderProductListItem(product) {
 }
 
 function renderComboCard(combo) {
+  const badgeClass = combo.badgeClass ? combo.badgeClass : '';
   return `
-    <div class="combo-card" onclick="openComboPage(${combo.id})">
-      <span class="combo-badge">${combo.badge}</span>
+    <div class="combo-card" onclick="openComboPage(${combo.id})" style="border-top: 4px solid ${combo.color || '#009739'}">
+      <span class="combo-badge ${badgeClass}">${combo.badge}</span>
+      <div class="combo-emoji">${combo.emoji || '🎁'}</div>
       <h3 class="combo-title">${combo.name}</h3>
       <p class="combo-description">${combo.description}</p>
+      <p class="combo-composicao">${combo.composicao || ''}</p>
       <div class="combo-price-container">
         <span class="combo-old-price">${formatPrice(combo.oldPrice)}</span>
         <span class="combo-price">${formatPrice(combo.price)}</span>
@@ -919,12 +1283,15 @@ function initCarousels() {
   const reviewsCarousel = document.getElementById('reviewsCarousel');
 
   if (combosGrid) {
-    combosGrid.innerHTML = combos.map(renderComboCard).join('');
+    // Mostra apenas os combos em destaque na home
+    const featuredCombos = combos.filter(c => c.destaque);
+    combosGrid.innerHTML = featuredCombos.slice(0, 6).map(renderComboCard).join('');
   }
 
   if (lancamentosGrid) {
-    const newProducts = products.filter(p => p.badgeClass === 'green');
-    const productsToShow = newProducts.length > 0 ? newProducts : products;
+    // Mostra produtos em destaque primeiro
+    const featuredProducts = products.filter(p => p.destaque);
+    const productsToShow = featuredProducts.length > 0 ? featuredProducts : products;
     lancamentosGrid.innerHTML = productsToShow.slice(0, 6).map(renderProductCard).join('');
   }
 
@@ -1001,9 +1368,14 @@ function renderCollectionProducts() {
       filtered = products.filter(p => p.category === 'clubes');
       titleText = 'Clubes Brasileiros';
       break;
-    case 'europeus':
-      filtered = products.filter(p => p.category === 'europeus');
-      titleText = 'Clubes Europeus';
+    case 'infantil':
+      filtered = products.filter(p => p.category === 'infantil');
+      titleText = 'Infantil';
+      break;
+    case 'kits':
+      // Para kits, mostra os combos convertidos em cards
+      filtered = [];
+      titleText = 'Kits e Combos';
       break;
     default:
       filtered = products;
@@ -1594,6 +1966,16 @@ function showFieldError(inputId, message) {
   errorDiv.className = 'error-message';
   errorDiv.textContent = message;
   input.parentElement.appendChild(errorDiv);
+}
+
+// ============================================
+// FUNCOES AUXILIARES DE NAVEGACAO
+// ============================================
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ============================================
