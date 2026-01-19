@@ -580,69 +580,142 @@ const reviews = [
   }
 ];
 
-// Comentários específicos por produto (com erros realistas)
+// Comentários específicos por produto (com erros realistas de digitação)
 const productComments = {
   1: [ // Brasil I
     { name: 'Ricardo M.', text: 'amarelinha lindaaa, qualidade top msm', rating: 5, date: 'há 2 dias' },
     { name: 'Camila F.', text: 'chegou antes do prazo, amei!! vai ser sucesso na copa', rating: 5, date: 'há 4 dias' },
     { name: 'Bruno S.', text: 'material mto bom, parece a original msm. recomendo', rating: 5, date: 'há 1 semana' },
-    { name: 'Juliana R.', text: 'camisa perfeita!! meu marido amou o presente kkk', rating: 5, date: 'há 3 dias' }
+    { name: 'Juliana R.', text: 'camisa perfeita!! meu marido amou o presente kkk', rating: 5, date: 'há 3 dias' },
+    { name: 'Thiago P.', text: 'top demais!! ja to pronto pra copa 🇧🇷', rating: 5, date: 'há 5 dias' },
+    { name: 'Fernanda A.', text: 'tecido de otima qualidade, nao desbota msm', rating: 5, date: 'há 1 semana' },
+    { name: 'Marcos L.', text: 'entrega rapida dms, embalagem perfeita. nota 10!', rating: 5, date: 'há 2 semanas' },
+    { name: 'Lucia S.', text: 'comprei 3 pro pessoal de casa, todo mundo amou kk', rating: 5, date: 'há 4 dias' },
+    { name: 'Roberto C.', text: 'essa loja é seria msm, recomendo mto!!', rating: 5, date: 'há 6 dias' },
+    { name: 'Ana Paula', text: 'demorou um pouquinho mas chegou certinha', rating: 4, date: 'há 1 semana' }
   ],
   2: [ // Brasil II (Azul)
     { name: 'Felipe A.', text: 'azul lindo dms, comprei pra mim e pro meu pai', rating: 5, date: 'há 3 dias' },
     { name: 'Mariana L.', text: 'tecido confortavel, nao esquenta. perfeita pro verao', rating: 5, date: 'há 5 dias' },
-    { name: 'Pedro H.', text: 'camisa reserva mto bonita, material excelente tbm', rating: 5, date: 'há 1 semana' }
+    { name: 'Pedro H.', text: 'camisa reserva mto bonita, material excelente tbm', rating: 5, date: 'há 1 semana' },
+    { name: 'Carolina M.', text: 'amei o azul!! diferente e muito elegante msm', rating: 5, date: 'há 2 dias' },
+    { name: 'Gustavo F.', text: 'qualidade igual a amarela, show de bola', rating: 5, date: 'há 4 dias' },
+    { name: 'Isabela R.', text: 'presente pro namorado, ele ficou mto feliz kkk', rating: 5, date: 'há 6 dias' },
+    { name: 'Lucas T.', text: 'ja lavei varias vezes e continua nova', rating: 5, date: 'há 2 semanas' },
+    { name: 'Renato S.', text: 'tecido respiravel dms, otimo p usar no calor', rating: 5, date: 'há 1 semana' },
+    { name: 'Beatriz L.', text: 'tamanho veio um pouco grande mas ta otimo', rating: 4, date: 'há 5 dias' }
   ],
   3: [ // Goleiro Brasil
     { name: 'Marcos A.', text: 'camisa de goleiro mto linda, verde perfeito!', rating: 5, date: 'há 2 dias' },
     { name: 'Lucas F.', text: 'comprei p jogar pelada kk material resistente', rating: 5, date: 'há 4 dias' },
-    { name: 'Gustavo R.', text: 'tecido acolchoado nos cotovelos é show!! proteção top', rating: 5, date: 'há 6 dias' }
+    { name: 'Gustavo R.', text: 'tecido acolchoado nos cotovelos é show!! proteção top', rating: 5, date: 'há 6 dias' },
+    { name: 'Rafael M.', text: 'uso pra jogar society, qualidade excelente msm', rating: 5, date: 'há 3 dias' },
+    { name: 'Anderson L.', text: 'verde mto bonito, diferente das outras', rating: 5, date: 'há 1 semana' },
+    { name: 'Bruno T.', text: 'comprei pra colecao, ficou top no quadro kk', rating: 5, date: 'há 5 dias' },
+    { name: 'Diego S.', text: 'meu filho ama ser goleiro, ele adorou!!', rating: 5, date: 'há 4 dias' },
+    { name: 'Carla P.', text: 'presente pro meu irmao q joga no gol, amou dms', rating: 5, date: 'há 2 semanas' }
   ],
   4: [ // Brasil Feminina
     { name: 'Amanda S.', text: 'modelagem feminina perfeita!! finalmente uma q serve bem', rating: 5, date: 'há 2 dias' },
     { name: 'Carla M.', text: 'ameiiii!! tecido leve e nao marca nada', rating: 5, date: 'há 4 dias' },
-    { name: 'Patricia L.', text: 'comprei pra mim e pra minha mae, as duas amaram!!', rating: 5, date: 'há 1 semana' }
+    { name: 'Patricia L.', text: 'comprei pra mim e pra minha mae, as duas amaram!!', rating: 5, date: 'há 1 semana' },
+    { name: 'Juliana F.', text: 'finalmente uma camisa q valoriza o corpo feminino!!', rating: 5, date: 'há 3 dias' },
+    { name: 'Fernanda R.', text: 'caimento perfeito!! super recomendo msm', rating: 5, date: 'há 5 dias' },
+    { name: 'Bianca T.', text: 'comprei P e ficou perfeita no corpo, amei', rating: 5, date: 'há 6 dias' },
+    { name: 'Lucia A.', text: 'vou usar em todos os jogos da copa 🇧🇷🇧🇷', rating: 5, date: 'há 4 dias' },
+    { name: 'Maria Clara', text: 'tecido macio e fresquinho dms, amei', rating: 5, date: 'há 2 semanas' },
+    { name: 'Renata M.', text: 'cor amarelo mto vivo, linda!! recomendo', rating: 5, date: 'há 1 semana' },
+    { name: 'Gabriela S.', text: 'achei q ia ser grande mas ficou justa certinho', rating: 4, date: 'há 5 dias' }
   ],
   5: [ // Flamengo
     { name: 'Diego R.', text: 'mengooo!! manto sagrado chegou perfeito 🔴⚫', rating: 5, date: 'há 2 dias' },
     { name: 'Rafaela C.', text: 'presente pro meu namorado, ele amou! qualidade otima', rating: 5, date: 'há 6 dias' },
     { name: 'Anderson P.', text: 'ja comprei 2 camisas do mengão aqui, sempre vem perfeita', rating: 5, date: 'há 1 semana' },
-    { name: 'Thiago M.', text: 'manto do mengao lindo demais!! vou usar na libertadores', rating: 5, date: 'há 3 dias' }
+    { name: 'Thiago M.', text: 'manto do mengao lindo dms!! vou usar na libertadores', rating: 5, date: 'há 3 dias' },
+    { name: 'Bruno F.', text: 'sou flamengo doente e amei essa camisa kkkk', rating: 5, date: 'há 4 dias' },
+    { name: 'Carla S.', text: 'listras perfeitas, escudo bordado de vdd', rating: 5, date: 'há 5 dias' },
+    { name: 'Felipe L.', text: 'nacao vai pirar com essa qualidade!! top dms', rating: 5, date: 'há 2 semanas' },
+    { name: 'Mariana R.', text: 'comprei pro meu pai flamenguista, chorou de emocao kk', rating: 5, date: 'há 1 semana' },
+    { name: 'Pedro H.', text: 'vai mengão!! camisa top, entrega rapida tbm', rating: 5, date: 'há 4 dias' },
+    { name: 'Lucia T.', text: 'tecido bom mas achei um pouco quente', rating: 4, date: 'há 6 dias' }
   ],
   6: [ // Corinthians
     { name: 'Leandro F.', text: 'timãooo!! camisa linda, material de primeira', rating: 5, date: 'há 3 dias' },
     { name: 'Tatiane M.', text: 'comprei pro meu filho, ele adorou. tamanho certinho', rating: 5, date: 'há 4 dias' },
-    { name: 'Roberto S.', text: 'vai corintia!! camisa top dms, vou comprar outra', rating: 5, date: 'há 1 semana' }
+    { name: 'Roberto S.', text: 'vai corintia!! camisa top dms, vou comprar outra', rating: 5, date: 'há 1 semana' },
+    { name: 'Marcos P.', text: 'fiel ate morrer!! camisa perfeita msm', rating: 5, date: 'há 2 dias' },
+    { name: 'Amanda L.', text: 'preto e branco lindo, escudo bordado show', rating: 5, date: 'há 5 dias' },
+    { name: 'Carlos H.', text: 'todo jogo do timao eu uso essa camisa agora kk', rating: 5, date: 'há 6 dias' },
+    { name: 'Fernanda R.', text: 'presente pro sogro corinthiano kkkk amou dms', rating: 5, date: 'há 2 semanas' },
+    { name: 'Lucas M.', text: 'qualidade excelente msm, recomendo a loja', rating: 5, date: 'há 4 dias' },
+    { name: 'Patricia A.', text: 'tecido confortavel dms, uso ate pra dormir kkk', rating: 5, date: 'há 1 semana' }
   ],
   7: [ // Palmeiras
     { name: 'Gustavo H.', text: 'verdão representado!! camisa show de bola', rating: 5, date: 'há 2 dias' },
     { name: 'Daniela S.', text: 'amei a qualidade, ja é a segunda q compro. super recomendo', rating: 5, date: 'há 5 dias' },
-    { name: 'Henrique L.', text: 'porcooo!! camisa linda, entrega foi rapida tbm', rating: 5, date: 'há 4 dias' }
+    { name: 'Henrique L.', text: 'porcooo!! camisa linda, entrega foi rapida tbm', rating: 5, date: 'há 4 dias' },
+    { name: 'Felipe M.', text: 'avanti palestra!! verde lindo dms', rating: 5, date: 'há 3 dias' },
+    { name: 'Carla R.', text: 'camisa do maior campeao brasileiro!! amei', rating: 5, date: 'há 6 dias' },
+    { name: 'Bruno T.', text: 'tecido respiravel dms, otimo pra jogo', rating: 5, date: 'há 1 semana' },
+    { name: 'Amanda F.', text: 'escudo bordado perfeito, detalhes top msm', rating: 5, date: 'há 2 semanas' },
+    { name: 'Rafael S.', text: 'comprei G e ficou perfeito no corpo', rating: 5, date: 'há 5 dias' },
+    { name: 'Lucia P.', text: 'meu marido palmeirense amou o presente kk', rating: 5, date: 'há 4 dias' }
   ],
   8: [ // São Paulo
     { name: 'Gabriel R.', text: 'tricolor paulista lindoooo!! qualidade top', rating: 5, date: 'há 2 dias' },
-    { name: 'Amanda F.', text: 'camisa do spfc perfeita, faixas lindas', rating: 5, date: 'há 5 dias' },
-    { name: 'Lucas M.', text: 'soberano!! camisa chegou rapido e muito bem embalada', rating: 5, date: 'há 1 semana' }
+    { name: 'Amanda F.', text: 'camisa do spfc perfeita, faixas lindas dms', rating: 5, date: 'há 5 dias' },
+    { name: 'Lucas M.', text: 'soberano!! camisa chegou rapido e mto bem embalada', rating: 5, date: 'há 1 semana' },
+    { name: 'Fernanda L.', text: 'sao paulo ate morrer!! camisa maravilhosa', rating: 5, date: 'há 3 dias' },
+    { name: 'Carlos T.', text: 'branco elegante, faixas tricolores perfeitas', rating: 5, date: 'há 4 dias' },
+    { name: 'Bianca S.', text: 'presente pro meu pai sao paulino, ele amou!!', rating: 5, date: 'há 6 dias' },
+    { name: 'Marcos R.', text: 'qualidade excelente msm, valeu cada centavo', rating: 5, date: 'há 2 semanas' },
+    { name: 'Patricia M.', text: 'tecido de primeira, nao transparece nada', rating: 5, date: 'há 5 dias' },
+    { name: 'Thiago A.', text: 'escudo bordado lindo, acabamento perfeito', rating: 5, date: 'há 4 dias' }
   ],
   9: [ // Fluminense
     { name: 'Fernando L.', text: 'tricolor das laranjeiras!! camisa mto linda', rating: 5, date: 'há 2 dias' },
-    { name: 'Sandra M.', text: 'flu campeão!! qualidade incrível da camisa', rating: 5, date: 'há 6 dias' },
-    { name: 'Antonio R.', text: 'time de guerreiros!! material excelente', rating: 5, date: 'há 1 semana' }
+    { name: 'Sandra M.', text: 'flu campeão!! qualidade incrivel da camisa', rating: 5, date: 'há 6 dias' },
+    { name: 'Antonio R.', text: 'time de guerreiros!! material excelente msm', rating: 5, date: 'há 1 semana' },
+    { name: 'Carla F.', text: 'tricolor carioca no peito!! amei dms', rating: 5, date: 'há 3 dias' },
+    { name: 'Bruno T.', text: 'cores lindas, grena branco e verde perfeitos', rating: 5, date: 'há 4 dias' },
+    { name: 'Lucia S.', text: 'meu filho é fluminense roxo, presente perfeito kk', rating: 5, date: 'há 5 dias' },
+    { name: 'Rafael M.', text: 'camisa de campeao!! qualidade nota 10', rating: 5, date: 'há 2 semanas' },
+    { name: 'Amanda L.', text: 'tecido macio e confortavel dms, uso direto', rating: 5, date: 'há 4 dias' },
+    { name: 'Pedro H.', text: 'escudo do flu bordado lindamente, amei', rating: 5, date: 'há 6 dias' }
   ],
   10: [ // Botafogo
     { name: 'Eduardo P.', text: 'botafogooo!! estrela solitária representada', rating: 5, date: 'há 3 dias' },
-    { name: 'Bianca S.', text: 'glorioso demais!! camisa chegou perfeita', rating: 5, date: 'há 5 dias' },
-    { name: 'Rafael M.', text: 'material excelente, listras lindas', rating: 5, date: 'há 4 dias' }
+    { name: 'Bianca S.', text: 'glorioso dms!! camisa chegou perfeita', rating: 5, date: 'há 5 dias' },
+    { name: 'Rafael M.', text: 'material excelente msm, listras lindas', rating: 5, date: 'há 4 dias' },
+    { name: 'Marcos L.', text: 'tempo bom!! camisa top do fogao', rating: 5, date: 'há 2 dias' },
+    { name: 'Amanda R.', text: 'preto e branco classico, amei demais', rating: 5, date: 'há 6 dias' },
+    { name: 'Carlos T.', text: 'estrela solitaria linda no peito!!', rating: 5, date: 'há 1 semana' },
+    { name: 'Fernanda S.', text: 'presente pro meu tio botafoguense, chorou kk', rating: 5, date: 'há 2 semanas' },
+    { name: 'Lucas F.', text: 'qualidade surpreendente pelo preco msm', rating: 5, date: 'há 4 dias' },
+    { name: 'Patricia A.', text: 'tecido respiravel dms, otimo pro verao', rating: 5, date: 'há 5 dias' }
   ],
   11: [ // Vasco
     { name: 'Carlos V.', text: 'vascoooo!! cruz de malta no peito, emocionante', rating: 5, date: 'há 2 dias' },
-    { name: 'Juliana G.', text: 'gigante da colina!! camisa linda demais', rating: 5, date: 'há 5 dias' },
-    { name: 'Marcos R.', text: 'qualidade top!! faixa diagonal perfeita', rating: 5, date: 'há 1 semana' }
+    { name: 'Juliana G.', text: 'gigante da colina!! camisa linda dms', rating: 5, date: 'há 5 dias' },
+    { name: 'Marcos R.', text: 'qualidade top!! faixa diagonal perfeita msm', rating: 5, date: 'há 1 semana' },
+    { name: 'Amanda S.', text: 'vasco da gama no coracao!! amei a camisa', rating: 5, date: 'há 3 dias' },
+    { name: 'Bruno L.', text: 'cruz de malta bordada linda, detalhes perfeitos', rating: 5, date: 'há 4 dias' },
+    { name: 'Fernanda T.', text: 'presente pro meu sogro vascaino, ele adorou kk', rating: 5, date: 'há 6 dias' },
+    { name: 'Lucas M.', text: 'camisa do gigante!! material de primeira', rating: 5, date: 'há 2 semanas' },
+    { name: 'Patricia F.', text: 'faixa diagonal iconica, mto bonita', rating: 5, date: 'há 5 dias' },
+    { name: 'Rafael A.', text: 'tecido confortavel dms, uso em todo jogo', rating: 5, date: 'há 4 dias' }
   ],
   12: [ // Infantil Brasil
     { name: 'Patricia M.', text: 'meu filho amouuuu!! tecido bem macio', rating: 5, date: 'há 2 dias' },
     { name: 'Renata S.', text: 'tamanho certinho, acabamento seguro p criança', rating: 5, date: 'há 4 dias' },
-    { name: 'Ana L.', text: 'comprei pros meus 2 filhos, os dois ficaram lindos!!', rating: 5, date: 'há 6 dias' }
+    { name: 'Ana L.', text: 'comprei pros meus 2 filhos, os dois ficaram lindos!!', rating: 5, date: 'há 6 dias' },
+    { name: 'Mariana F.', text: 'meu pequeno torcedor ficou lindo!! amei dms', rating: 5, date: 'há 3 dias' },
+    { name: 'Carla R.', text: 'tecido nao irrita a pele da criança, otimo msm', rating: 5, date: 'há 5 dias' },
+    { name: 'Fernanda T.', text: 'presente pro sobrinho, ele usa todo dia kkk', rating: 5, date: 'há 1 semana' },
+    { name: 'Lucia S.', text: 'modelagem infantil perfeita, nao fica largo', rating: 5, date: 'há 2 semanas' },
+    { name: 'Amanda P.', text: 'meu filho de 6 anos amou, ja quer outra kk', rating: 5, date: 'há 4 dias' },
+    { name: 'Bruno M.', text: 'comprei tamanho 8 e ficou perfeito no meu filho', rating: 5, date: 'há 5 dias' },
+    { name: 'Juliana A.', text: 'qualidade excelente msm, vale mto a pena', rating: 5, date: 'há 6 dias' }
   ]
 };
 
