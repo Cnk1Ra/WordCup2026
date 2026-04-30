@@ -1,9 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Check, ChevronRight, ShoppingBag, Sparkles, Truck } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  RotateCcw,
+  ShoppingBag,
+  Sparkles,
+  Truck,
+} from "lucide-react";
 import {
   BASE_PRICE_BRL,
   PERSONALIZATION_BRL,
@@ -14,6 +20,7 @@ import {
 } from "@/lib/products";
 import { useCart, priceFor } from "@/lib/cart";
 import { useRouter } from "next/navigation";
+import { JerseyShowcase } from "@/components/JerseyShowcase";
 
 const NAME_MAX = 12;
 
@@ -25,6 +32,8 @@ export function ProductDetail({ product }: { product: Product }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [adding, setAdding] = useState(false);
+  const [flippedManual, setFlippedManual] = useState(false);
+  const [focusedPerso, setFocusedPerso] = useState(false);
 
   const validNumber = (n: string) => {
     const v = parseInt(n, 10);
@@ -38,6 +47,15 @@ export function ProductDetail({ product }: { product: Product }) {
   const canAdd = !!size && persoValid;
   const unitPrice = priceFor(personalize);
 
+  // Flip rules:
+  // - if user is focused on a perso input → back
+  // - if perso enabled and has any text → back (so they see the preview)
+  // - manual toggle overrides
+  const flipped =
+    flippedManual ||
+    focusedPerso ||
+    (personalize && (name.length > 0 || number.length > 0));
+
   const handleAdd = (goToCart: boolean) => {
     if (!canAdd || !size) return;
     setAdding(true);
@@ -45,7 +63,7 @@ export function ProductDetail({ product }: { product: Product }) {
       slug: product.slug,
       name: product.shortName,
       size,
-      image: product.image,
+      image: product.front,
       qty: 1,
       unitPrice,
       personalization: personalize
@@ -74,46 +92,23 @@ export function ProductDetail({ product }: { product: Product }) {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 mt-4 grid lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-12">
-        {/* Gallery */}
+        {/* Showcase */}
         <div className="flex flex-col gap-3">
-          <div
-            className="relative aspect-square rounded-[2rem] overflow-hidden border border-border"
-            style={{ background: product.hex + "1f" }}
+          <JerseyShowcase
+            product={product}
+            flipped={flipped}
+            personalize={personalize}
+            name={name}
+            number={number}
+          />
+          <button
+            type="button"
+            onClick={() => setFlippedManual((v) => !v)}
+            className="self-start inline-flex items-center gap-2 rounded-full bg-white border border-border px-4 py-2 text-xs font-bold hover:border-foreground/40 transition"
           >
-            {product.badge && (
-              <span className="absolute top-4 left-4 z-10 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1">
-                {product.badge}
-              </span>
-            )}
-            <div className="absolute inset-0 grid place-items-center p-8">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={700}
-                height={700}
-                priority
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-          {/* Thumbs (preparado pra mais fotos quando vierem) */}
-          <div className="grid grid-cols-4 gap-2">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="aspect-square rounded-2xl border border-border bg-white p-2 grid place-items-center opacity-50"
-                style={{ background: product.hex + "0f" }}
-              >
-                <Image
-                  src={product.image}
-                  alt=""
-                  width={120}
-                  height={120}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
+            <RotateCcw className="size-3.5" />
+            Girar camisa
+          </button>
         </div>
 
         {/* Info */}
@@ -188,7 +183,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   Personalizar com nome e número
                 </span>
                 <span className="text-xs text-foreground/60 block mt-0.5">
-                  + {formatBRL(PERSONALIZATION_BRL)} · Aplicado nas costas
+                  + {formatBRL(PERSONALIZATION_BRL)} · Aplicado nas costas · Preview ao vivo
                 </span>
               </span>
             </label>
@@ -208,6 +203,8 @@ export function ProductDetail({ product }: { product: Product }) {
                           .slice(0, NAME_MAX)
                       )
                     }
+                    onFocus={() => setFocusedPerso(true)}
+                    onBlur={() => setFocusedPerso(false)}
                     placeholder="SEU NOME"
                     className="w-full h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-semibold uppercase tracking-wider focus:outline-none focus:border-foreground"
                   />
@@ -222,6 +219,8 @@ export function ProductDetail({ product }: { product: Product }) {
                       const digits = e.target.value.replace(/\D/g, "").slice(0, 2);
                       setNumber(digits);
                     }}
+                    onFocus={() => setFocusedPerso(true)}
+                    onBlur={() => setFocusedPerso(false)}
                     placeholder="10"
                     className="w-full h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-bold text-center focus:outline-none focus:border-foreground"
                   />
@@ -230,7 +229,7 @@ export function ProductDetail({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* Desktop CTA — mobile usa sticky bottom */}
+          {/* Desktop CTA */}
           <div className="hidden sm:flex flex-col gap-2">
             <button
               onClick={() => handleAdd(false)}
@@ -254,7 +253,7 @@ export function ProductDetail({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* Frete + descrição */}
+          {/* Frete */}
           <div className="rounded-3xl border border-border bg-white p-4 flex items-center gap-3">
             <Truck className="size-5 text-brand-green shrink-0" />
             <div className="text-sm">
@@ -265,17 +264,20 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
 
+          {/* Sobre */}
           <div className="rounded-3xl border border-border bg-white p-4 text-sm text-foreground/80 leading-relaxed">
             <p className="font-bold mb-2 text-foreground">Sobre a camisa</p>
             <p>
-              Camisa oficial torcedor da Seleção Brasileira para a Copa 2026.
-              Tecido leve com tecnologia de alta respirabilidade, escudo CBF
-              em destaque e detalhes na gola e mangas.
+              Camisa torcedor SpaceFut nas cores oficiais do Brasil para a Copa
+              2026. Tecido respirável de alta performance, gola V em ribana,
+              punhos elásticos e cuts atléticos. Personalize com seu nome e
+              número.
             </p>
             <ul className="mt-3 space-y-1 text-xs">
               <li>• Versão torcedor</li>
               <li>• Tamanhos {SIZES.join(" / ")}</li>
               <li>• Lavar em máquina, água fria</li>
+              <li>• Personalização vinílica de alta durabilidade</li>
             </ul>
           </div>
         </div>
@@ -296,7 +298,11 @@ export function ProductDetail({ product }: { product: Product }) {
             className="flex-[2] h-12 rounded-full bg-foreground text-white font-bold text-sm disabled:opacity-40 transition flex items-center justify-center gap-2"
           >
             <ShoppingBag className="size-4" />
-            {!size ? "Selecione o tamanho" : adding ? "Adicionando..." : "Comprar agora"}
+            {!size
+              ? "Selecione o tamanho"
+              : adding
+                ? "Adicionando..."
+                : "Comprar agora"}
           </button>
         </div>
       </div>

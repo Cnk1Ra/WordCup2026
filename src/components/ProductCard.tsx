@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
         <div className="absolute inset-0 grid place-items-center p-6">
           <Image
-            src={product.image}
+            src={product.front}
             alt={product.name}
             width={400}
             height={400}

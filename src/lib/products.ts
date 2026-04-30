@@ -16,65 +16,70 @@ export type Product = {
   color: string;
   hex: string;
   accentHex: string;
-  image: string;
-  gallery: string[];
+  textColor: string;
+  front: string;
+  back: string;
   badge?: string;
 };
 
 export const products: Product[] = [
   {
     slug: "brasil-i-amarela-masculina",
-    name: "Camisa Brasil I 2026 Torcedor — Masculina",
+    name: "SpaceFut Torcedor Brasil I — Masculina",
     shortName: "Brasil I — Masculina",
-    team: "Seleção Brasileira",
+    team: "Coleção Brasil 2026",
     edition: "I",
     gender: "Masculina",
-    color: "Amarelo Oficial",
+    color: "Amarelo Estádio",
     hex: "#FEDD00",
     accentHex: "#009C3B",
-    image: "/images/camisa-brasil.png",
-    gallery: ["/images/camisa-brasil.png"],
+    textColor: "#0A4A1F",
+    front: "/images/products/brasil-i-front.jpg",
+    back: "/images/products/brasil-i-back.jpg",
     badge: "Lançamento",
   },
   {
     slug: "brasil-i-amarela-feminina",
-    name: "Camisa Brasil I 2026 Torcedor — Feminina",
+    name: "SpaceFut Torcedor Brasil I — Feminina",
     shortName: "Brasil I — Feminina",
-    team: "Seleção Brasileira",
+    team: "Coleção Brasil 2026",
     edition: "I",
     gender: "Feminina",
-    color: "Amarelo Oficial",
+    color: "Amarelo Estádio",
     hex: "#FEDD00",
     accentHex: "#009C3B",
-    image: "/images/camisa-brasil.png",
-    gallery: ["/images/camisa-brasil.png"],
+    textColor: "#0A4A1F",
+    front: "/images/products/brasil-i-front.jpg",
+    back: "/images/products/brasil-i-back.jpg",
     badge: "Lançamento",
   },
   {
     slug: "brasil-ii-azul-masculina",
-    name: "Camisa Brasil II 2026 Torcedor — Masculina",
+    name: "SpaceFut Torcedor Brasil II — Masculina",
     shortName: "Brasil II — Masculina",
-    team: "Seleção Brasileira",
+    team: "Coleção Brasil 2026",
     edition: "II",
     gender: "Masculina",
-    color: "Azul Oficial",
-    hex: "#002776",
+    color: "Azul Estádio",
+    hex: "#1B2D5C",
     accentHex: "#FEDD00",
-    image: "/images/camisa-brasil.png",
-    gallery: ["/images/camisa-brasil.png"],
+    textColor: "#FEDD00",
+    front: "/images/products/brasil-ii-front.jpg",
+    back: "/images/products/brasil-ii-back.jpg",
   },
   {
     slug: "brasil-ii-azul-feminina",
-    name: "Camisa Brasil II 2026 Torcedor — Feminina",
+    name: "SpaceFut Torcedor Brasil II — Feminina",
     shortName: "Brasil II — Feminina",
-    team: "Seleção Brasileira",
+    team: "Coleção Brasil 2026",
     edition: "II",
     gender: "Feminina",
-    color: "Azul Oficial",
-    hex: "#002776",
+    color: "Azul Estádio",
+    hex: "#1B2D5C",
     accentHex: "#FEDD00",
-    image: "/images/camisa-brasil.png",
-    gallery: ["/images/camisa-brasil.png"],
+    textColor: "#FEDD00",
+    front: "/images/products/brasil-ii-front.jpg",
+    back: "/images/products/brasil-ii-back.jpg",
   },
 ];
 
