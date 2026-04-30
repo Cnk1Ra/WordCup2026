@@ -1,90 +1,60 @@
-# SpaceFut - Materiais Esportivos
+# SpaceFut
 
-E-commerce de camisas de futebol e materiais esportivos.
+E-commerce de camisas oficiais da Seleção Brasileira para a Copa 2026.
 
-## 📁 Estrutura do Projeto
+Stack: **Next.js 16 (App Router) + Tailwind v4 + Stripe Checkout**.
+Foco mobile-first, design com cantos arredondados, identidade verde-amarela.
 
-```
-spacefut/
-├── index.html          # Página principal
-├── css/
-│   └── style.css       # Estilos
-├── js/
-│   └── main.js         # JavaScript
-├── images/             # Imagens (logo, favicon, produtos)
-├── .gitignore          # Arquivos ignorados pelo Git
-└── README.md           # Este arquivo
-```
+## Catálogo
 
-## 🚀 Deploy
+4 SKUs (R$ 150 cada):
 
-### Vercel
-1. Conecte o repositório GitHub ao Vercel
-2. Framework Preset: `Other`
-3. Build Command: (deixe vazio)
-4. Output Directory: `./`
-5. Clique em Deploy
+- Camisa Brasil I (amarela) — Masculina / Feminina
+- Camisa Brasil II (azul) — Masculina / Feminina
 
-### GitHub Pages
-1. Vá em Settings > Pages
-2. Source: `main` branch
-3. Folder: `/ (root)`
+**Frete fixo R$ 5** · **Personalização +R$ 49,90** (nome até 12 chars + número 1–99).
 
-## 🛠️ Desenvolvimento
+## Rodando local
 
-Este é um projeto estático (HTML/CSS/JS puro). Para desenvolver localmente:
-
-1. Clone o repositório
-2. Abra `index.html` no navegador
-3. Ou use um servidor local: `npx serve`
-
-## 📝 Personalização
-
-### Adicionar Produtos
-Edite o array `products` em `js/main.js`:
-
-```javascript
-const products = [
-  {
-    id: 1,
-    name: 'Nome do Produto',
-    team: 'Time',
-    category: 'selecao', // selecao, clubes, europeus, retro, acessorios
-    oldPrice: 449.90,
-    price: 349.90,
-    badge: '-22%', // ou 'Novo', 'Retrô'
-    badgeClass: '', // ou 'green' para badge verde
-    image: 'url-da-imagem'
-  },
-  // ... mais produtos
-];
+```bash
+npm install
+cp .env.example .env.local
+# adicione sua STRIPE_SECRET_KEY (sk_test_... durante dev)
+npm run dev
 ```
 
-### Alterar Logo
-Substitua `images/logo.png` pela sua logo.
+Abra http://localhost:3000
 
-### Alterar Cores
-Edite as variáveis CSS em `css/style.css`:
+## Deploy (Vercel)
 
-```css
-:root {
-  --primary: #009739;      /* Cor principal */
-  --primary-dark: #006B2B; /* Cor principal escura */
-  --yellow: #FEDD00;       /* Amarelo */
-  /* ... */
-}
+Já conectado a [word-cup2026.vercel.app](https://word-cup2026.vercel.app).
+
+Defina as env vars no Vercel:
+
+- `STRIPE_SECRET_KEY` — chave secreta da Stripe (use `sk_live_...` em prod)
+- `NEXT_PUBLIC_BASE_URL` — opcional; em prod o origin do request resolve sozinho
+
+## Estrutura
+
+```
+src/
+  app/
+    page.tsx                 — home (hero + grid)
+    produto/[slug]/          — PDP com personalização + sticky CTA mobile
+    carrinho/                — carrinho client-side (localStorage)
+    sucesso/                 — pós-pagamento
+    api/checkout/route.ts    — cria Stripe Checkout Session
+  components/                — Header, ProductCard
+  lib/
+    products.ts              — catálogo + preços
+    cart.tsx                 — Cart Context Provider
+public/images/               — assets (logo, fotos)
 ```
 
-## 📱 Features
+## TODO próximo
 
-- ✅ Design responsivo (mobile-first)
-- ✅ Carrossel de produtos
-- ✅ Filtro por categoria
-- ✅ Página de produto
-- ✅ Seleção de tamanho
-- ✅ Checkout com formulário
-- ✅ Múltiplas formas de pagamento
-
-## 📄 Licença
-
-Projeto privado - Todos os direitos reservados.
+- Fotos de produto reais (4 jerseys, múltiplos ângulos por SKU)
+- Combos (camisa + boné, kit M+F, pais & filhos)
+- Webhook de Stripe pra registrar pedidos + email
+- Página `/sobre`, FAQ, política de troca/devolução
+- Pixel Meta + Google Tag pra anúncios geo BH+Sabará
