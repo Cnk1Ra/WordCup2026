@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
@@ -31,11 +32,14 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <footer className="mt-16 border-t border-border bg-white">
             <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-foreground/70 flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <div className="size-7 rounded-xl bg-foreground text-white grid place-items-center font-black text-xs">
-                  SF
-                </div>
-                <span className="font-bold text-foreground">SpaceFut</span>
+              <div className="flex items-center">
+                <Image
+                  src="/logo-spacefut.png"
+                  alt="SpaceFut"
+                  width={897}
+                  height={270}
+                  className="h-8 w-auto"
+                />
               </div>
               <p>Camisas oficiais Copa 2026 · Frete fixo R$ 5,00 para todo o Brasil.</p>
               <p className="text-xs text-foreground/50">

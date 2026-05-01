@@ -16,13 +16,15 @@ export function Header() {
         >
           <Menu className="size-5" />
         </button>
-        <Link href="/" className="flex items-center gap-2">
-          <div className="size-9 rounded-2xl bg-foreground text-white grid place-items-center font-black tracking-tight">
-            SF
-          </div>
-          <span className="font-bold tracking-tight text-base hidden sm:inline">
-            SpaceFut
-          </span>
+        <Link href="/" className="flex items-center" aria-label="SpaceFut">
+          <Image
+            src="/logo-spacefut.png"
+            alt="SpaceFut"
+            width={897}
+            height={270}
+            priority
+            className="h-9 w-auto"
+          />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link href="/" className="hover:text-brand-green">

@@ -103,7 +103,7 @@ export default function Home() {
                 Coloca seu nome nas costas.
               </h3>
               <p className="text-white/70 text-sm sm:text-base">
-                Personalize com seu nome (até 12 caracteres) e número (1–99). Acréscimo único de R$ 49,90.
+                Personalize com seu nome (até 12 caracteres) e número (1–99). +R$ 2 por letra e +R$ 3 por número.
               </p>
             </div>
             <Link

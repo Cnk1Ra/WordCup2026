@@ -4,7 +4,17 @@ export const SIZES: Size[] = ["P", "M", "G", "GG", "XGG"];
 
 export const BASE_PRICE_BRL = 150;
 export const SHIPPING_BRL = 5;
-export const PERSONALIZATION_BRL = 49.9;
+export const PERSONALIZATION_PER_LETTER_BRL = 2;
+export const PERSONALIZATION_PER_NUMBER_BRL = 3;
+
+export function personalizationFee(name: string, number: string): number {
+  const letters = name.replace(/[^A-Za-zÀ-ſ]/g, "").length;
+  const digits = number.replace(/\D/g, "").length;
+  return (
+    letters * PERSONALIZATION_PER_LETTER_BRL +
+    digits * PERSONALIZATION_PER_NUMBER_BRL
+  );
+}
 
 export type Product = {
   slug: string;
@@ -63,7 +73,7 @@ export const products: Product[] = [
     color: "Azul Estádio",
     hex: "#1B2D5C",
     accentHex: "#FEDD00",
-    textColor: "#FEDD00",
+    textColor: "#FFFFFF",
     front: "/images/products/brasil-ii-front.jpg",
     back: "/images/products/brasil-ii-back.jpg",
   },
@@ -77,7 +87,7 @@ export const products: Product[] = [
     color: "Azul Estádio",
     hex: "#1B2D5C",
     accentHex: "#FEDD00",
-    textColor: "#FEDD00",
+    textColor: "#FFFFFF",
     front: "/images/products/brasil-ii-front.jpg",
     back: "/images/products/brasil-ii-back.jpg",
   },

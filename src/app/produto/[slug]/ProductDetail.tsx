@@ -5,14 +5,15 @@ import { useState } from "react";
 import {
   Check,
   ChevronRight,
-  RotateCcw,
   ShoppingBag,
   Sparkles,
   Truck,
 } from "lucide-react";
 import {
   BASE_PRICE_BRL,
-  PERSONALIZATION_BRL,
+  PERSONALIZATION_PER_LETTER_BRL,
+  PERSONALIZATION_PER_NUMBER_BRL,
+  personalizationFee,
   SIZES,
   formatBRL,
   type Product,
@@ -32,8 +33,6 @@ export function ProductDetail({ product }: { product: Product }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [adding, setAdding] = useState(false);
-  const [flippedManual, setFlippedManual] = useState(false);
-  const [focusedPerso, setFocusedPerso] = useState(false);
 
   const validNumber = (n: string) => {
     const v = parseInt(n, 10);
@@ -45,16 +44,8 @@ export function ProductDetail({ product }: { product: Product }) {
       name.trim().length <= NAME_MAX &&
       validNumber(number));
   const canAdd = !!size && persoValid;
-  const unitPrice = priceFor(personalize);
-
-  // Flip rules:
-  // - if user is focused on a perso input → back
-  // - if perso enabled and has any text → back (so they see the preview)
-  // - manual toggle overrides
-  const flipped =
-    flippedManual ||
-    focusedPerso ||
-    (personalize && (name.length > 0 || number.length > 0));
+  const persoFee = personalizationFee(name, number);
+  const unitPrice = priceFor(personalize, name, number);
 
   const handleAdd = (goToCart: boolean) => {
     if (!canAdd || !size) return;
@@ -96,19 +87,10 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="flex flex-col gap-3">
           <JerseyShowcase
             product={product}
-            flipped={flipped}
             personalize={personalize}
             name={name}
             number={number}
           />
-          <button
-            type="button"
-            onClick={() => setFlippedManual((v) => !v)}
-            className="self-start inline-flex items-center gap-2 rounded-full bg-white border border-border px-4 py-2 text-xs font-bold hover:border-foreground/40 transition"
-          >
-            <RotateCcw className="size-3.5" />
-            Girar camisa
-          </button>
         </div>
 
         {/* Info */}
@@ -183,7 +165,14 @@ export function ProductDetail({ product }: { product: Product }) {
                   Personalizar com nome e número
                 </span>
                 <span className="text-xs text-foreground/60 block mt-0.5">
-                  + {formatBRL(PERSONALIZATION_BRL)} · Aplicado nas costas · Preview ao vivo
+                  +{formatBRL(PERSONALIZATION_PER_LETTER_BRL)} por letra · +
+                  {formatBRL(PERSONALIZATION_PER_NUMBER_BRL)} por número
+                  {personalize && persoFee > 0 && (
+                    <span className="text-foreground font-bold">
+                      {" "}
+                      · Acréscimo: {formatBRL(persoFee)}
+                    </span>
+                  )}
                 </span>
               </span>
             </label>
@@ -203,8 +192,6 @@ export function ProductDetail({ product }: { product: Product }) {
                           .slice(0, NAME_MAX)
                       )
                     }
-                    onFocus={() => setFocusedPerso(true)}
-                    onBlur={() => setFocusedPerso(false)}
                     placeholder="SEU NOME"
                     className="w-full h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-semibold uppercase tracking-wider focus:outline-none focus:border-foreground"
                   />
@@ -219,8 +206,6 @@ export function ProductDetail({ product }: { product: Product }) {
                       const digits = e.target.value.replace(/\D/g, "").slice(0, 2);
                       setNumber(digits);
                     }}
-                    onFocus={() => setFocusedPerso(true)}
-                    onBlur={() => setFocusedPerso(false)}
                     placeholder="10"
                     className="w-full h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-bold text-center focus:outline-none focus:border-foreground"
                   />

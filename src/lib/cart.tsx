@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { BASE_PRICE_BRL, PERSONALIZATION_BRL, SHIPPING_BRL } from "./products";
+import { BASE_PRICE_BRL, SHIPPING_BRL, personalizationFee } from "./products";
 
 export type CartItem = {
   id: string;
@@ -102,6 +102,6 @@ export function useCart() {
   return v;
 }
 
-export function priceFor(personalized: boolean) {
-  return BASE_PRICE_BRL + (personalized ? PERSONALIZATION_BRL : 0);
+export function priceFor(personalized: boolean, name = "", number = "") {
+  return BASE_PRICE_BRL + (personalized ? personalizationFee(name, number) : 0);
 }
