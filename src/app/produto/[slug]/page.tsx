@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug, products } from "@/lib/products";
+import { fetchProductBySlug } from "@/lib/products-queries";
 import { ProductDetail } from "./ProductDetail";
 
-export async function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+export const revalidate = 60;
 
 export default async function ProductPage({
   params,
@@ -12,7 +10,7 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await fetchProductBySlug(slug);
   if (!product) notFound();
   return <ProductDetail product={product} />;
 }

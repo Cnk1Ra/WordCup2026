@@ -45,7 +45,7 @@ export function JerseyShowcase({
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
           priority
-          className="object-cover scale-[1.02]"
+          className="object-cover"
         />
         {personalize && (
           <ChestNumberOverlay
@@ -63,7 +63,7 @@ export function JerseyShowcase({
           alt={`${product.name} — costas`}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover scale-[1.02]"
+          className="object-cover"
         />
         {personalize && (
           <BackOverlay
@@ -127,7 +127,7 @@ function BackOverlay({
             lineHeight: 1,
             letterSpacing: "0.04em",
             fontWeight: 400,
-            WebkitTextStroke: `2.5px ${accent}`,
+            WebkitTextStroke: `6px ${accent}`,
             paintOrder: "stroke fill",
             textShadow:
               "0 3px 0 rgba(0,0,0,0.28), 0 6px 12px rgba(0,0,0,0.18)",
@@ -158,7 +158,7 @@ function ChestNumberOverlay({
       style={{ fontFamily: "var(--font-jersey), sans-serif" }}
     >
       <div
-        className="absolute -translate-x-1/2 text-center"
+        className="absolute text-center"
         style={{
           top: "40%",
           left: "34%",
@@ -167,11 +167,13 @@ function ChestNumberOverlay({
           lineHeight: 1,
           letterSpacing: "0.02em",
           fontWeight: 400,
-          WebkitTextStroke: `1.5px ${accent}`,
+          WebkitTextStroke: `3.5px ${accent}`,
           paintOrder: "stroke fill",
           textShadow:
             "0 1px 0 rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.14)",
           filter: "contrast(1.1)",
+          transform: "translateX(-50%) scaleY(1.35)",
+          transformOrigin: "top center",
         }}
       >
         {displayNumber}
