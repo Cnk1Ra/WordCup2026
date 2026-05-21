@@ -3,7 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
-import { DEFAULT_HERO, type HeroSettings } from "@/lib/site-settings";
+import {
+  DEFAULT_HERO,
+  DEFAULT_PROMO,
+  type HeroSettings,
+  type PromoBanner,
+} from "@/lib/site-settings";
 
 export type SaveHeroState = { error: string | null; success: boolean };
 
@@ -22,13 +27,23 @@ export async function saveHeroAction(
     cta_label: String(formData.get("cta_label") || DEFAULT_HERO.cta_label),
   };
 
+  const promo: PromoBanner = {
+    enabled: formData.get("promo_enabled") === "on",
+    message: String(formData.get("promo_message") || DEFAULT_PROMO.message),
+    link: String(formData.get("promo_link") || "").trim() || null,
+  };
+
   const supabase = getSupabaseServer();
-  const { error } = await supabase
-    .from("site_settings")
-    .upsert({ key: "hero", value: hero }, { onConflict: "key" });
+  const { error } = await supabase.from("site_settings").upsert(
+    [
+      { key: "hero", value: hero },
+      { key: "promo_banner", value: promo },
+    ],
+    { onConflict: "key" }
+  );
   if (error) return { error: error.message, success: false };
 
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/admin/home");
   return { error: null, success: true };
 }

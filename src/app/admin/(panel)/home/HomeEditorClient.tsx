@@ -4,14 +4,16 @@ import { useActionState } from "react";
 import { Loader2, Save, ExternalLink, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { saveHeroAction, type SaveHeroState } from "./actions";
-import type { HeroSettings } from "@/lib/site-settings";
+import type { HeroSettings, PromoBanner } from "@/lib/site-settings";
 
 const initialState: SaveHeroState = { error: null, success: false };
 
 export default function HomeEditorClient({
   initialHero,
+  initialPromo,
 }: {
   initialHero: HeroSettings;
+  initialPromo: PromoBanner;
 }) {
   const [state, formAction, isPending] = useActionState(
     saveHeroAction,
@@ -72,6 +74,44 @@ export default function HomeEditorClient({
           <input
             name="cta_label"
             defaultValue={initialHero.cta_label}
+            className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
+          />
+        </Field>
+      </section>
+
+      <section className="rounded-3xl bg-white border border-border p-6 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h2 className="font-bold">Banner promocional do topo</h2>
+          <label className="flex items-center gap-2 text-sm font-medium">
+            <input
+              type="checkbox"
+              name="promo_enabled"
+              defaultChecked={initialPromo.enabled}
+              className="size-4 rounded"
+            />
+            Ativo
+          </label>
+        </div>
+
+        <Field
+          label="Mensagem"
+          hint="Aparece no topo de todas as páginas. O cliente pode dispensar."
+        >
+          <input
+            name="promo_message"
+            defaultValue={initialPromo.message}
+            className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
+          />
+        </Field>
+
+        <Field
+          label="Link (opcional)"
+          hint="Ex.: /colecao/selecao-brasileira ou https://..."
+        >
+          <input
+            name="promo_link"
+            defaultValue={initialPromo.link ?? ""}
+            placeholder="/colecao/..."
             className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
           />
         </Field>

@@ -1,10 +1,13 @@
-import { fetchHeroSettings } from "@/lib/site-settings";
+import { fetchHeroSettings, fetchPromoBanner } from "@/lib/site-settings";
 import HomeEditorClient from "./HomeEditorClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomeEditorPage() {
-  const hero = await fetchHeroSettings();
+  const [hero, promo] = await Promise.all([
+    fetchHeroSettings(),
+    fetchPromoBanner(),
+  ]);
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
@@ -17,7 +20,7 @@ export default async function HomeEditorPage() {
         </p>
       </header>
 
-      <HomeEditorClient initialHero={hero} />
+      <HomeEditorClient initialHero={hero} initialPromo={promo} />
     </div>
   );
 }

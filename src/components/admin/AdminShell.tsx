@@ -18,6 +18,7 @@ import {
   ExternalLink,
   Tag,
   LayoutTemplate,
+  Ticket,
 } from "lucide-react";
 import { getSupabaseBrowser } from "@/lib/supabase/browser";
 
@@ -25,6 +26,7 @@ const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/produtos", label: "Produtos", icon: Shirt },
   { href: "/admin/categorias", label: "Categorias", icon: Tag },
+  { href: "/admin/cupons", label: "Cupons", icon: Ticket },
   { href: "/admin/pedidos", label: "Pedidos", icon: ShoppingBag },
   { href: "/admin/clientes", label: "Clientes", icon: Users },
   { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },

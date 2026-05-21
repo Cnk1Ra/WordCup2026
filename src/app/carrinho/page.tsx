@@ -3,12 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Minus, Plus, Trash2, ArrowRight, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowRight, ShoppingBag, Tag, Loader2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { formatBRL } from "@/lib/products";
 
 export default function CartPage() {
-  const { items, setQty, remove, subtotal, shipping, total } = useCart();
+  const {
+    items,
+    setQty,
+    remove,
+    subtotal,
+    shipping,
+    discount,
+    total,
+    coupon,
+    applyCoupon,
+    removeCoupon,
+  } = useCart();
   const [loading, setLoading] = useState(false);
 
   const checkout = async () => {
@@ -17,7 +28,7 @@ export default function CartPage() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items, couponCode: coupon?.code ?? null }),
       });
       const data = await res.json();
       if (data.url) {
@@ -124,6 +135,25 @@ export default function CartPage() {
             <span className="text-foreground/70">Subtotal</span>
             <span className="font-bold">{formatBRL(subtotal)}</span>
           </div>
+          {coupon ? (
+            <div className="flex justify-between text-sm items-start">
+              <div className="flex flex-col">
+                <span className="text-foreground/70">
+                  Cupom <strong className="text-foreground">{coupon.code}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={removeCoupon}
+                  className="text-[11px] text-foreground/50 hover:text-foreground/80 underline-offset-2 hover:underline text-left"
+                >
+                  remover
+                </button>
+              </div>
+              <span className="font-bold text-brand-green">−{formatBRL(discount)}</span>
+            </div>
+          ) : (
+            <CouponInput onApply={applyCoupon} />
+          )}
           <div className="flex justify-between text-sm">
             <span className="text-foreground/70">Frete</span>
             <span className="font-bold">{formatBRL(shipping)}</span>
@@ -163,5 +193,51 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CouponInput({
+  onApply,
+}: {
+  onApply: (code: string) => Promise<{ ok: boolean; error?: string }>;
+}) {
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!code.trim()) return;
+    setLoading(true);
+    setError(null);
+    const r = await onApply(code.trim());
+    if (!r.ok) setError(r.error ?? "Cupom inválido.");
+    else setCode("");
+    setLoading(false);
+  }
+
+  return (
+    <form onSubmit={submit} className="flex flex-col gap-1.5">
+      <label className="text-xs text-foreground/65 flex items-center gap-1">
+        <Tag className="size-3.5" /> Cupom de desconto
+      </label>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => setCode(e.target.value.toUpperCase())}
+          placeholder="DIGITE O CÓDIGO"
+          className="flex-1 h-10 rounded-2xl border border-border bg-muted px-3 text-sm font-bold uppercase tracking-wider focus:outline-none focus:border-foreground"
+        />
+        <button
+          type="submit"
+          disabled={loading || !code.trim()}
+          className="h-10 px-4 rounded-2xl bg-foreground text-white text-xs font-bold hover:bg-foreground/90 disabled:opacity-40 transition inline-flex items-center gap-1"
+        >
+          {loading ? <Loader2 className="size-3.5 animate-spin" /> : "Aplicar"}
+        </button>
+      </div>
+      {error && <p className="text-[11px] text-red-600 font-medium">{error}</p>}
+    </form>
   );
 }

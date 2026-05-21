@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { SHIPPING_BRL } from "@/lib/products";
+import { validateCoupon } from "@/lib/coupons";
 
 type CheckoutItem = {
   id: string;
@@ -39,10 +40,23 @@ export async function POST(req: NextRequest) {
   }
 
   const stripe = new Stripe(key);
-  const { items } = (await req.json()) as { items: CheckoutItem[] };
+  const { items, couponCode } = (await req.json()) as {
+    items: CheckoutItem[];
+    couponCode?: string | null;
+  };
 
   if (!items?.length) {
     return Response.json({ error: "Carrinho vazio" }, { status: 400 });
+  }
+
+  // Valida cupom server-side (não confiar no preço que o cliente envia)
+  const subtotal = items.reduce((s, it) => s + it.unitPrice * it.qty, 0);
+  let appliedCoupon: { code: string; discount: number } | null = null;
+  if (couponCode) {
+    const valid = await validateCoupon(couponCode, subtotal);
+    if (valid.valid) {
+      appliedCoupon = { code: valid.code, discount: valid.discount };
+    }
   }
 
   const origin =
@@ -83,14 +97,29 @@ export async function POST(req: NextRequest) {
   });
 
   try {
+    // Cria coupon Stripe (one-shot) se houver desconto
+    const discounts: Array<{ coupon: string }> = [];
+    if (appliedCoupon && appliedCoupon.discount > 0) {
+      const stripeCoupon = await stripe.coupons.create({
+        name: `Cupom ${appliedCoupon.code}`,
+        amount_off: Math.round(appliedCoupon.discount * 100),
+        currency: "brl",
+        duration: "once",
+        max_redemptions: 1,
+      });
+      discounts.push({ coupon: stripeCoupon.id });
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
+      discounts: discounts.length > 0 ? discounts : undefined,
       success_url: `${origin}/sucesso?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/carrinho`,
       shipping_address_collection: { allowed_countries: ["BR"] },
       phone_number_collection: { enabled: true },
       locale: "pt-BR",
+      metadata: appliedCoupon ? { coupon_code: appliedCoupon.code } : undefined,
     });
 
     return Response.json({ url: session.url });
