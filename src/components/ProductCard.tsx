@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
       href={`/produto/${product.slug}`}
       className="group flex flex-col gap-3"
     >
-      <div className="relative aspect-square rounded-card overflow-hidden border border-border bg-white transition-all duration-300 group-hover:border-foreground/40 group-hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.18)]">
+      <div className="relative aspect-[3/4] rounded-card overflow-hidden border border-border bg-white transition-all duration-300 group-hover:border-foreground/40 group-hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.18)]">
         {product.badge && (
           <span className="absolute top-3 left-3 z-20 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1">
             {product.badge}
@@ -37,7 +37,7 @@ export function ProductCard({ product }: { product: Product }) {
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+            className="object-contain transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="absolute inset-0 grid place-items-center text-foreground/30 text-xs uppercase tracking-wider">
