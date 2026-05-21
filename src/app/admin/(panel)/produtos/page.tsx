@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Pencil, Plus, Eye, EyeOff } from "lucide-react";
+import { Pencil, Plus, Eye, EyeOff, Upload, Package } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { formatBRL } from "@/lib/products";
 
@@ -38,13 +38,22 @@ export default async function ProdutosPage() {
             Gerencie catálogo, imagens, descrições, preços e estoque.
           </p>
         </div>
-        <Link
-          href="/admin/produtos/novo"
-          className="inline-flex items-center gap-2 h-10 px-4 rounded-full bg-foreground text-white text-sm font-bold hover:bg-foreground/90 transition"
-        >
-          <Plus className="size-4" />
-          Novo
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/produtos/importar"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-border text-sm font-bold hover:bg-muted transition"
+          >
+            <Upload className="size-4" />
+            Importar CSV
+          </Link>
+          <Link
+            href="/admin/produtos/novo"
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-full bg-foreground text-white text-sm font-bold hover:bg-foreground/90 transition"
+          >
+            <Plus className="size-4" />
+            Novo
+          </Link>
+        </div>
       </header>
 
       <div className="rounded-3xl bg-white border border-border overflow-hidden">
@@ -57,18 +66,22 @@ export default async function ProdutosPage() {
                 href={`/admin/produtos/${p.slug}`}
                 className="flex items-center gap-4 p-4 hover:bg-muted transition"
               >
-                <div className="size-16 rounded-2xl bg-muted overflow-hidden shrink-0 relative border border-border">
-                  <Image
-                    src={p.front_image}
-                    alt={p.short_name}
-                    fill
-                    sizes="64px"
-                    className="object-contain p-1"
-                  />
+                <div className="size-16 rounded-2xl bg-muted overflow-hidden shrink-0 relative border border-border flex items-center justify-center">
+                  {p.front_image ? (
+                    <Image
+                      src={p.front_image}
+                      alt={p.short_name ?? p.name}
+                      fill
+                      sizes="64px"
+                      className="object-contain p-1"
+                    />
+                  ) : (
+                    <Package className="size-5 text-foreground/30" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-bold truncate">{p.short_name}</p>
+                    <p className="font-bold truncate">{p.short_name ?? p.name}</p>
                     {p.badge && (
                       <span className="text-[10px] font-bold uppercase tracking-wider bg-foreground text-white rounded-full px-2 py-0.5">
                         {p.badge}
@@ -76,7 +89,7 @@ export default async function ProdutosPage() {
                     )}
                   </div>
                   <p className="text-xs text-foreground/60">
-                    {p.color} · {p.gender}
+                    {[p.color, p.gender].filter(Boolean).join(" · ") || "—"}
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col items-end gap-0.5">

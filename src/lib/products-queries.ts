@@ -6,16 +6,16 @@ type ProductRow = {
   id: string;
   slug: string;
   name: string;
-  short_name: string;
-  team: string;
-  edition: "I" | "II";
-  gender: "Masculina" | "Feminina";
-  color: string;
-  hex: string;
-  accent_hex: string;
-  text_color: string;
-  front_image: string;
-  back_image: string;
+  short_name: string | null;
+  team: string | null;
+  edition: "I" | "II" | null;
+  gender: "Masculina" | "Feminina" | null;
+  color: string | null;
+  hex: string | null;
+  accent_hex: string | null;
+  text_color: string | null;
+  front_image: string | null;
+  back_image: string | null;
   base_price: string | number;
   description: string | null;
   badge: string | null;
@@ -27,16 +27,16 @@ function rowToProduct(row: ProductRow): Product {
   return {
     slug: row.slug,
     name: row.name,
-    shortName: row.short_name,
-    team: row.team,
-    edition: row.edition,
-    gender: row.gender,
-    color: row.color,
-    hex: row.hex,
-    accentHex: row.accent_hex,
-    textColor: row.text_color,
-    front: row.front_image,
-    back: row.back_image,
+    shortName: row.short_name ?? row.name,
+    team: row.team ?? "",
+    edition: row.edition ?? "I",
+    gender: row.gender ?? "Masculina",
+    color: row.color ?? "",
+    hex: row.hex ?? "#000000",
+    accentHex: row.accent_hex ?? "#FFFFFF",
+    textColor: row.text_color ?? "#FFFFFF",
+    front: row.front_image ?? "",
+    back: row.back_image ?? "",
     badge: row.badge ?? undefined,
   };
 }
@@ -47,9 +47,11 @@ export async function fetchProducts(): Promise<Product[]> {
     .from("products")
     .select("*")
     .eq("is_active", true)
+    .not("front_image", "is", null)
+    .not("hex", "is", null)
     .order("display_order", { ascending: true });
   if (error) throw error;
-  return (data ?? []).map(rowToProduct);
+  return (data ?? []).map((row) => rowToProduct(row as ProductRow));
 }
 
 export async function fetchProductBySlug(
