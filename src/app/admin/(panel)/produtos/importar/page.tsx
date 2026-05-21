@@ -1,10 +1,17 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { getSupabaseServer } from "@/lib/supabase/server";
 import ImportClient from "./ImportClient";
 
 export const dynamic = "force-dynamic";
 
-export default function ImportarPage() {
+export default async function ImportarPage() {
+  const supabase = getSupabaseServer();
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("id, name, slug")
+    .order("display_order");
+
   return (
     <div className="flex flex-col gap-6 max-w-5xl">
       <header className="flex items-center justify-between">
@@ -24,7 +31,7 @@ export default function ImportarPage() {
         </div>
       </header>
 
-      <ImportClient />
+      <ImportClient categories={categories ?? []} />
     </div>
   );
 }

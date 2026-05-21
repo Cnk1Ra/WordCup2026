@@ -31,12 +31,25 @@ export async function previewCsv(csvText: string) {
   return parseCsvAuto(csvText);
 }
 
+export async function listCategories() {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  const { data } = await supabase
+    .from("categories")
+    .select("id, name, slug")
+    .order("display_order");
+  return data ?? [];
+}
+
 export async function importProductsFromCsv(
-  csvText: string
+  csvText: string,
+  options: { categoryIds?: string[]; forceActive?: boolean } = {}
 ): Promise<ImportResult> {
   await ensureAdmin();
   const supabase = getSupabaseServer();
   const { products } = parseCsvAuto(csvText);
+  const categoryIds = options.categoryIds ?? [];
+  const forceActive = options.forceActive ?? true;
 
   const result: ImportResult = {
     created: 0,
@@ -53,7 +66,7 @@ export async function importProductsFromCsv(
       continue;
     }
     try {
-      const { existed, productId } = await upsertProduct(supabase, p);
+      const { existed, productId } = await upsertProduct(supabase, p, forceActive);
 
       // Resolve imagens em segundo passo, agora que sabemos productId.
       let fetched = 0;
@@ -67,6 +80,19 @@ export async function importProductsFromCsv(
         });
       }
       result.imagesFetched += fetched;
+
+      // Vincula às categorias selecionadas (reset + insert)
+      if (categoryIds.length > 0) {
+        await supabase
+          .from("product_categories")
+          .delete()
+          .eq("product_id", productId);
+        const rows = categoryIds.map((cid) => ({
+          product_id: productId,
+          category_id: cid,
+        }));
+        await supabase.from("product_categories").insert(rows);
+      }
 
       if (existed) result.updated += 1;
       else result.created += 1;
@@ -86,7 +112,8 @@ export async function importProductsFromCsv(
 
 async function upsertProduct(
   supabase: ReturnType<typeof getSupabaseServer>,
-  p: ParsedProduct
+  p: ParsedProduct,
+  forceActive: boolean
 ): Promise<{ productId: string; existed: boolean }> {
   const { data: prev } = await supabase
     .from("products")
@@ -94,6 +121,7 @@ async function upsertProduct(
     .eq("slug", p.handle)
     .maybeSingle();
 
+  const finalStatus = forceActive ? "active" : p.status;
   const payload = {
     slug: p.handle,
     name: p.title,
@@ -108,8 +136,8 @@ async function upsertProduct(
     back_image: p.back_image,
     seo_title: p.seo_title,
     seo_description: p.seo_description,
-    status: p.status,
-    is_active: p.status === "active",
+    status: finalStatus,
+    is_active: finalStatus === "active",
   };
 
   const { data: upserted, error: upsertError } = await supabase

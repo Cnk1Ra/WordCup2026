@@ -21,7 +21,13 @@ camisa-exemplo-amarela,,,,,,,,Tamanho,G,SF-EX-AM-G,12,150.00,175.00,,,,
 camisa-exemplo-amarela,,,,,,,,Tamanho,GG,SF-EX-AM-GG,8,150.00,175.00,,,,
 `;
 
-export default function ImportClient() {
+type Category = { id: string; name: string; slug: string };
+
+export default function ImportClient({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const [step, setStep] = useState<Step>("upload");
   const [csvText, setCsvText] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
@@ -30,6 +36,16 @@ export default function ImportClient() {
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
   const [result, setResult] = useState<ImportResult | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [selectedCats, setSelectedCats] = useState<Set<string>>(new Set());
+
+  function toggleCat(id: string) {
+    setSelectedCats((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   async function handleFile(file: File) {
     const text = await file.text();
@@ -55,8 +71,12 @@ export default function ImportClient() {
   }
 
   function confirmImport() {
+    const categoryIds = Array.from(selectedCats);
     startTransition(async () => {
-      const r = await importProductsFromCsv(csvText);
+      const r = await importProductsFromCsv(csvText, {
+        categoryIds,
+        forceActive: true,
+      });
       setResult(r);
       setStep("result");
     });
@@ -128,6 +148,37 @@ export default function ImportClient() {
     const totalErrors = products.filter((p) => p.errors.length > 0).length;
     return (
       <div className="flex flex-col gap-4">
+        {categories.length > 0 && (
+          <div className="rounded-3xl bg-white border border-border p-6 flex flex-col gap-3">
+            <div>
+              <h2 className="font-bold text-sm">Categorias dos importados</h2>
+              <p className="text-xs text-foreground/60 mt-0.5">
+                Em quais categorias esses {products.length} produtos vão entrar?
+                Deixa vazio se não quer associar.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((c) => {
+                const active = selectedCats.has(c.id);
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => toggleCat(c.id)}
+                    className={`px-4 h-9 rounded-full text-sm font-bold transition border ${
+                      active
+                        ? "bg-foreground text-white border-foreground"
+                        : "bg-white text-foreground/70 border-border hover:border-foreground"
+                    }`}
+                  >
+                    {c.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         <div className="rounded-3xl bg-white border border-border p-6 flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 text-sm font-bold">

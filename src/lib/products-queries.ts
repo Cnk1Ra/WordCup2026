@@ -48,7 +48,6 @@ export async function fetchProducts(): Promise<Product[]> {
     .select("*")
     .eq("is_active", true)
     .not("front_image", "is", null)
-    .not("hex", "is", null)
     .order("display_order", { ascending: true });
   if (error) throw error;
   return (data ?? []).map((row) => rowToProduct(row as ProductRow));
