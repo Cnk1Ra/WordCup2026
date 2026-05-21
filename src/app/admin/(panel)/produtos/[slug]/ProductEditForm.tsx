@@ -20,17 +20,17 @@ type Product = {
   id: string;
   slug: string;
   name: string;
-  short_name: string;
+  short_name: string | null;
   description: string | null;
   base_price: string | number;
   badge: string | null;
   is_active: boolean;
-  front_image: string;
-  back_image: string;
-  hex: string;
-  accent_hex: string;
-  text_color: string;
-  color: string;
+  front_image: string | null;
+  back_image: string | null;
+  hex: string | null;
+  accent_hex: string | null;
+  text_color: string | null;
+  color: string | null;
 };
 
 export function ProductEditForm({
@@ -48,13 +48,13 @@ export function ProductEditForm({
   } | null>(null);
 
   const [name, setName] = useState(product.name);
-  const [shortName, setShortName] = useState(product.short_name);
+  const [shortName, setShortName] = useState(product.short_name ?? "");
   const [description, setDescription] = useState(product.description ?? "");
   const [basePrice, setBasePrice] = useState(String(product.base_price));
   const [badge, setBadge] = useState(product.badge ?? "");
   const [isActive, setIsActive] = useState(product.is_active);
-  const [frontImage, setFrontImage] = useState(product.front_image);
-  const [backImage, setBackImage] = useState(product.back_image);
+  const [frontImage, setFrontImage] = useState(product.front_image ?? "");
+  const [backImage, setBackImage] = useState(product.back_image ?? "");
 
   const initialStock: Record<string, number> = {};
   SIZES.forEach((s) => {
@@ -128,13 +128,13 @@ export function ProductEditForm({
             label="Frente"
             url={frontImage}
             onUpload={(f) => handleUpload("front", f)}
-            tint={product.hex}
+            tint={product.hex ?? "#000000"}
           />
           <ImageSlot
             label="Costas"
             url={backImage}
             onUpload={(f) => handleUpload("back", f)}
-            tint={product.hex}
+            tint={product.hex ?? "#000000"}
           />
         </div>
       </section>

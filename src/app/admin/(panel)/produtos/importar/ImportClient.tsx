@@ -1,10 +1,16 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Upload, FileText, AlertCircle, Check, X, Download } from "lucide-react";
+import { Upload, FileText, AlertCircle, Check, Download } from "lucide-react";
 import Link from "next/link";
 import { previewCsv, importProductsFromCsv, type ImportResult } from "./actions";
-import type { ParsedProduct } from "@/lib/import/shopify-csv";
+import type { ParsedProduct, CsvFormat } from "@/lib/import";
+
+const FORMAT_LABEL: Record<CsvFormat, string> = {
+  shopify: "Shopify",
+  lojadocapita: "Loja do Capita (scrape)",
+  unknown: "desconhecido",
+};
 
 type Step = "upload" | "preview" | "result";
 
@@ -19,6 +25,7 @@ export default function ImportClient() {
   const [step, setStep] = useState<Step>("upload");
   const [csvText, setCsvText] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
+  const [format, setFormat] = useState<CsvFormat>("unknown");
   const [products, setProducts] = useState<ParsedProduct[]>([]);
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
   const [result, setResult] = useState<ImportResult | null>(null);
@@ -30,6 +37,7 @@ export default function ImportClient() {
     setCsvText(text);
     startTransition(async () => {
       const parsed = await previewCsv(text);
+      setFormat(parsed.format);
       setProducts(parsed.products);
       setGlobalErrors(parsed.globalErrors);
       setStep("preview");
@@ -125,6 +133,9 @@ export default function ImportClient() {
             <div className="flex items-center gap-2 text-sm font-bold">
               <FileText className="size-4" />
               {fileName}
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-muted text-foreground/60 rounded-full px-2 py-0.5">
+                {FORMAT_LABEL[format]}
+              </span>
             </div>
             <p className="text-xs text-foreground/60 mt-1">
               {products.length} produto(s) ·{" "}

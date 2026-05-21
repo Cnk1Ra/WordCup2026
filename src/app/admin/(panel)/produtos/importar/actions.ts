@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
-import { parseShopifyCsv, type ParsedProduct } from "@/lib/import/shopify-csv";
+import { parseCsvAuto, type ParsedProduct } from "@/lib/import";
 
 export type ImportResult = {
   created: number;
@@ -22,7 +22,7 @@ async function ensureAdmin() {
 
 export async function previewCsv(csvText: string) {
   await ensureAdmin();
-  return parseShopifyCsv(csvText);
+  return parseCsvAuto(csvText);
 }
 
 export async function importProductsFromCsv(
@@ -30,7 +30,7 @@ export async function importProductsFromCsv(
 ): Promise<ImportResult> {
   await ensureAdmin();
   const supabase = getSupabaseServer();
-  const { products } = parseShopifyCsv(csvText);
+  const { products } = parseCsvAuto(csvText);
 
   const result: ImportResult = { created: 0, updated: 0, failed: 0, errors: [] };
 
