@@ -325,6 +325,26 @@ export function ProductEditForm({
         </div>
       </section>
 
+      {/* Danger zone */}
+      <section className="rounded-3xl bg-red-50 border border-red-200 p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex-1">
+          <h2 className="font-bold text-red-900">Zona de perigo</h2>
+          <p className="text-xs text-red-900/75 mt-1">
+            Excluir é definitivo. Se quiser só tirar o produto da loja sem
+            apagar dados, desative em vez disso.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleDeleteProduct}
+          disabled={isPending}
+          className="h-11 px-5 rounded-full bg-white border border-red-300 text-red-700 font-bold text-sm hover:bg-red-100 disabled:opacity-50 transition inline-flex items-center gap-2"
+        >
+          <Trash2 className="size-4" />
+          Excluir produto
+        </button>
+      </section>
+
       {/* Save bar */}
       <div className="fixed bottom-0 inset-x-0 lg:left-64 z-30 bg-white border-t border-border p-3 flex items-center gap-3 justify-end">
         {toast && (
