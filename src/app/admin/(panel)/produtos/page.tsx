@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Pencil, Plus, Eye, EyeOff, Upload, Package } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { formatBRL } from "@/lib/products";
+import { ReorderButtons } from "./ReorderButtons";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,7 @@ export default async function ProdutosPage() {
 
       <div className="rounded-3xl bg-white border border-border overflow-hidden">
         <div className="divide-y divide-border">
-          {(products ?? []).map((p) => {
+          {(products ?? []).map((p, i, arr) => {
             const totalStock = stockByProduct.get(p.id) ?? 0;
             return (
               <Link
@@ -66,6 +67,11 @@ export default async function ProdutosPage() {
                 href={`/admin/produtos/${p.slug}`}
                 className="flex items-center gap-4 p-4 hover:bg-muted transition"
               >
+                <ReorderButtons
+                  productId={p.id}
+                  isFirst={i === 0}
+                  isLast={i === arr.length - 1}
+                />
                 <div className="size-16 rounded-2xl bg-muted overflow-hidden shrink-0 relative border border-border flex items-center justify-center">
                   {p.front_image ? (
                     <Image

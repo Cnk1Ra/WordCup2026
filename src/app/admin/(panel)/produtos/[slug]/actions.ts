@@ -188,6 +188,35 @@ export async function removeProductImage(input: {
 // Deleta produto + inventory + product_categories (CASCADE FK).
 // Bloqueia se houver pedidos com esse produto (proteção contra
 // quebrar histórico).
+export async function moveProductOrder(id: string, direction: "up" | "down") {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  const { data: all } = await supabase
+    .from("products")
+    .select("id, display_order")
+    .order("display_order");
+  if (!all) return;
+
+  const idx = all.findIndex((p) => p.id === id);
+  if (idx === -1) return;
+  const swap = direction === "up" ? idx - 1 : idx + 1;
+  if (swap < 0 || swap >= all.length) return;
+
+  const a = all[idx];
+  const b = all[swap];
+  await supabase
+    .from("products")
+    .update({ display_order: b.display_order })
+    .eq("id", a.id);
+  await supabase
+    .from("products")
+    .update({ display_order: a.display_order })
+    .eq("id", b.id);
+
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+}
+
 export async function deleteProductAction(id: string) {
   await ensureAdmin();
   const supabase = getSupabaseServer();
