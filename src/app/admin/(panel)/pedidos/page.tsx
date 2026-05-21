@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Plus } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { formatBRL } from "@/lib/products";
 
@@ -33,15 +35,24 @@ export default async function PedidosPage() {
 
   return (
     <div className="flex flex-col gap-6 max-w-6xl">
-      <header>
-        <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-          Pedidos
-        </h1>
-        <p className="text-sm text-foreground/60">
-          {orders?.length === 0
-            ? "Nenhum pedido ainda. Quando tiver venda no Stripe, cai aqui automaticamente."
-            : `${orders?.length} pedidos · mais recentes primeiro`}
-        </p>
+      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+            Pedidos
+          </h1>
+          <p className="text-sm text-foreground/60">
+            {orders?.length === 0
+              ? "Nenhum pedido ainda."
+              : `${orders?.length} pedidos · mais recentes primeiro`}
+          </p>
+        </div>
+        <Link
+          href="/admin/pedidos/novo"
+          className="self-start inline-flex items-center gap-2 h-11 px-5 rounded-full bg-foreground text-white font-bold text-sm hover:bg-foreground/90 transition"
+        >
+          <Plus className="size-4" />
+          Novo pedido manual
+        </Link>
       </header>
 
       {orders && orders.length > 0 ? (
