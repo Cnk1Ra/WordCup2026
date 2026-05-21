@@ -10,7 +10,8 @@ import {
 export function ProductCard({ product }: { product: Product }) {
   const price = product.basePrice ?? BASE_PRICE_BRL;
   const compare = product.comparePrice;
-  const hasImage = !!product.front;
+  const cardImageUrl = product.cardImage || product.front;
+  const hasImage = !!cardImageUrl;
 
   return (
     <Link
@@ -33,7 +34,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         {hasImage ? (
           <Image
-            src={product.front}
+            src={cardImageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"

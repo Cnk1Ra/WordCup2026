@@ -40,6 +40,12 @@ export default async function ProdutoEditPage({
 
   const selectedCategoryIds = (productCats ?? []).map((pc) => pc.category_id);
 
+  const { data: gallery } = await supabase
+    .from("product_images")
+    .select("id, url, alt, display_order, is_card")
+    .eq("product_id", product.id)
+    .order("display_order");
+
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
       <header className="flex flex-col gap-2">
@@ -65,6 +71,7 @@ export default async function ProdutoEditPage({
         inventory={inventory ?? []}
         allCategories={allCategories ?? []}
         selectedCategoryIds={selectedCategoryIds}
+        gallery={gallery ?? []}
       />
     </div>
   );

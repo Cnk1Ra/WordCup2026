@@ -52,10 +52,9 @@ export async function fetchCategoryBySlug(
 
   const { data: links } = await supabase
     .from("product_categories")
-    .select("products!inner(*)")
+    .select("products!inner(*, card_images:product_images(url, is_card))")
     .eq("category_id", category.id)
-    .eq("products.is_active", true)
-    .not("products.front_image", "is", null);
+    .eq("products.is_active", true);
 
   type ProductRow = {
     slug: string;
@@ -71,25 +70,37 @@ export async function fetchCategoryBySlug(
     front_image: string | null;
     back_image: string | null;
     badge: string | null;
+    base_price?: string | number;
+    compare_at_price?: string | number | null;
+    allows_personalization?: boolean;
+    card_images?: { url: string; is_card: boolean }[];
   };
 
   const products: Product[] = (links ?? [])
     .map((l) => l.products as unknown as ProductRow)
-    .map((row) => ({
-      slug: row.slug,
-      name: row.name,
-      shortName: row.short_name ?? row.name,
-      team: row.team ?? "",
-      edition: row.edition ?? "I",
-      gender: row.gender ?? "Masculina",
-      color: row.color ?? "",
-      hex: row.hex ?? "#000000",
-      accentHex: row.accent_hex ?? "#FFFFFF",
-      textColor: row.text_color ?? "#FFFFFF",
-      front: row.front_image ?? "",
-      back: row.back_image ?? "",
-      badge: row.badge ?? undefined,
-    }));
+    .map((row) => {
+      const cardOverride = row.card_images?.find((i) => i.is_card)?.url ?? null;
+      return {
+        slug: row.slug,
+        name: row.name,
+        shortName: row.short_name ?? row.name,
+        team: row.team ?? "",
+        edition: row.edition ?? "I",
+        gender: row.gender ?? "Masculina",
+        color: row.color ?? "",
+        hex: row.hex ?? "#000000",
+        accentHex: row.accent_hex ?? "#FFFFFF",
+        textColor: row.text_color ?? "#FFFFFF",
+        front: row.front_image ?? "",
+        back: row.back_image ?? "",
+        badge: row.badge ?? undefined,
+        basePrice: row.base_price ? Number(row.base_price) : undefined,
+        comparePrice: row.compare_at_price ? Number(row.compare_at_price) : null,
+        allowsPersonalization: row.allows_personalization ?? false,
+        cardImage: cardOverride,
+      };
+    })
+    .filter((p) => p.front || p.cardImage);
 
   return { category, products };
 }

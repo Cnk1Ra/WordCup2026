@@ -101,6 +101,71 @@ export async function uploadProductImage(formData: FormData): Promise<string> {
   return publicUrl;
 }
 
+// Adiciona uma imagem na galleria do produto.
+export async function addProductGalleryImage(formData: FormData) {
+  await ensureAdmin();
+  const file = formData.get("file") as File | null;
+  const productId = formData.get("productId") as string | null;
+  if (!file || !productId) throw new Error("Dados incompletos");
+
+  const supabase = getSupabaseServer();
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+  const path = `${productId}/gallery-${Date.now()}.${ext}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  const { error: upErr } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, buffer, { contentType: file.type, upsert: false });
+  if (upErr) throw new Error(upErr.message);
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from(BUCKET).getPublicUrl(path);
+
+  // Conta atuais pra setar display_order
+  const { count } = await supabase
+    .from("product_images")
+    .select("id", { count: "exact", head: true })
+    .eq("product_id", productId);
+
+  const { error: insErr } = await supabase.from("product_images").insert({
+    product_id: productId,
+    url: publicUrl,
+    display_order: count ?? 0,
+  });
+  if (insErr) throw new Error(insErr.message);
+
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+}
+
+export async function removeGalleryImage(id: string) {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  await supabase.from("product_images").delete().eq("id", id);
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+}
+
+export async function setCardImage(productId: string, imageId: string | null) {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  // Desmarca todas
+  await supabase
+    .from("product_images")
+    .update({ is_card: false })
+    .eq("product_id", productId);
+  // Marca a escolhida (se passada)
+  if (imageId) {
+    await supabase
+      .from("product_images")
+      .update({ is_card: true })
+      .eq("id", imageId);
+  }
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+}
+
 // Remove a URL da imagem do produto (front ou back). Não deleta o arquivo
 // do storage — só desvincula. Se quiser limpar storage, vira tarefa de
 // housekeeping separada.

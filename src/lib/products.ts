@@ -33,6 +33,7 @@ export type Product = {
   basePrice?: number;
   comparePrice?: number | null;
   allowsPersonalization?: boolean;
+  cardImage?: string | null;
 };
 
 export const products: Product[] = [

@@ -50,12 +50,22 @@ export async function fetchProducts(): Promise<Product[]> {
   const supabase = getSupabaseServer();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select("*, card_images:product_images(url, is_card)")
     .eq("is_active", true)
-    .not("front_image", "is", null)
     .order("display_order", { ascending: true });
   if (error) throw error;
-  return (data ?? []).map((row) => rowToProduct(row as ProductRow));
+  type RowWithImages = ProductRow & {
+    card_images?: { url: string; is_card: boolean }[];
+  };
+  const rows = (data ?? []) as RowWithImages[];
+  return rows
+    .map((row) => {
+      const product = rowToProduct(row);
+      const cardOverride = row.card_images?.find((i) => i.is_card)?.url;
+      product.cardImage = cardOverride ?? null;
+      return product;
+    })
+    .filter((p) => p.front || p.cardImage);
 }
 
 export async function fetchProductBySlug(

@@ -16,8 +16,11 @@ import {
   uploadProductImage,
   removeProductImage,
   deleteProductAction,
+  addProductGalleryImage,
+  removeGalleryImage,
+  setCardImage,
 } from "./actions";
-import { Trash2 } from "lucide-react";
+import { Trash2, Star, Plus } from "lucide-react";
 
 const SIZES = ["P", "M", "G", "GG", "XGG"] as const;
 
@@ -40,17 +43,26 @@ type Product = {
 };
 
 type Category = { id: string; name: string; slug: string };
+type GalleryImage = {
+  id: string;
+  url: string;
+  alt: string | null;
+  display_order: number;
+  is_card: boolean;
+};
 
 export function ProductEditForm({
   product,
   inventory,
   allCategories,
   selectedCategoryIds,
+  gallery,
 }: {
   product: Product;
   inventory: Inventory[];
   allCategories: Category[];
   selectedCategoryIds: string[];
+  gallery: GalleryImage[];
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -221,6 +233,12 @@ export function ProductEditForm({
           />
         </div>
       </section>
+
+      <GalleryEditor
+        productId={product.id}
+        gallery={gallery}
+        fallback={frontImage}
+      />
 
       <section className="rounded-3xl bg-white border border-border p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Nome completo">
@@ -448,5 +466,141 @@ function ImageSlot({
         </div>
       </div>
     </div>
+  );
+}
+
+function GalleryEditor({
+  productId,
+  gallery,
+  fallback,
+}: {
+  productId: string;
+  gallery: GalleryImage[];
+  fallback: string;
+}) {
+  const router = useRouter();
+  const [uploading, setUploading] = useState(false);
+
+  async function handleUpload(file: File) {
+    if (!file.type.startsWith("image/")) return alert("Arquivo precisa ser imagem.");
+    if (file.size > 5_000_000) return alert("Máx 5MB.");
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("productId", productId);
+    try {
+      await addProductGalleryImage(fd);
+      router.refresh();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Erro upload.");
+    }
+    setUploading(false);
+  }
+
+  async function handleRemove(id: string) {
+    if (!confirm("Remover essa foto da galeria?")) return;
+    await removeGalleryImage(id);
+    router.refresh();
+  }
+
+  async function handleSetCard(id: string | null) {
+    await setCardImage(productId, id);
+    router.refresh();
+  }
+
+  const cardImageId = gallery.find((g) => g.is_card)?.id ?? null;
+
+  return (
+    <section className="rounded-3xl bg-white border border-border p-6 flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-bold">Galeria de fotos</h2>
+          <p className="text-xs text-foreground/60">
+            Fotos adicionais. Marque uma com ⭐ pra usar como imagem do card
+            na vitrine. Se nenhuma estiver marcada, o card usa a foto Frente.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {gallery.map((img) => (
+          <div
+            key={img.id}
+            className={`relative aspect-square rounded-2xl overflow-hidden border-2 ${
+              img.is_card ? "border-brand-green" : "border-border"
+            }`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={img.url}
+              alt={img.alt ?? ""}
+              className="size-full object-cover"
+            />
+            {img.is_card && (
+              <span className="absolute top-2 left-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand-green text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1">
+                <Star className="size-3 fill-current" />
+                Card
+              </span>
+            )}
+            <div className="absolute bottom-2 right-2 flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => handleSetCard(img.is_card ? null : img.id)}
+                className={`p-1.5 rounded-full text-[11px] font-bold ${
+                  img.is_card
+                    ? "bg-white text-foreground border border-border"
+                    : "bg-foreground text-white"
+                }`}
+                title={img.is_card ? "Desmarcar como card" : "Usar como card"}
+              >
+                <Star className="size-3" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRemove(img.id)}
+                className="p-1.5 rounded-full bg-white border border-border text-red-600 hover:bg-red-50"
+                title="Remover"
+              >
+                <Trash2 className="size-3" />
+              </button>
+            </div>
+          </div>
+        ))}
+
+        <label
+          className={`relative aspect-square rounded-2xl border-2 border-dashed border-border bg-muted grid place-items-center cursor-pointer hover:border-foreground transition ${
+            uploading ? "opacity-50 pointer-events-none" : ""
+          }`}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleUpload(f);
+            }}
+          />
+          <div className="flex flex-col items-center gap-1 text-foreground/55">
+            {uploading ? (
+              <Loader2 className="size-5 animate-spin" />
+            ) : (
+              <>
+                <Plus className="size-5" />
+                <span className="text-[11px] font-bold uppercase tracking-wider">
+                  Adicionar
+                </span>
+              </>
+            )}
+          </div>
+        </label>
+      </div>
+
+      {gallery.length === 0 && (
+        <p className="text-xs text-foreground/50 -mt-2">
+          Card vai usar a foto Frente ({fallback ? "✓ definida" : "⚠ não definida"}).
+        </p>
+      )}
+    </section>
   );
 }
