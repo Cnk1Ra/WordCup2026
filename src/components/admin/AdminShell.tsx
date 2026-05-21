@@ -15,16 +15,21 @@ import {
   Menu,
   X,
   LogOut,
+  ExternalLink,
+  Tag,
+  LayoutTemplate,
 } from "lucide-react";
 import { getSupabaseBrowser } from "@/lib/supabase/browser";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/produtos", label: "Produtos", icon: Shirt },
+  { href: "/admin/categorias", label: "Categorias", icon: Tag },
   { href: "/admin/pedidos", label: "Pedidos", icon: ShoppingBag },
   { href: "/admin/clientes", label: "Clientes", icon: Users },
   { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/admin/home", label: "Editar home", icon: LayoutTemplate },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 
@@ -97,6 +102,15 @@ export function AdminShell({
               {admin.role}
             </span>
           </div>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-foreground/70 hover:bg-muted transition"
+          >
+            <ExternalLink className="size-4" />
+            Visualizar loja
+          </a>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-foreground/70 hover:bg-muted transition"

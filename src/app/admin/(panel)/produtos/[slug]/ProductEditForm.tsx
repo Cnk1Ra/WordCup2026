@@ -33,12 +33,18 @@ type Product = {
   color: string | null;
 };
 
+type Category = { id: string; name: string; slug: string };
+
 export function ProductEditForm({
   product,
   inventory,
+  allCategories,
+  selectedCategoryIds,
 }: {
   product: Product;
   inventory: Inventory[];
+  allCategories: Category[];
+  selectedCategoryIds: string[];
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -61,6 +67,18 @@ export function ProductEditForm({
     initialStock[s] = inventory.find((i) => i.size === s)?.quantity ?? 0;
   });
   const [stock, setStock] = useState(initialStock);
+  const [selectedCats, setSelectedCats] = useState<Set<string>>(
+    new Set(selectedCategoryIds)
+  );
+
+  function toggleCat(id: string) {
+    setSelectedCats((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   function flash(type: "success" | "error", msg: string) {
     setToast({ type, msg });
@@ -107,6 +125,7 @@ export function ProductEditForm({
             size,
             quantity: Math.max(0, Math.floor(quantity)),
           })),
+          category_ids: Array.from(selectedCats),
         });
         flash("success", "Salvo com sucesso.");
         router.refresh();
@@ -118,6 +137,34 @@ export function ProductEditForm({
 
   return (
     <div className="flex flex-col gap-4 pb-24">
+      {allCategories.length > 0 && (
+        <section className="rounded-3xl bg-white border border-border p-6 flex flex-col gap-4">
+          <h2 className="font-bold">Categorias</h2>
+          <p className="text-xs text-foreground/60">
+            Em quais categorias esse produto aparece? Selecione uma ou mais.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {allCategories.map((c) => {
+              const active = selectedCats.has(c.id);
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => toggleCat(c.id)}
+                  className={`px-4 h-9 rounded-full text-sm font-bold transition border ${
+                    active
+                      ? "bg-foreground text-white border-foreground"
+                      : "bg-white text-foreground/70 border-border hover:border-foreground"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       <section className="rounded-3xl bg-white border border-border p-6 flex flex-col gap-4">
         <h2 className="font-bold">Imagens</h2>
         <p className="text-xs text-foreground/60">

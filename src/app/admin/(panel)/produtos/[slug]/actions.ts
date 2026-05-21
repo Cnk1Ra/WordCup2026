@@ -23,6 +23,7 @@ export async function saveProduct(input: {
   front_image: string;
   back_image: string;
   inventory: { size: string; quantity: number }[];
+  category_ids: string[];
 }) {
   await ensureAdmin();
   const supabase = getSupabaseServer();
@@ -36,8 +37,8 @@ export async function saveProduct(input: {
       base_price: input.base_price,
       badge: input.badge,
       is_active: input.is_active,
-      front_image: input.front_image,
-      back_image: input.back_image,
+      front_image: input.front_image || null,
+      back_image: input.back_image || null,
     })
     .eq("id", input.id);
   if (error) throw new Error(error.message);
@@ -50,6 +51,19 @@ export async function saveProduct(input: {
         { onConflict: "product_id,size" }
       );
     if (invError) throw new Error(invError.message);
+  }
+
+  // Reset + reinsert categorias
+  await supabase.from("product_categories").delete().eq("product_id", input.id);
+  if (input.category_ids.length > 0) {
+    const rows = input.category_ids.map((cid) => ({
+      product_id: input.id,
+      category_id: cid,
+    }));
+    const { error: catError } = await supabase
+      .from("product_categories")
+      .insert(rows);
+    if (catError) throw new Error(catError.message);
   }
 
   revalidatePath("/admin/produtos");

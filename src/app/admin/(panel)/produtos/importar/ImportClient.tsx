@@ -257,9 +257,10 @@ export default function ImportClient() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <Stat label="Criados" value={result?.created ?? 0} tone="ok" />
         <Stat label="Atualizados" value={result?.updated ?? 0} tone="info" />
+        <Stat label="Imagens" value={result?.imagesFetched ?? 0} tone="info" />
         <Stat label="Falhas" value={result?.failed ?? 0} tone="bad" />
       </div>
 

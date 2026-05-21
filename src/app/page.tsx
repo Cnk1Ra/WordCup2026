@@ -13,12 +13,16 @@ import {
   Minus,
 } from "lucide-react";
 import { fetchProducts } from "@/lib/products-queries";
+import { fetchHeroSettings } from "@/lib/site-settings";
 import { ProductCard } from "@/components/ProductCard";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const products = await fetchProducts();
+  const [products, hero] = await Promise.all([
+    fetchProducts(),
+    fetchHeroSettings(),
+  ]);
   return (
     <div className="flex flex-col">
       {/* Hero com imagem de torcida */}
@@ -42,22 +46,22 @@ export default async function Home() {
             />
             <div className="relative z-10 p-6 sm:p-12 max-w-xl flex flex-col gap-4">
               <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-brand-yellow/95 text-foreground px-3 py-1 text-xs font-bold">
-                <Sparkles className="size-3.5" /> Coleção Copa 2026
+                <Sparkles className="size-3.5" /> {hero.tag}
               </span>
               <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[0.95]">
-                Veste o Brasil.
+                {hero.title_line_1}
                 <br />
-                <span className="text-brand-yellow">Faz história.</span>
+                <span className="text-brand-yellow">{hero.title_line_2}</span>
               </h1>
               <p className="text-white/85 text-base sm:text-lg max-w-md">
-                Camisas oficiais I e II da Seleção, masculinas e femininas. Personalize com seu nome e número.
+                {hero.description}
               </p>
               <div className="flex flex-wrap gap-3 mt-2">
                 <Link
                   href="#camisas"
                   className="inline-flex items-center gap-2 rounded-full bg-brand-yellow text-foreground font-bold px-6 py-3 hover:bg-yellow-300 transition"
                 >
-                  Comprar agora <ArrowRight className="size-4" />
+                  {hero.cta_label} <ArrowRight className="size-4" />
                 </Link>
                 <Link
                   href="#como-funciona"

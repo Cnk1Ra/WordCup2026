@@ -94,6 +94,7 @@ function extractProductAtSlot(
     front_image: null,
     back_image: null,
     extra_images: [],
+    source_url: sourceUrl || null,
     seo_title: null,
     seo_description: null,
     variants,

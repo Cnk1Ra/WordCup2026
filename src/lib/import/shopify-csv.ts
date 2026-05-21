@@ -21,6 +21,7 @@ export type ParsedProduct = {
   front_image: string | null;
   back_image: string | null;
   extra_images: string[];
+  source_url: string | null;
   seo_title: string | null;
   seo_description: string | null;
   variants: ParsedVariant[];
@@ -149,6 +150,7 @@ export function parseShopifyCsv(csvText: string): ParseResult {
       front_image: sortedImages[0] ?? null,
       back_image: sortedImages[1] ?? null,
       extra_images: sortedImages.slice(2),
+      source_url: null,
       seo_title,
       seo_description,
       variants,

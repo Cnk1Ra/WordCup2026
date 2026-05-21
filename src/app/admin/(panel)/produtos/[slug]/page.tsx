@@ -28,6 +28,18 @@ export default async function ProdutoEditPage({
     .eq("product_id", product.id)
     .order("size");
 
+  const { data: allCategories } = await supabase
+    .from("categories")
+    .select("id, name, slug")
+    .order("display_order");
+
+  const { data: productCats } = await supabase
+    .from("product_categories")
+    .select("category_id")
+    .eq("product_id", product.id);
+
+  const selectedCategoryIds = (productCats ?? []).map((pc) => pc.category_id);
+
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
       <header className="flex flex-col gap-2">
@@ -51,6 +63,8 @@ export default async function ProdutoEditPage({
       <ProductEditForm
         product={product}
         inventory={inventory ?? []}
+        allCategories={allCategories ?? []}
+        selectedCategoryIds={selectedCategoryIds}
       />
     </div>
   );

@@ -42,9 +42,17 @@ export default function RootLayout({
                 />
               </div>
               <p>Camisas oficiais Copa 2026 · Frete fixo R$ 5,00 para todo o Brasil.</p>
-              <p className="text-xs text-foreground/50">
-                © {new Date().getFullYear()} SpaceFut. Todos os direitos reservados.
-              </p>
+              <div className="flex items-center justify-between gap-4 pt-2">
+                <p className="text-xs text-foreground/50">
+                  © {new Date().getFullYear()} SpaceFut. Todos os direitos reservados.
+                </p>
+                <a
+                  href="/admin"
+                  className="text-xs text-foreground/40 hover:text-foreground/70 underline-offset-2 hover:underline"
+                >
+                  Admin
+                </a>
+              </div>
             </div>
           </footer>
         </CartProvider>
