@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useTransition, useActionState } from "react";
-import { Plus, Trash2, Eye, EyeOff, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Plus, Trash2, Eye, EyeOff, Loader2, ChevronRight } from "lucide-react";
 import {
   createCategoryAction,
   updateCategoryAction,
@@ -100,17 +101,23 @@ export default function CategoriasClient({
           )}
           {categories.map((c) => (
             <div key={c.id} className="p-4 flex items-center gap-4">
-              <div className="flex-1 min-w-0">
+              <Link
+                href={`/admin/categorias/${c.slug}`}
+                className="flex-1 min-w-0 group"
+              >
                 <div className="flex items-center gap-2">
-                  <p className="font-bold truncate">{c.name}</p>
+                  <p className="font-bold truncate group-hover:text-brand-green transition">
+                    {c.name}
+                  </p>
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-muted text-foreground/60 rounded-full px-2 py-0.5">
                     {c.slug}
                   </span>
+                  <ChevronRight className="size-3.5 text-foreground/30 group-hover:text-foreground/60 transition" />
                 </div>
                 <p className="text-xs text-foreground/60 mt-0.5">
-                  {c.productCount} produto(s)
+                  {c.productCount} produto(s) · clique pra ver
                 </p>
-              </div>
+              </Link>
               <button
                 onClick={() => toggleActive(c)}
                 disabled={busyId === c.id}

@@ -5,12 +5,21 @@ import ImportClient from "./ImportClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function ImportarPage() {
+export default async function ImportarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category: preselectSlug } = await searchParams;
   const supabase = getSupabaseServer();
   const { data: categories } = await supabase
     .from("categories")
     .select("id, name, slug")
     .order("display_order");
+
+  const preselectId = preselectSlug
+    ? categories?.find((c) => c.slug === preselectSlug)?.id ?? null
+    : null;
 
   return (
     <div className="flex flex-col gap-6 max-w-5xl">
@@ -31,7 +40,10 @@ export default async function ImportarPage() {
         </div>
       </header>
 
-      <ImportClient categories={categories ?? []} />
+      <ImportClient
+        categories={categories ?? []}
+        preselectCategoryIds={preselectId ? [preselectId] : []}
+      />
     </div>
   );
 }

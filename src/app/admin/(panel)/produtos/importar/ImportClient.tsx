@@ -25,8 +25,10 @@ type Category = { id: string; name: string; slug: string };
 
 export default function ImportClient({
   categories,
+  preselectCategoryIds = [],
 }: {
   categories: Category[];
+  preselectCategoryIds?: string[];
 }) {
   const [step, setStep] = useState<Step>("upload");
   const [csvText, setCsvText] = useState<string>("");
@@ -36,7 +38,9 @@ export default function ImportClient({
   const [globalErrors, setGlobalErrors] = useState<string[]>([]);
   const [result, setResult] = useState<ImportResult | null>(null);
   const [isPending, startTransition] = useTransition();
-  const [selectedCats, setSelectedCats] = useState<Set<string>>(new Set());
+  const [selectedCats, setSelectedCats] = useState<Set<string>>(
+    new Set(preselectCategoryIds)
+  );
 
   function toggleCat(id: string) {
     setSelectedCats((prev) => {

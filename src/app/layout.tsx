@@ -6,6 +6,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/Header";
 import { PromoBanner } from "@/components/PromoBanner";
+import { PublicChromeGate } from "@/components/PublicChromeGate";
 import { STORE_INFO } from "@/lib/store-info";
 import { fetchPromoBanner } from "@/lib/site-settings";
 
@@ -33,15 +34,18 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <CartProvider>
-          {promo.enabled && (
-            <PromoBanner
-              message={promo.message}
-              link={promo.link}
-              version={promo.message}
-            />
-          )}
-          <Header />
+          <PublicChromeGate>
+            {promo.enabled && (
+              <PromoBanner
+                message={promo.message}
+                link={promo.link}
+                version={promo.message}
+              />
+            )}
+            <Header />
+          </PublicChromeGate>
           <main className="flex-1">{children}</main>
+          <PublicChromeGate>
           <footer className="mt-16 border-t border-border bg-white">
             <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-foreground/70 flex flex-col gap-6">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -116,6 +120,7 @@ export default async function RootLayout({
               </div>
             </div>
           </footer>
+          </PublicChromeGate>
         </CartProvider>
       </body>
     </html>

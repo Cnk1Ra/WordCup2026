@@ -22,15 +22,15 @@ export async function Header() {
             className="h-9 w-auto"
           />
         </Link>
-        <nav className="hidden md:flex items-center gap-5 text-sm font-medium">
-          <Link href="/" className="hover:text-brand-green">
+        <nav className="hidden md:flex items-center gap-5 text-sm font-medium overflow-x-auto scrollbar-none max-w-[60vw]">
+          <Link href="/" className="hover:text-brand-green whitespace-nowrap">
             Todas
           </Link>
-          {categories.slice(0, 4).map((c) => (
+          {categories.map((c) => (
             <Link
               key={c.id}
               href={`/colecao/${c.slug}`}
-              className="hover:text-brand-green"
+              className="hover:text-brand-green whitespace-nowrap"
             >
               {c.name}
             </Link>
