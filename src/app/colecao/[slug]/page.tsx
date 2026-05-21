@@ -20,16 +20,37 @@ export async function generateMetadata({
   };
 }
 
+type SortValue = "newest" | "price_asc" | "price_desc";
+
 export default async function ColecaoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{
+    size?: string;
+    gender?: string;
+    min?: string;
+    max?: string;
+    sort?: string;
+  }>;
 }) {
   const { slug } = await params;
-  const data = await fetchCategoryBySlug(slug);
-  if (!data) notFound();
+  const sp = await searchParams;
 
+  const filters = {
+    size: sp.size || undefined,
+    gender: sp.gender || undefined,
+    minPrice: sp.min ? Number(sp.min) : undefined,
+    maxPrice: sp.max ? Number(sp.max) : undefined,
+    sort: (sp.sort as SortValue | undefined) || "newest",
+  };
+
+  const data = await fetchCategoryBySlug(slug, filters);
+  if (!data) notFound();
   const { category, products } = data;
+
+  const hasFilters = !!(sp.size || sp.gender || sp.min || sp.max);
 
   return (
     <div className="flex flex-col">
@@ -61,13 +82,92 @@ export default async function ColecaoPage({
         </div>
       </section>
 
-      <section className="px-4 mt-8 mb-16">
+      {/* Filtros */}
+      <section className="px-4 mt-6">
+        <div className="mx-auto max-w-6xl">
+          <form
+            method="GET"
+            className="rounded-2xl bg-white border border-border p-4 flex flex-wrap items-center gap-3 text-sm"
+          >
+            <select
+              name="size"
+              defaultValue={sp.size ?? ""}
+              className="h-10 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
+            >
+              <option value="">Todos tamanhos</option>
+              {["P", "M", "G", "GG", "XGG"].map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+            <select
+              name="gender"
+              defaultValue={sp.gender ?? ""}
+              className="h-10 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
+            >
+              <option value="">Todos gêneros</option>
+              <option value="Masculina">Masculina</option>
+              <option value="Feminina">Feminina</option>
+            </select>
+            <input
+              name="min"
+              type="number"
+              defaultValue={sp.min ?? ""}
+              placeholder="R$ mín"
+              className="h-10 w-24 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
+            />
+            <input
+              name="max"
+              type="number"
+              defaultValue={sp.max ?? ""}
+              placeholder="R$ máx"
+              className="h-10 w-24 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
+            />
+            <select
+              name="sort"
+              defaultValue={sp.sort ?? "newest"}
+              className="h-10 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
+            >
+              <option value="newest">Mais recentes</option>
+              <option value="price_asc">Menor preço</option>
+              <option value="price_desc">Maior preço</option>
+            </select>
+            <button
+              type="submit"
+              className="h-10 px-5 rounded-full bg-foreground text-white font-bold text-xs hover:bg-foreground/90"
+            >
+              Filtrar
+            </button>
+            {hasFilters && (
+              <Link
+                href={`/colecao/${category.slug}`}
+                className="text-xs text-foreground/60 hover:text-foreground underline-offset-2 hover:underline"
+              >
+                Limpar filtros
+              </Link>
+            )}
+          </form>
+        </div>
+      </section>
+
+      <section className="px-4 mt-6 mb-16">
         <div className="mx-auto max-w-6xl">
           {products.length === 0 ? (
             <div className="rounded-3xl bg-white border border-border p-12 text-center">
               <p className="text-foreground/60">
-                Nenhum produto nessa coleção ainda.
+                {hasFilters
+                  ? "Nenhum produto encontrado com esses filtros."
+                  : "Nenhum produto nessa coleção ainda."}
               </p>
+              {hasFilters && (
+                <Link
+                  href={`/colecao/${category.slug}`}
+                  className="mt-2 inline-block text-sm font-bold text-foreground/70 hover:text-foreground underline-offset-2 hover:underline"
+                >
+                  Limpar filtros →
+                </Link>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

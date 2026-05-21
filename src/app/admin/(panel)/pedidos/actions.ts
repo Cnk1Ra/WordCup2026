@@ -104,3 +104,45 @@ export async function createManualOrderAction(
   revalidatePath("/admin/financeiro");
   redirect(`/admin/pedidos`);
 }
+
+const VALID_STATUS = [
+  "pending",
+  "paid",
+  "producing",
+  "shipping",
+  "delivered",
+  "cancelled",
+  "refunded",
+] as const;
+
+export async function updateOrderStatus(
+  orderId: string,
+  status: (typeof VALID_STATUS)[number]
+) {
+  await ensureAdmin();
+  if (!VALID_STATUS.includes(status)) throw new Error("Status inválido.");
+  const supabase = getSupabaseServer();
+  const patch: Record<string, unknown> = { status };
+  const nowIso = new Date().toISOString();
+  if (status === "paid") patch.paid_at = nowIso;
+  if (status === "shipping") patch.shipped_at = nowIso;
+  if (status === "delivered") patch.delivered_at = nowIso;
+  const { error } = await supabase
+    .from("orders")
+    .update(patch)
+    .eq("id", orderId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/admin");
+}
+
+export async function updateTrackingCode(orderId: string, code: string) {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  const { error } = await supabase
+    .from("orders")
+    .update({ tracking_code: code.trim() || null })
+    .eq("id", orderId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/pedidos");
+}

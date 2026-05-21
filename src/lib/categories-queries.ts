@@ -38,8 +38,17 @@ export async function fetchActiveCategoriesWithCount(): Promise<
     .filter((c) => c.productCount > 0);
 }
 
+export type CategoryFilters = {
+  size?: string;
+  gender?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: "newest" | "price_asc" | "price_desc";
+};
+
 export async function fetchCategoryBySlug(
-  slug: string
+  slug: string,
+  filters: CategoryFilters = {}
 ): Promise<{ category: CategoryRow; products: Product[] } | null> {
   const supabase = getSupabaseServer();
   const { data: category } = await supabase
@@ -50,11 +59,23 @@ export async function fetchCategoryBySlug(
     .maybeSingle();
   if (!category) return null;
 
-  const { data: links } = await supabase
+  let query = supabase
     .from("product_categories")
     .select("products!inner(*, card_images:product_images(url, is_card))")
     .eq("category_id", category.id)
     .eq("products.is_active", true);
+
+  if (filters.gender) {
+    query = query.eq("products.gender", filters.gender);
+  }
+  if (filters.minPrice !== undefined) {
+    query = query.gte("products.base_price", filters.minPrice);
+  }
+  if (filters.maxPrice !== undefined) {
+    query = query.lte("products.base_price", filters.maxPrice);
+  }
+
+  const { data: links } = await query;
 
   type ProductRow = {
     slug: string;
@@ -102,5 +123,32 @@ export async function fetchCategoryBySlug(
     })
     .filter((p) => p.front || p.cardImage);
 
-  return { category, products };
+  // Filtro de tamanho (precisa join com inventory; faz client-side aqui pra
+  // simplicidade — pra catalogo grande migrar pra query DB)
+  let filtered = products;
+  if (filters.size) {
+    const supabase2 = getSupabaseServer();
+    const { data: invRows } = await supabase2
+      .from("inventory")
+      .select("product_id, products!inner(slug)")
+      .eq("size", filters.size)
+      .gt("quantity", 0);
+    type Row = { products: { slug: string } };
+    const slugsWithSize = new Set(
+      (invRows ?? []).map((r) => (r as unknown as Row).products.slug)
+    );
+    filtered = products.filter((p) => slugsWithSize.has(p.slug));
+  }
+
+  if (filters.sort === "price_asc") {
+    filtered = [...filtered].sort(
+      (a, b) => (a.basePrice ?? 0) - (b.basePrice ?? 0)
+    );
+  } else if (filters.sort === "price_desc") {
+    filtered = [...filtered].sort(
+      (a, b) => (b.basePrice ?? 0) - (a.basePrice ?? 0)
+    );
+  }
+
+  return { category, products: filtered };
 }

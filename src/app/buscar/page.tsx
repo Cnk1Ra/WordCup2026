@@ -1,0 +1,122 @@
+import Link from "next/link";
+import { Search as SearchIcon } from "lucide-react";
+import { getSupabaseServer } from "@/lib/supabase/server";
+import { ProductCard } from "@/components/ProductCard";
+import type { Product } from "@/lib/products";
+
+export const dynamic = "force-dynamic";
+
+export default async function BuscarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+  const query = (q ?? "").trim();
+
+  let products: Product[] = [];
+  if (query) {
+    const supabase = getSupabaseServer();
+    // ILIKE em name + short_name + slug + tags
+    const like = `%${query}%`;
+    const { data } = await supabase
+      .from("products")
+      .select("*, card_images:product_images(url, is_card)")
+      .eq("is_active", true)
+      .or(`name.ilike.${like},short_name.ilike.${like},slug.ilike.${like}`)
+      .order("display_order");
+
+    type Row = {
+      slug: string;
+      name: string;
+      short_name: string | null;
+      team: string | null;
+      gender: "Masculina" | "Feminina" | null;
+      color: string | null;
+      hex: string | null;
+      accent_hex: string | null;
+      text_color: string | null;
+      front_image: string | null;
+      back_image: string | null;
+      badge: string | null;
+      base_price: string | number;
+      compare_at_price: string | number | null;
+      allows_personalization?: boolean;
+      card_images?: { url: string; is_card: boolean }[];
+    };
+
+    products = (data ?? []).map((r) => {
+      const row = r as Row;
+      const cardOverride = row.card_images?.find((i) => i.is_card)?.url ?? null;
+      return {
+        slug: row.slug,
+        name: row.name,
+        shortName: row.short_name ?? row.name,
+        team: row.team ?? "",
+        edition: "I",
+        gender: row.gender ?? "Masculina",
+        color: row.color ?? "",
+        hex: row.hex ?? "#000000",
+        accentHex: row.accent_hex ?? "#FFFFFF",
+        textColor: row.text_color ?? "#FFFFFF",
+        front: row.front_image ?? "",
+        back: row.back_image ?? "",
+        badge: row.badge ?? undefined,
+        basePrice: Number(row.base_price),
+        comparePrice: row.compare_at_price ? Number(row.compare_at_price) : null,
+        allowsPersonalization: row.allows_personalization ?? false,
+        cardImage: cardOverride,
+      };
+    });
+  }
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12 flex flex-col gap-8">
+      <form className="flex flex-col gap-3" action="/buscar">
+        <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+          Buscar produtos
+        </h1>
+        <div className="relative">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-foreground/40" />
+          <input
+            name="q"
+            type="search"
+            defaultValue={query}
+            placeholder="Buscar por nome, time, modelo..."
+            autoFocus
+            className="w-full h-12 rounded-2xl border border-border bg-white pl-11 pr-4 text-sm font-medium focus:outline-none focus:border-foreground"
+          />
+        </div>
+      </form>
+
+      {!query ? (
+        <p className="text-sm text-foreground/55">
+          Digite uma busca acima — ex: <em>brasil</em>, <em>copa 1998</em>, <em>infantil</em>.
+        </p>
+      ) : products.length === 0 ? (
+        <div className="rounded-3xl bg-white border border-border p-12 text-center">
+          <p className="text-foreground/60">
+            Nenhum produto encontrado pra <strong>{query}</strong>.
+          </p>
+          <Link
+            href="/"
+            className="mt-3 inline-block text-sm font-bold text-foreground/70 hover:text-foreground underline-offset-2 hover:underline"
+          >
+            Ver catálogo completo →
+          </Link>
+        </div>
+      ) : (
+        <>
+          <p className="text-sm text-foreground/60">
+            {products.length} resultado(s) pra <strong>{query}</strong>
+          </p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {products.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Menu } from "lucide-react";
+import { Search } from "lucide-react";
 import { fetchActiveCategoriesWithCount } from "@/lib/categories-queries";
 import { CartBadge } from "./CartBadge";
 import { HeaderMobileMenu } from "./HeaderMobileMenu";
@@ -36,7 +36,16 @@ export async function Header() {
             </Link>
           ))}
         </nav>
-        <CartBadge />
+        <div className="flex items-center gap-1">
+          <Link
+            href="/buscar"
+            aria-label="Buscar"
+            className="p-2 rounded-full hover:bg-muted"
+          >
+            <Search className="size-5" />
+          </Link>
+          <CartBadge />
+        </div>
       </div>
     </header>
   );

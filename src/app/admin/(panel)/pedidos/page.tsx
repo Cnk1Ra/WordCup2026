@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, Download } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { formatBRL } from "@/lib/products";
 
@@ -46,21 +46,32 @@ export default async function PedidosPage() {
               : `${orders?.length} pedidos · mais recentes primeiro`}
           </p>
         </div>
-        <Link
-          href="/admin/pedidos/novo"
-          className="self-start inline-flex items-center gap-2 h-11 px-5 rounded-full bg-foreground text-white font-bold text-sm hover:bg-foreground/90 transition"
-        >
-          <Plus className="size-4" />
-          Novo pedido manual
-        </Link>
+        <div className="flex items-center gap-2 self-start">
+          <a
+            href="/api/admin/pedidos/export"
+            download
+            className="inline-flex items-center gap-2 h-11 px-4 rounded-full border border-border bg-white text-sm font-bold hover:bg-muted transition"
+          >
+            <Download className="size-4" />
+            Exportar CSV
+          </a>
+          <Link
+            href="/admin/pedidos/novo"
+            className="inline-flex items-center gap-2 h-11 px-5 rounded-full bg-foreground text-white font-bold text-sm hover:bg-foreground/90 transition"
+          >
+            <Plus className="size-4" />
+            Novo manual
+          </Link>
+        </div>
       </header>
 
       {orders && orders.length > 0 ? (
         <div className="rounded-3xl bg-white border border-border overflow-hidden">
           <div className="divide-y divide-border">
             {orders.map((o) => (
-              <div
+              <Link
                 key={o.id}
+                href={`/admin/pedidos/${o.number}`}
                 className="flex items-center gap-4 p-4 hover:bg-muted transition"
               >
                 <div className="flex-1 min-w-0">
@@ -79,7 +90,7 @@ export default async function PedidosPage() {
                 <p className="text-sm font-bold text-right w-24">
                   {formatBRL(Number(o.total))}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
