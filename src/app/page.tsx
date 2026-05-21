@@ -14,14 +14,16 @@ import {
 } from "lucide-react";
 import { fetchProducts } from "@/lib/products-queries";
 import { fetchHeroSettings } from "@/lib/site-settings";
+import { fetchActiveCategoriesWithCount } from "@/lib/categories-queries";
 import { ProductCard } from "@/components/ProductCard";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [products, hero] = await Promise.all([
+  const [products, hero, categories] = await Promise.all([
     fetchProducts(),
     fetchHeroSettings(),
+    fetchActiveCategoriesWithCount(),
   ]);
   return (
     <div className="flex flex-col">
@@ -101,6 +103,39 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Coleções */}
+      {categories.length > 0 && (
+        <section className="px-4 mt-10 sm:mt-14">
+          <div className="mx-auto max-w-6xl flex flex-col gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-foreground/50 font-semibold">
+                Por coleção
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                Coleções
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {categories.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/colecao/${c.slug}`}
+                  className="group rounded-3xl bg-white border border-border p-5 flex flex-col gap-2 hover:border-foreground hover:-translate-y-0.5 transition"
+                >
+                  <p className="text-xs uppercase tracking-wider text-foreground/50 font-semibold">
+                    {c.productCount} produto{c.productCount === 1 ? "" : "s"}
+                  </p>
+                  <p className="font-black text-lg leading-tight">{c.name}</p>
+                  <span className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-foreground/70 group-hover:text-foreground">
+                    Ver coleção <ArrowRight className="size-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Product grid */}
       <section id="camisas" className="px-4 mt-10 sm:mt-14">
