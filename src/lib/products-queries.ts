@@ -17,10 +17,12 @@ type ProductRow = {
   front_image: string | null;
   back_image: string | null;
   base_price: string | number;
+  compare_at_price: string | number | null;
   description: string | null;
   badge: string | null;
   is_active: boolean;
   display_order: number;
+  allows_personalization?: boolean;
 };
 
 function rowToProduct(row: ProductRow): Product {
@@ -38,6 +40,9 @@ function rowToProduct(row: ProductRow): Product {
     front: row.front_image ?? "",
     back: row.back_image ?? "",
     badge: row.badge ?? undefined,
+    basePrice: Number(row.base_price ?? 0),
+    comparePrice: row.compare_at_price != null ? Number(row.compare_at_price) : null,
+    allowsPersonalization: row.allows_personalization ?? false,
   };
 }
 

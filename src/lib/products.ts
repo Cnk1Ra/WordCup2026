@@ -30,6 +30,9 @@ export type Product = {
   front: string;
   back: string;
   badge?: string;
+  basePrice?: number;
+  comparePrice?: number | null;
+  allowsPersonalization?: boolean;
 };
 
 export const products: Product[] = [

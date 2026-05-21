@@ -25,8 +25,8 @@ export function JerseyShowcase({
 }: Props) {
   return (
     <div
-      className={`${jerseyFont.variable} relative grid grid-cols-2 rounded-[2rem] overflow-hidden border border-border`}
-      style={{ background: product.hex + "1f", aspectRatio: "5 / 4" }}
+      className={`${jerseyFont.variable} relative grid grid-cols-2 rounded-[2rem] overflow-hidden border border-border bg-white`}
+      style={{ aspectRatio: "5 / 4" }}
     >
       {product.badge && (
         <span className="absolute top-4 left-4 z-30 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1">
