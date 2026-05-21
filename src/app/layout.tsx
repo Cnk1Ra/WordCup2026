@@ -51,9 +51,9 @@ export default async function RootLayout({
                     alt="SpaceFut"
                     width={897}
                     height={270}
-                    className="h-8 w-auto"
+                    className="h-10 w-auto self-start"
                   />
-                  <p className="text-xs text-foreground/55">
+                  <p className="text-xs text-foreground/55 max-w-[20rem]">
                     Camisas oficiais Copa 2026 · Frete fixo R$ 5,00 pra todo o
                     Brasil.
                   </p>

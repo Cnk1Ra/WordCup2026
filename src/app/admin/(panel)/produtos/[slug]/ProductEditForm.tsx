@@ -11,7 +11,13 @@ import {
   XCircle,
   ImageIcon,
 } from "lucide-react";
-import { saveProduct, uploadProductImage } from "./actions";
+import {
+  saveProduct,
+  uploadProductImage,
+  removeProductImage,
+  deleteProductAction,
+} from "./actions";
+import { Trash2 } from "lucide-react";
 
 const SIZES = ["P", "M", "G", "GG", "XGG"] as const;
 
@@ -83,6 +89,34 @@ export function ProductEditForm({
   function flash(type: "success" | "error", msg: string) {
     setToast({ type, msg });
     setTimeout(() => setToast(null), 3500);
+  }
+
+  async function handleRemoveImage(slot: "front" | "back") {
+    if (!confirm(`Remover imagem ${slot === "front" ? "da frente" : "das costas"}?`)) return;
+    try {
+      await removeProductImage({ id: product.id, slot });
+      if (slot === "front") setFrontImage("");
+      else setBackImage("");
+      flash("success", "Imagem removida.");
+    } catch (e) {
+      flash("error", e instanceof Error ? e.message : "Erro ao remover.");
+    }
+  }
+
+  async function handleDeleteProduct() {
+    const confirmed = confirm(
+      `Excluir DEFINITIVAMENTE o produto "${product.short_name ?? product.name}"?\n\n` +
+        "Isso apaga o produto e todo seu estoque/categorias vinculadas. " +
+        "Se quiser só tirar da loja, desative em vez disso."
+    );
+    if (!confirmed) return;
+    startTransition(async () => {
+      try {
+        await deleteProductAction(product.id);
+      } catch (e) {
+        flash("error", e instanceof Error ? e.message : "Erro ao excluir.");
+      }
+    });
   }
 
   async function handleUpload(slot: "front" | "back", file: File) {
@@ -175,12 +209,14 @@ export function ProductEditForm({
             label="Frente"
             url={frontImage}
             onUpload={(f) => handleUpload("front", f)}
+            onRemove={() => handleRemoveImage("front")}
             tint={product.hex ?? "#000000"}
           />
           <ImageSlot
             label="Costas"
             url={backImage}
             onUpload={(f) => handleUpload("back", f)}
+            onRemove={() => handleRemoveImage("back")}
             tint={product.hex ?? "#000000"}
           />
         </div>
@@ -325,11 +361,13 @@ function ImageSlot({
   label,
   url,
   onUpload,
+  onRemove,
   tint,
 }: {
   label: string;
   url: string;
   onUpload: (file: File) => void;
+  onRemove?: () => void;
   tint: string;
 }) {
   const [dragOver, setDragOver] = useState(false);
@@ -381,21 +419,33 @@ function ImageSlot({
             <Loader2 className="size-6 animate-spin" />
           </div>
         )}
-        <label className="absolute bottom-2 right-2 cursor-pointer">
-          <input
-            type="file"
-            accept="image/*"
-            className="sr-only"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleFile(file);
-            }}
-          />
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1.5 hover:bg-foreground/90 transition">
-            <Upload className="size-3.5" />
-            Trocar
-          </span>
-        </label>
+        <div className="absolute bottom-2 right-2 flex items-center gap-2">
+          {url && onRemove && (
+            <button
+              type="button"
+              onClick={onRemove}
+              className="inline-flex items-center gap-1 rounded-full bg-white border border-border text-red-600 text-[11px] font-bold px-3 py-1.5 hover:bg-red-50 transition"
+            >
+              <Trash2 className="size-3.5" />
+              Remover
+            </button>
+          )}
+          <label className="cursor-pointer">
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFile(file);
+              }}
+            />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1.5 hover:bg-foreground/90 transition">
+              <Upload className="size-3.5" />
+              Trocar
+            </span>
+          </label>
+        </div>
       </div>
     </div>
   );

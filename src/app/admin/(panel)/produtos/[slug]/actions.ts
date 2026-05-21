@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
 
@@ -98,4 +99,49 @@ export async function uploadProductImage(formData: FormData): Promise<string> {
   } = supabase.storage.from(BUCKET).getPublicUrl(path);
 
   return publicUrl;
+}
+
+// Remove a URL da imagem do produto (front ou back). Não deleta o arquivo
+// do storage — só desvincula. Se quiser limpar storage, vira tarefa de
+// housekeeping separada.
+export async function removeProductImage(input: {
+  id: string;
+  slot: "front" | "back";
+}) {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  const column = input.slot === "front" ? "front_image" : "back_image";
+  const { error } = await supabase
+    .from("products")
+    .update({ [column]: null })
+    .eq("id", input.id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+}
+
+// Deleta produto + inventory + product_categories (CASCADE FK).
+// Bloqueia se houver pedidos com esse produto (proteção contra
+// quebrar histórico).
+export async function deleteProductAction(id: string) {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+
+  const { count: orderItemCount } = await supabase
+    .from("order_items")
+    .select("id", { count: "exact", head: true })
+    .eq("product_id", id);
+  if ((orderItemCount ?? 0) > 0) {
+    throw new Error(
+      `Não dá pra excluir: produto está em ${orderItemCount} pedido(s). ` +
+        "Em vez disso, desative o produto (ele some da loja mas mantém o histórico)."
+    );
+  }
+
+  const { error } = await supabase.from("products").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/produtos");
+  revalidatePath("/");
+  redirect("/admin/produtos");
 }
