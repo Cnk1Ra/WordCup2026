@@ -14,16 +14,20 @@ export default async function BuscarPage({
   const { q } = await searchParams;
   const query = (q ?? "").trim();
 
+  function normalize(s: string): string {
+    return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
   let products: Product[] = [];
   if (query) {
     const supabase = getSupabaseServer();
-    // ILIKE em name + short_name + slug + tags
-    const like = `%${query}%`;
-    const { data } = await supabase
+    // Fetch todos os produtos ativos + filtra server-side com normalize.
+    // ILIKE do Postgres nao ignora acentos, entao "são" nao acha "São Paulo".
+    // Pra catalogo de ~700 produtos isso e tranquilo (~50KB transferido).
+    const { data: allActive } = await supabase
       .from("products")
       .select("*, card_images:product_images(url, is_card)")
       .eq("is_active", true)
-      .or(`name.ilike.${like},short_name.ilike.${like},slug.ilike.${like}`)
       .order("display_order");
 
     type Row = {
@@ -45,7 +49,16 @@ export default async function BuscarPage({
       card_images?: { url: string; is_card: boolean }[];
     };
 
-    products = (data ?? []).map((r) => {
+    const qNorm = normalize(query);
+    const filtered = (allActive ?? []).filter((r) => {
+      const row = r as Row;
+      const hay = normalize(
+        `${row.name ?? ""} ${row.short_name ?? ""} ${row.slug ?? ""}`
+      );
+      return hay.includes(qNorm);
+    });
+
+    products = filtered.map((r) => {
       const row = r as Row;
       const cardOverride = row.card_images?.find((i) => i.is_card)?.url ?? null;
       return {
