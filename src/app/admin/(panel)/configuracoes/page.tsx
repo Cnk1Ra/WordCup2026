@@ -1,4 +1,5 @@
-import { Settings } from "lucide-react";
+import Link from "next/link";
+import { Settings, ShieldCheck, ChevronRight } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +60,22 @@ export default async function ConfiguracoesPage() {
           direto no banco se precisar.
         </p>
       </section>
+
+      <Link
+        href="/admin/configuracoes/seguranca"
+        className="rounded-3xl bg-white border border-border p-6 flex items-center gap-4 hover:bg-muted/30 transition"
+      >
+        <div className="size-10 grid place-items-center rounded-full bg-emerald-50 text-emerald-700 shrink-0">
+          <ShieldCheck className="size-5" />
+        </div>
+        <div className="flex-1">
+          <div className="font-bold">Segurança da conta</div>
+          <p className="text-sm text-foreground/60">
+            Autenticação em duas etapas (2FA) com app autenticador.
+          </p>
+        </div>
+        <ChevronRight className="size-5 text-foreground/40" />
+      </Link>
     </div>
   );
 }
