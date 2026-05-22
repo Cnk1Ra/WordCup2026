@@ -1,17 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
-import { fetchActiveCategoriesWithCount } from "@/lib/categories-queries";
+import { fetchCategoryTree } from "@/lib/categories-queries";
 import { CartBadge } from "./CartBadge";
 import { HeaderMobileMenu } from "./HeaderMobileMenu";
+import { HeaderNav } from "./HeaderNav";
 
 export async function Header() {
-  const categories = await fetchActiveCategoriesWithCount();
+  const tree = await fetchCategoryTree();
 
   return (
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-border">
       <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-        <HeaderMobileMenu categories={categories.map(c => ({ slug: c.slug, name: c.name }))} />
+        <HeaderMobileMenu
+          tree={tree.map((p) => ({
+            slug: p.slug,
+            name: p.name,
+            children: p.children.map((c) => ({ slug: c.slug, name: c.name })),
+          }))}
+        />
         <Link href="/" className="flex items-center" aria-label="SpaceFut">
           <Image
             src="/logo-spacefut.png"
@@ -22,20 +29,7 @@ export async function Header() {
             className="h-9 w-auto"
           />
         </Link>
-        <nav className="hidden md:flex items-center gap-5 text-sm font-medium overflow-x-auto scrollbar-none max-w-[60vw]">
-          <Link href="/" className="hover:text-brand-green whitespace-nowrap">
-            Todas
-          </Link>
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              href={`/colecao/${c.slug}`}
-              className="hover:text-brand-green whitespace-nowrap"
-            >
-              {c.name}
-            </Link>
-          ))}
-        </nav>
+        <HeaderNav tree={tree} />
         <div className="flex items-center gap-1">
           <Link
             href="/buscar"

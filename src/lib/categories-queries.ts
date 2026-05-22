@@ -11,6 +11,11 @@ type CategoryRow = {
 
 export type CategoryWithCount = CategoryRow & { productCount: number };
 
+export type CategoryNode = CategoryRow & {
+  productCount: number;
+  children: CategoryNode[];
+};
+
 export async function fetchActiveCategoriesWithCount(): Promise<
   CategoryWithCount[]
 > {
@@ -36,6 +41,64 @@ export async function fetchActiveCategoriesWithCount(): Promise<
   return cats
     .map((c) => ({ ...c, productCount: counts.get(c.id) ?? 0 }))
     .filter((c) => c.productCount > 0);
+}
+
+// Retorna a árvore hierárquica de categorias (parents com children).
+export async function fetchCategoryTree(): Promise<CategoryNode[]> {
+  const supabase = getSupabaseServer();
+  const { data: cats } = await supabase
+    .from("categories")
+    .select("id, slug, name, description, parent_id, display_order")
+    .eq("is_active", true)
+    .order("display_order");
+  if (!cats || cats.length === 0) return [];
+
+  const { data: links } = await supabase
+    .from("product_categories")
+    .select("category_id, products!inner(is_active, front_image)")
+    .eq("products.is_active", true)
+    .not("products.front_image", "is", null);
+
+  const counts = new Map<string, number>();
+  (links ?? []).forEach((l) => {
+    counts.set(l.category_id, (counts.get(l.category_id) ?? 0) + 1);
+  });
+
+  type RawCat = {
+    id: string;
+    slug: string;
+    name: string;
+    description: string | null;
+    parent_id: string | null;
+  };
+  const allCats = cats as RawCat[];
+
+  const byId = new Map<string, CategoryNode>();
+  allCats.forEach((c) => {
+    byId.set(c.id, {
+      id: c.id,
+      slug: c.slug,
+      name: c.name,
+      description: c.description,
+      productCount: counts.get(c.id) ?? 0,
+      children: [],
+    });
+  });
+
+  const tree: CategoryNode[] = [];
+  allCats.forEach((c) => {
+    const node = byId.get(c.id)!;
+    if (c.parent_id && byId.has(c.parent_id)) {
+      byId.get(c.parent_id)!.children.push(node);
+    } else {
+      tree.push(node);
+    }
+  });
+
+  // Só mostra nodes com produtos OU com filhos com produtos
+  const hasContent = (n: CategoryNode): boolean =>
+    n.productCount > 0 || n.children.some(hasContent);
+  return tree.filter(hasContent);
 }
 
 export type CategoryFilters = {
