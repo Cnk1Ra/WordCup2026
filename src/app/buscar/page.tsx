@@ -18,6 +18,47 @@ export default async function BuscarPage({
     return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   }
 
+  // Distância de edição (Levenshtein) iterativa
+  function levenshtein(a: string, b: string): number {
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    const m = a.length;
+    const n = b.length;
+    let prev = new Array(n + 1).fill(0).map((_, i) => i);
+    let curr = new Array(n + 1).fill(0);
+    for (let i = 1; i <= m; i++) {
+      curr[0] = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        curr[j] = Math.min(
+          curr[j - 1] + 1,
+          prev[j] + 1,
+          prev[j - 1] + cost
+        );
+      }
+      [prev, curr] = [curr, prev];
+    }
+    return prev[n];
+  }
+
+  // Confere se cada palavra da query (normalizada) bate como substring
+  // OU está perto (Levenshtein) de alguma palavra do haystack.
+  function matchesFuzzy(query: string, haystack: string): boolean {
+    const qWords = query.split(/\s+/).filter(Boolean);
+    if (qWords.length === 0) return false;
+    const hWords = haystack.split(/\s+/).filter(Boolean);
+    return qWords.every((qw) => {
+      if (haystack.includes(qw)) return true;
+      // Toleramos até max(1, length/4) edits — "altetico" (8) tolera 2
+      const maxDist = Math.max(1, Math.floor(qw.length / 4));
+      return hWords.some((hw) => {
+        if (Math.abs(hw.length - qw.length) > maxDist) return false;
+        return levenshtein(qw, hw) <= maxDist;
+      });
+    });
+  }
+
   let products: Product[] = [];
   if (query) {
     const supabase = getSupabaseServer();
@@ -55,7 +96,9 @@ export default async function BuscarPage({
       const hay = normalize(
         `${row.name ?? ""} ${row.short_name ?? ""} ${row.slug ?? ""}`
       );
-      return hay.includes(qNorm);
+      // Primeira tentativa: substring exata. Fallback: fuzzy match por
+      // palavra (tolera typos de 1-2 chars).
+      return hay.includes(qNorm) || matchesFuzzy(qNorm, hay);
     });
 
     products = filtered.map((r) => {
