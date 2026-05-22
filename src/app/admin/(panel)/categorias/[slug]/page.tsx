@@ -113,7 +113,7 @@ export default async function CategoryDetailPage({
             {products.map((p) => (
               <Link
                 key={p.id}
-                href={`/admin/produtos/${p.slug}`}
+                href={`/admin/produtos/${p.slug}?from=categoria/${category.slug}`}
                 className="flex items-center gap-4 p-4 hover:bg-muted transition"
               >
                 <div className="size-14 rounded-xl bg-muted overflow-hidden shrink-0 relative border border-border grid place-items-center">

@@ -8,10 +8,13 @@ export const dynamic = "force-dynamic";
 
 export default async function ProdutoEditPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
 }) {
   const { slug } = await params;
+  const { from } = await searchParams;
   const supabase = getSupabaseServer();
 
   const { data: product } = await supabase
@@ -46,15 +49,25 @@ export default async function ProdutoEditPage({
     .eq("product_id", product.id)
     .order("display_order");
 
+  // De onde o usuário veio? Se entrou via /admin/categorias/[slug], volta pra lá.
+  const backHref =
+    from && /^categoria\/[a-z0-9-]+$/i.test(from)
+      ? `/admin/categorias/${from.replace(/^categoria\//, "")}`
+      : "/admin/produtos";
+  const backLabel =
+    from && from.startsWith("categoria/")
+      ? "Voltar à categoria"
+      : "Produtos";
+
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
       <header className="flex flex-col gap-2">
         <Link
-          href="/admin/produtos"
+          href={backHref}
           className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground self-start"
         >
           <ArrowLeft className="size-4" />
-          Produtos
+          {backLabel}
         </Link>
         <div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
