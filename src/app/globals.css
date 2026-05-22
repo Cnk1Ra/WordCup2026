@@ -44,3 +44,28 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* iOS Safari faz zoom automático em inputs com font-size < 16px.
+   Força todos os inputs em mobile pra 16px (sem mexer no visual desktop). */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Suaviza tap em mobile (remove highlight azul ao tocar) */
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Previne scroll horizontal acidental em mobile (carrosseis, overflows) */
+html,
+body {
+  overflow-x: hidden;
+}

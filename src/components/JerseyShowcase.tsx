@@ -38,7 +38,10 @@ export function JerseyShowcase({
       </span>
 
       {/* Front */}
-      <div className="relative overflow-hidden">
+      <div
+        className="relative overflow-hidden"
+        style={{ containerType: "inline-size" }}
+      >
         <Image
           src={product.front}
           alt={`${product.name} — frente`}
@@ -57,7 +60,10 @@ export function JerseyShowcase({
       </div>
 
       {/* Back */}
-      <div className="relative overflow-hidden">
+      <div
+        className="relative overflow-hidden"
+        style={{ containerType: "inline-size" }}
+      >
         <Image
           src={product.back}
           alt={`${product.name} — costas`}
@@ -104,7 +110,10 @@ function BackOverlay({
             top: "12%",
             left: "42%",
             color: textColor,
-            fontSize: "clamp(18px, 4vw, 38px)",
+            // 11cqw = 11% da largura do slot (container query). Funciona
+            // proporcional tanto em mobile (slot ~170px → 18.7px) quanto
+            // desktop (slot ~480px → 53px).
+            fontSize: "11cqw",
             letterSpacing: "0.10em",
             fontWeight: 400,
             textShadow:
@@ -120,14 +129,14 @@ function BackOverlay({
         <div
           className="absolute -translate-x-1/2 text-center"
           style={{
-            top: "18%",
+            top: "20%",
             left: "42%",
             color: textColor,
-            fontSize: "clamp(110px, 22vw, 240px)",
+            fontSize: "55cqw",
             lineHeight: 1,
             letterSpacing: "0.04em",
             fontWeight: 400,
-            WebkitTextStroke: `6px ${accent}`,
+            WebkitTextStroke: `1.2cqw ${accent}`,
             paintOrder: "stroke fill",
             textShadow:
               "0 3px 0 rgba(0,0,0,0.28), 0 6px 12px rgba(0,0,0,0.18)",
@@ -163,11 +172,12 @@ function ChestNumberOverlay({
           top: "40%",
           left: "34%",
           color: textColor,
-          fontSize: "clamp(26px, 6vw, 56px)",
+          // 16cqw proporcional ao slot — escala bem em mobile e desktop
+          fontSize: "16cqw",
           lineHeight: 1,
           letterSpacing: "0.02em",
           fontWeight: 400,
-          WebkitTextStroke: `3.5px ${accent}`,
+          WebkitTextStroke: `0.7cqw ${accent}`,
           paintOrder: "stroke fill",
           textShadow:
             "0 1px 0 rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.14)",

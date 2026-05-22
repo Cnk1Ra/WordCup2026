@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Geist } from "next/font/google";
@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   title: "SpaceFut · Camisas Oficiais Copa 2026",
   description:
     "Camisas oficiais da Seleção Brasileira para a Copa 2026. Personalize com seu nome e número. Frete fixo R$ 5.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1, // Previne pinch-zoom indesejado em mobile (95% das vendas)
+  userScalable: false,
 };
 
 export default async function RootLayout({
