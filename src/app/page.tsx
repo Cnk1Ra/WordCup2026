@@ -10,12 +10,13 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-import { fetchProducts } from "@/lib/products-queries";
+import { fetchProducts, fetchProductsForSection } from "@/lib/products-queries";
 import { fetchActiveCategoriesWithCount } from "@/lib/categories-queries";
 import { fetchHomeSections } from "@/lib/home-sections";
-import type { TrustBarItem } from "@/lib/home-sections";
+import type { TrustBarItem, ProductsGridData } from "@/lib/home-sections";
 import { ProductCard } from "@/components/ProductCard";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
+import type { Product } from "@/lib/products";
 
 export const revalidate = 60;
 
@@ -34,6 +35,21 @@ export default async function Home() {
     fetchActiveCategoriesWithCount(),
     fetchHomeSections(),
   ]);
+
+  // Pre-fetch produtos pra cada products_grid section (em paralelo)
+  const gridSections = sections.filter((s) => s.type === "products_grid");
+  const gridProducts: Record<string, Product[]> = {};
+  await Promise.all(
+    gridSections.map(async (sec) => {
+      const d = sec.data as ProductsGridData;
+      gridProducts[sec.id] = await fetchProductsForSection({
+        categorySlug: d.category_slug,
+        personalizableOnly: d.filter_personalizable,
+        mineirosFirst: d.mineiros_first,
+        limit: d.limit ?? 8,
+      });
+    })
+  );
 
   return (
     <div className="flex flex-col">
@@ -105,27 +121,37 @@ export default async function Home() {
             );
           }
           if (section.type === "products_grid") {
-            const limit = section.data.limit ?? 12;
-            const shown = products.slice(0, limit);
+            const shown = gridProducts[section.id] ?? [];
+            if (shown.length === 0) return null;
+            const data = section.data as ProductsGridData;
+            const sectionId = data.filter_personalizable ? "personalizaveis" : undefined;
+            const collectionLink = data.category_slug
+              ? `/colecao/${data.category_slug}`
+              : undefined;
             return (
               <section
                 key={section.id}
-                id="camisas"
+                id={sectionId}
                 className="px-4 mt-10 sm:mt-14"
               >
                 <div className="mx-auto max-w-6xl flex flex-col gap-4">
                   <div className="flex items-end justify-between">
                     <div>
                       <p className="text-xs uppercase tracking-wider text-foreground/50 font-semibold">
-                        {section.data.subtitle}
+                        {data.subtitle}
                       </p>
                       <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
-                        {section.data.title}
+                        {data.title}
                       </h2>
                     </div>
-                    <span className="text-xs text-foreground/60 hidden sm:block">
-                      {products.length} produtos
-                    </span>
+                    {collectionLink && (
+                      <Link
+                        href={collectionLink}
+                        className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-foreground/70 hover:text-foreground"
+                      >
+                        Ver tudo <ArrowRight className="size-3.5" />
+                      </Link>
+                    )}
                   </div>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     {shown.map((p) => (

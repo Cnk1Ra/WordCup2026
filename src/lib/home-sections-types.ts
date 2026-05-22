@@ -30,6 +30,8 @@ export type ProductsGridData = {
   subtitle: string;
   limit: number;
   category_slug?: string;
+  filter_personalizable?: boolean;
+  mineiros_first?: boolean;
 };
 
 export type HowItWorksStep = { title: string; description: string };

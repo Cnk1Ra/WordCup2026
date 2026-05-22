@@ -68,6 +68,75 @@ export async function fetchProducts(): Promise<Product[]> {
     .filter((p) => p.front || p.cardImage);
 }
 
+const MINEIROS_SLUGS = /atletico-mineiro|atletico-mg|atletico mg|cruzeiro|america-mg|america mineiro/i;
+
+// Pra cada section da home, busca o subset de produtos certo.
+export async function fetchProductsForSection(opts: {
+  categorySlug?: string;
+  personalizableOnly?: boolean;
+  mineirosFirst?: boolean;
+  limit?: number;
+}): Promise<Product[]> {
+  const supabase = getSupabaseServer();
+  const limit = opts.limit ?? 8;
+
+  let query = supabase
+    .from("products")
+    .select("*, card_images:product_images(url, is_card)")
+    .eq("is_active", true)
+    .not("front_image", "is", null);
+
+  if (opts.personalizableOnly) {
+    query = query.eq("allows_personalization", true);
+  }
+
+  if (opts.categorySlug) {
+    const { data: cat } = await supabase
+      .from("categories")
+      .select("id")
+      .eq("slug", opts.categorySlug)
+      .maybeSingle();
+    if (cat) {
+      const { data: links } = await supabase
+        .from("product_categories")
+        .select("product_id")
+        .eq("category_id", cat.id);
+      const ids = (links ?? []).map((l) => l.product_id);
+      if (ids.length === 0) return [];
+      query = query.in("id", ids);
+    }
+  }
+
+  query = query.order("display_order", { ascending: true });
+  if (!opts.mineirosFirst) {
+    query = query.limit(limit);
+  }
+
+  const { data } = await query;
+  type RowWithImages = ProductRow & {
+    name: string;
+    card_images?: { url: string; is_card: boolean }[];
+  };
+  let rows = (data ?? []) as RowWithImages[];
+
+  if (opts.mineirosFirst) {
+    // Mineiros (Atlético-MG, Cruzeiro, América-MG) primeiro, depois resto
+    rows.sort((a, b) => {
+      const aMin = MINEIROS_SLUGS.test(a.name) ? 0 : 1;
+      const bMin = MINEIROS_SLUGS.test(b.name) ? 0 : 1;
+      return aMin - bMin;
+    });
+    rows = rows.slice(0, limit);
+  }
+
+  return rows.map((row) => {
+    const product = rowToProduct(row);
+    const cardOverride = row.card_images?.find((i) => i.is_card)?.url;
+    product.cardImage = cardOverride ?? null;
+    return product;
+  });
+}
+
 export async function fetchProductBySlug(
   slug: string
 ): Promise<Product | null> {
