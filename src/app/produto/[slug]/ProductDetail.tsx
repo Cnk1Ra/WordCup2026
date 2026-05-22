@@ -85,12 +85,25 @@ export function ProductDetail({ product }: { product: Product }) {
       <div className="mx-auto max-w-6xl px-4 mt-4 grid lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-12">
         {/* Showcase */}
         <div className="flex flex-col gap-3">
-          <JerseyShowcase
-            product={product}
-            personalize={personalize}
-            name={name}
-            number={number}
-          />
+          {product.allowsPersonalization ? (
+            <JerseyShowcase
+              product={product}
+              personalize={personalize}
+              name={name}
+              number={number}
+            />
+          ) : (
+            <div className="relative rounded-[2rem] overflow-hidden border border-border bg-white aspect-[3/4]">
+              {product.front && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={product.front}
+                  alt={product.name}
+                  className="absolute inset-0 size-full object-contain p-4"
+                />
+              )}
+            </div>
+          )}
         </div>
 
         {/* Info */}
@@ -142,6 +155,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           {/* Personalization */}
+          {product.allowsPersonalization && (
           <div className="rounded-3xl border border-border bg-white p-4 flex flex-col gap-3">
             <label className="flex items-start gap-3 cursor-pointer">
               <input
@@ -213,6 +227,7 @@ export function ProductDetail({ product }: { product: Product }) {
               </div>
             )}
           </div>
+          )}
 
           {/* Desktop CTA */}
           <div className="hidden sm:flex flex-col gap-2">
