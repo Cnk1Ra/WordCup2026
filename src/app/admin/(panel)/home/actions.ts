@@ -73,22 +73,44 @@ export async function updateSectionData(
 }
 
 // Busca produtos pelo nome pra o picker (admin). Retorna até 20.
+// Estratégia em 2 passos:
+// 1) ILIKE direto (rápido, mas não tolera acentos)
+// 2) Se pouco resultado, fetch paginado de todos os ativos + normalize
+//    client-side (cobre acentos, cobre catalogo > 1000 produtos)
 export async function searchProductsForPicker(query: string) {
   await ensureAdmin();
   const q = query.trim();
   if (!q) return [];
   const supabase = getSupabaseServer();
-  // Fetch + filter em memoria pra ignorar acentos
-  const { data } = await supabase
-    .from("products")
-    .select("id, slug, name, short_name, front_image")
-    .eq("is_active", true)
-    .limit(500);
   const norm = (s: string) =>
     s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const qn = norm(q);
-  return (data ?? [])
-    .filter((p) => norm(`${p.name} ${p.short_name ?? ""}`).includes(qn))
+
+  // 1ª tentativa: ILIKE rápido
+  const { data: direct } = await supabase
+    .from("products")
+    .select("id, slug, name, short_name, front_image")
+    .eq("is_active", true)
+    .or(`name.ilike.%${q}%,short_name.ilike.%${q}%,slug.ilike.%${qn}%`)
+    .limit(20);
+  if ((direct?.length ?? 0) >= 5) return direct ?? [];
+
+  // Fallback: paginação + normalize (sem limite de 1000)
+  const all: { id: string; slug: string; name: string; short_name: string | null; front_image: string | null }[] = [];
+  let offset = 0;
+  while (true) {
+    const { data: page } = await supabase
+      .from("products")
+      .select("id, slug, name, short_name, front_image")
+      .eq("is_active", true)
+      .range(offset, offset + 999);
+    if (!page || page.length === 0) break;
+    all.push(...page);
+    if (page.length < 1000) break;
+    offset += 1000;
+  }
+  return all
+    .filter((p) => norm(`${p.name} ${p.short_name ?? ""} ${p.slug}`).includes(qn))
     .slice(0, 20);
 }
 
