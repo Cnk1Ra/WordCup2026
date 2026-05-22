@@ -1,7 +1,24 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+
+  // Rate limit /buscar — server component faz fetch de toda a tabela de
+  // produtos a cada request. Sem limit, atacante pode DoS o DB. 30 req/min
+  // é generoso pra uso real (3 buscas/seg por usuario).
+  if (path === "/buscar" && request.nextUrl.searchParams.has("q")) {
+    const ip = getClientIp(request.headers);
+    const rl = rateLimit(`search:${ip}`, 30, 60 * 1000);
+    if (!rl.ok) {
+      return new NextResponse(
+        "Muitas buscas. Aguarde um momento.",
+        { status: 429, headers: { "Retry-After": String(rl.resetInSeconds) } }
+      );
+    }
+  }
+
   const response = NextResponse.next({
     request: { headers: request.headers },
   });
@@ -27,7 +44,6 @@ export async function middleware(request: NextRequest) {
   // Refresh session
   await supabase.auth.getUser();
 
-  const path = request.nextUrl.pathname;
   if (path.startsWith("/admin") && path !== "/admin/login") {
     const {
       data: { user },
@@ -43,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/buscar"],
 };

@@ -20,6 +20,7 @@ import {
   LayoutTemplate,
   Ticket,
   Receipt,
+  ShieldCheck,
 } from "lucide-react";
 import { getSupabaseBrowser } from "@/lib/supabase/browser";
 
@@ -34,6 +35,7 @@ const NAV = [
   { href: "/admin/despesas", label: "Despesas", icon: Receipt },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/home", label: "Editar home", icon: LayoutTemplate },
+  { href: "/admin/auditoria", label: "Auditoria", icon: ShieldCheck },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ];
 

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 function slugify(s: string): string {
   return s
@@ -45,15 +46,27 @@ export async function createProductAction(
     .maybeSingle();
   if (existing) return { error: `Já existe produto com slug "${slug}".` };
 
-  const { error } = await supabase.from("products").insert({
-    slug,
-    name,
-    short_name: name.slice(0, 40),
-    base_price,
-    is_active: false,
-    status: "draft",
-  });
+  const { data: created, error } = await supabase
+    .from("products")
+    .insert({
+      slug,
+      name,
+      short_name: name.slice(0, 40),
+      base_price,
+      is_active: false,
+      status: "draft",
+    })
+    .select("id")
+    .single();
   if (error) return { error: error.message };
+
+  await logAdminAction({
+    action: "product.create",
+    entityType: "products",
+    entityId: created?.id,
+    description: `Criou produto "${name}" (R$ ${base_price.toFixed(2)})`,
+    metadata: { slug, base_price },
+  });
 
   revalidatePath("/admin/produtos");
   redirect(`/admin/produtos/${slug}`);

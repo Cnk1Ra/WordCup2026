@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 import { parseCsvAuto, type ParsedProduct } from "@/lib/import";
 import {
   fetchLojaDoCapitaImages,
@@ -104,6 +105,20 @@ export async function importProductsFromCsv(
       });
     }
   }
+
+  await logAdminAction({
+    action: "product.bulk_import",
+    entityType: "products",
+    description: `Import CSV — criados: ${result.created}, atualizados: ${result.updated}, falhas: ${result.failed}`,
+    metadata: {
+      created: result.created,
+      updated: result.updated,
+      failed: result.failed,
+      images_fetched: result.imagesFetched,
+      categories: categoryIds,
+      force_active: forceActive,
+    },
+  });
 
   revalidatePath("/admin/produtos");
   revalidatePath("/");

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 function slugify(s: string): string {
   return s
@@ -44,6 +45,13 @@ export async function createCategoryAction(
   const { error } = await supabase.from("categories").insert({ slug, name });
   if (error) return { error: error.message };
 
+  await logAdminAction({
+    action: "category.create",
+    entityType: "categories",
+    description: `Criou categoria "${name}" (${slug})`,
+    metadata: { slug, name },
+  });
+
   revalidatePath("/admin/categorias");
   revalidatePath("/");
   return { error: null };
@@ -57,6 +65,13 @@ export async function updateCategoryAction(
   const supabase = getSupabaseServer();
   const { error } = await supabase.from("categories").update(patch).eq("id", id);
   if (error) throw new Error(error.message);
+  await logAdminAction({
+    action: "category.update",
+    entityType: "categories",
+    entityId: id,
+    description: `Editou categoria ${patch.name ?? id}`,
+    metadata: patch as Record<string, unknown>,
+  });
   revalidatePath("/admin/categorias");
   revalidatePath("/");
 }
@@ -64,8 +79,19 @@ export async function updateCategoryAction(
 export async function deleteCategoryAction(id: string) {
   await ensureAdmin();
   const supabase = getSupabaseServer();
+  const { data: cur } = await supabase
+    .from("categories")
+    .select("name, slug")
+    .eq("id", id)
+    .maybeSingle();
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) throw new Error(error.message);
+  await logAdminAction({
+    action: "category.delete",
+    entityType: "categories",
+    entityId: id,
+    description: cur ? `Excluiu categoria "${cur.name}"` : `Excluiu categoria ${id}`,
+  });
   revalidatePath("/admin/categorias");
   revalidatePath("/");
 }

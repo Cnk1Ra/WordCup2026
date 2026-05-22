@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 const BUCKET = "products";
 
@@ -66,6 +67,14 @@ export async function saveProduct(input: {
       .insert(rows);
     if (catError) throw new Error(catError.message);
   }
+
+  await logAdminAction({
+    action: "product.update",
+    entityType: "products",
+    entityId: input.id,
+    description: `Editou produto "${input.short_name || input.name}"`,
+    metadata: { is_active: input.is_active, base_price: input.base_price },
+  });
 
   revalidatePath("/admin/produtos");
   revalidatePath("/");
@@ -232,8 +241,23 @@ export async function deleteProductAction(id: string) {
     );
   }
 
+  // Pega nome antes de deletar pro log
+  const { data: prod } = await supabase
+    .from("products")
+    .select("name, slug")
+    .eq("id", id)
+    .maybeSingle();
+
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) throw new Error(error.message);
+
+  await logAdminAction({
+    action: "product.delete",
+    entityType: "products",
+    entityId: id,
+    description: `Excluiu produto "${prod?.name ?? id}"`,
+    metadata: { slug: prod?.slug },
+  });
 
   revalidatePath("/admin/produtos");
   revalidatePath("/");

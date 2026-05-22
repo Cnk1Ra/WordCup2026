@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { SHIPPING_BRL } from "@/lib/products";
 import { validateCoupon } from "@/lib/coupons";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 type CheckoutItem = {
   id: string;
@@ -28,6 +29,16 @@ type StripeLineItem = {
 };
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 10 sessões Stripe por IP / 5min. Previne spam que custa $.
+  const ip = getClientIp(req.headers);
+  const rl = rateLimit(`checkout:${ip}`, 10, 5 * 60 * 1000);
+  if (!rl.ok) {
+    return Response.json(
+      { error: `Muitas tentativas. Tente em ${Math.ceil(rl.resetInSeconds / 60)} min.` },
+      { status: 429 }
+    );
+  }
+
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
     return Response.json(

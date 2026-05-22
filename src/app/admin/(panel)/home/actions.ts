@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -19,14 +20,21 @@ export async function toggleSectionEnabled(id: string) {
   const supabase = getSupabaseServer();
   const { data: cur } = await supabase
     .from("home_sections")
-    .select("enabled")
+    .select("enabled, kind, title")
     .eq("id", id)
     .single();
   if (!cur) return;
+  const next = !cur.enabled;
   await supabase
     .from("home_sections")
-    .update({ enabled: !cur.enabled })
+    .update({ enabled: next })
     .eq("id", id);
+  await logAdminAction({
+    action: next ? "home_section.enable" : "home_section.disable",
+    entityType: "home_sections",
+    entityId: id,
+    description: `${next ? "Ativou" : "Desativou"} seção ${cur.title ?? cur.kind ?? id}`,
+  });
   revalidateHome();
 }
 
@@ -69,6 +77,12 @@ export async function updateSectionData(
     .update({ data })
     .eq("id", id);
   if (error) throw new Error(error.message);
+  await logAdminAction({
+    action: "home_section.update",
+    entityType: "home_sections",
+    entityId: id,
+    description: `Editou conteúdo da seção ${id}`,
+  });
   revalidateHome();
 }
 

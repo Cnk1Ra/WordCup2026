@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -66,6 +67,13 @@ export async function createExpenseAction(
   });
   if (error) return { error: error.message };
 
+  await logAdminAction({
+    action: "expense.create",
+    entityType: "expenses",
+    description: `${description} (R$ ${amount.toFixed(2)}) — pago por ${paidByName ?? "?"}`,
+    metadata: { amount, category, paid_by: paidByName },
+  });
+
   revalidatePath("/admin/despesas");
   revalidatePath("/admin");
   revalidatePath("/admin/financeiro");
@@ -85,7 +93,20 @@ export async function listAdminsForExpense() {
 export async function deleteExpense(id: string) {
   await ensureAdmin();
   const supabase = getSupabaseServer();
+  const { data: exp } = await supabase
+    .from("expenses")
+    .select("description, amount")
+    .eq("id", id)
+    .maybeSingle();
   await supabase.from("expenses").delete().eq("id", id);
+  await logAdminAction({
+    action: "expense.delete",
+    entityType: "expenses",
+    entityId: id,
+    description: exp
+      ? `Excluiu despesa "${exp.description}" (R$ ${Number(exp.amount).toFixed(2)})`
+      : `Excluiu despesa ${id}`,
+  });
   revalidatePath("/admin/despesas");
   revalidatePath("/admin");
   revalidatePath("/admin/financeiro");

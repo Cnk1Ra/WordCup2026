@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
+import { logAdminAction } from "@/lib/audit-log";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -99,6 +100,14 @@ export async function createManualOrderAction(
     }
   }
 
+  await logAdminAction({
+    action: "order.create_manual",
+    entityType: "orders",
+    entityId: order.id,
+    description: `Pedido manual ${number} · ${customerName} · R$ ${total.toFixed(2)}`,
+    metadata: { total, customer: customerName, payment_method: payMethod, product_id: productId, size, quantity },
+  });
+
   revalidatePath("/admin/pedidos");
   revalidatePath("/admin");
   revalidatePath("/admin/financeiro");
@@ -132,6 +141,13 @@ export async function updateOrderStatus(
     .update(patch)
     .eq("id", orderId);
   if (error) throw new Error(error.message);
+  await logAdminAction({
+    action: "order.status_update",
+    entityType: "orders",
+    entityId: orderId,
+    description: `Status do pedido → ${status}`,
+    metadata: { status },
+  });
   revalidatePath("/admin/pedidos");
   revalidatePath("/admin");
 }
@@ -144,5 +160,11 @@ export async function updateTrackingCode(orderId: string, code: string) {
     .update({ tracking_code: code.trim() || null })
     .eq("id", orderId);
   if (error) throw new Error(error.message);
+  await logAdminAction({
+    action: "order.tracking_update",
+    entityType: "orders",
+    entityId: orderId,
+    description: code.trim() ? `Tracking: ${code.trim()}` : "Tracking removido",
+  });
   revalidatePath("/admin/pedidos");
 }
