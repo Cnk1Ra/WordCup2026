@@ -12,12 +12,16 @@ const ERROR_MESSAGES: Record<string, string> = {
 };
 
 type Props = {
-  searchParams: Promise<{ redirectTo?: string; err?: string }>;
+  searchParams: Promise<{ redirectTo?: string; err?: string; retry?: string }>;
 };
 
 export default async function AdminLoginPage({ searchParams }: Props) {
-  const { redirectTo = "/admin", err } = await searchParams;
-  const errorMsg = err ? ERROR_MESSAGES[err] ?? null : null;
+  const { redirectTo = "/admin", err, retry } = await searchParams;
+  let errorMsg = err ? ERROR_MESSAGES[err] ?? null : null;
+  if (err === "rate" && retry) {
+    const min = Math.ceil(Number(retry) / 60);
+    errorMsg = `Muitas tentativas de login. Tente novamente em ${min} min.`;
+  }
 
   return (
     <div className="min-h-screen grid place-items-center px-4 bg-muted">

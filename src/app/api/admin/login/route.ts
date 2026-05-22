@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const form = await request.formData();
@@ -10,6 +11,15 @@ export async function POST(request: NextRequest) {
   const loginUrl = new URL("/admin/login", request.url);
   if (redirectTo && redirectTo !== "/admin") {
     loginUrl.searchParams.set("redirectTo", redirectTo);
+  }
+
+  // Rate limit POR IP: 5 tentativas a cada 15 min. Bloqueia brute force.
+  const ip = getClientIp(request.headers);
+  const limit = rateLimit(`login:${ip}`, 5, 15 * 60 * 1000);
+  if (!limit.ok) {
+    loginUrl.searchParams.set("err", "rate");
+    loginUrl.searchParams.set("retry", String(limit.resetInSeconds));
+    return NextResponse.redirect(loginUrl, 303);
   }
 
   if (!email || !password) {
