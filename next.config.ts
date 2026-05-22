@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).host
@@ -15,7 +16,7 @@ const csp = [
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data: blob: https: http:`,
   `font-src 'self' data:`,
-  `connect-src 'self' ${supabaseHost ? `https://${supabaseHost} wss://${supabaseHost}` : ""} https://api.stripe.com https://*.vercel-insights.com`,
+  `connect-src 'self' ${supabaseHost ? `https://${supabaseHost} wss://${supabaseHost}` : ""} https://api.stripe.com https://*.vercel-insights.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
   `frame-src 'self' https://js.stripe.com https://hooks.stripe.com`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
@@ -63,4 +64,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Wrap com Sentry. Em dev sem DSN, withSentryConfig vira no-op (não interfere).
+// Pra envio de source maps, defina SENTRY_AUTH_TOKEN (escopo write) no Vercel.
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  // Não tenta upload de source maps se nao tiver auth token (evita warning ruidoso)
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+  },
+});
