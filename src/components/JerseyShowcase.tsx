@@ -107,19 +107,18 @@ function BackOverlay({
         <div
           className="absolute -translate-x-1/2 text-center"
           style={{
-            top: "12%",
+            top: "16%",
             left: "42%",
             color: textColor,
-            // 11cqw = 11% da largura do slot (container query). Funciona
-            // proporcional tanto em mobile (slot ~170px → 18.7px) quanto
-            // desktop (slot ~480px → 53px).
-            fontSize: "11cqw",
-            letterSpacing: "0.10em",
+            fontSize: "14cqw",
+            letterSpacing: "0.08em",
             fontWeight: 400,
-            textShadow:
-              "0 1px 0 rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.16)",
-            filter: "contrast(1.1)",
+            // Sem text-shadow pesada — fica carregado em mobile. Stroke fino
+            // do accent já dá contorno suficiente.
+            WebkitTextStroke: `0.3cqw ${accent}`,
+            paintOrder: "stroke fill",
             whiteSpace: "nowrap",
+            lineHeight: 1,
           }}
         >
           {displayName}
@@ -129,18 +128,17 @@ function BackOverlay({
         <div
           className="absolute -translate-x-1/2 text-center"
           style={{
-            top: "20%",
+            top: "28%",
             left: "42%",
             color: textColor,
-            fontSize: "55cqw",
-            lineHeight: 1,
-            letterSpacing: "0.04em",
+            fontSize: "70cqw",
+            lineHeight: 0.9,
+            letterSpacing: "0.02em",
             fontWeight: 400,
-            WebkitTextStroke: `1.2cqw ${accent}`,
+            WebkitTextStroke: `1.5cqw ${accent}`,
             paintOrder: "stroke fill",
-            textShadow:
-              "0 3px 0 rgba(0,0,0,0.28), 0 6px 12px rgba(0,0,0,0.18)",
-            filter: "contrast(1.1)",
+            // Sombra removida — número de camisa real não tem drop shadow,
+            // e em mobile a sombra ficava muito pesada/escura.
           }}
         >
           {displayNumber}
@@ -169,20 +167,16 @@ function ChestNumberOverlay({
       <div
         className="absolute text-center"
         style={{
-          top: "40%",
+          top: "42%",
           left: "34%",
           color: textColor,
-          // 16cqw proporcional ao slot — escala bem em mobile e desktop
-          fontSize: "16cqw",
-          lineHeight: 1,
+          fontSize: "22cqw",
+          lineHeight: 0.9,
           letterSpacing: "0.02em",
           fontWeight: 400,
-          WebkitTextStroke: `0.7cqw ${accent}`,
+          WebkitTextStroke: `0.6cqw ${accent}`,
           paintOrder: "stroke fill",
-          textShadow:
-            "0 1px 0 rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.14)",
-          filter: "contrast(1.1)",
-          transform: "translateX(-50%) scaleY(1.35)",
+          transform: "translateX(-50%) scaleY(1.25)",
           transformOrigin: "top center",
         }}
       >
