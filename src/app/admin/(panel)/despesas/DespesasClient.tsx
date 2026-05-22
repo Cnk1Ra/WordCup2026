@@ -16,7 +16,10 @@ type Expense = {
   amount: number | string;
   occurred_at: string;
   notes: string | null;
+  paid_by_name?: string | null;
 };
+
+type Admin = { id: string; name: string | null; email: string };
 
 const initialState: ExpenseFormState = { error: null };
 
@@ -30,7 +33,13 @@ const CATEGORY_LABELS: Record<string, string> = {
   outros: "Outros",
 };
 
-export default function DespesasClient({ expenses }: { expenses: Expense[] }) {
+export default function DespesasClient({
+  expenses,
+  admins,
+}: {
+  expenses: Expense[];
+  admins: Admin[];
+}) {
   const [state, formAction, isPending] = useActionState(
     createExpenseAction,
     initialState
@@ -88,6 +97,19 @@ export default function DespesasClient({ expenses }: { expenses: Expense[] }) {
             defaultValue={new Date().toISOString().slice(0, 10)}
             className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
           />
+          <select
+            name="paid_by_admin_id"
+            required
+            defaultValue=""
+            className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
+          >
+            <option value="">Quem pagou? *</option>
+            {admins.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name || a.email.split("@")[0]}
+              </option>
+            ))}
+          </select>
           <input
             name="notes"
             type="text"
@@ -124,6 +146,11 @@ export default function DespesasClient({ expenses }: { expenses: Expense[] }) {
                     <span className="font-bold uppercase tracking-wider text-foreground/80">
                       {CATEGORY_LABELS[e.category] ?? e.category}
                     </span>
+                    {e.paid_by_name && (
+                      <span className="ml-2 inline-block bg-foreground/10 rounded-full px-2 py-0.5 text-foreground/75">
+                        pagou: {e.paid_by_name}
+                      </span>
+                    )}
                     {e.notes && <span className="ml-2">· {e.notes}</span>}
                   </p>
                 </div>

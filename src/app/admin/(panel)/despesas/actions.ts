@@ -31,6 +31,7 @@ export async function createExpenseAction(
   const category = String(formData.get("category") || "outros");
   const occurredAt = String(formData.get("occurred_at") || "");
   const notes = String(formData.get("notes") || "").trim() || null;
+  const paidByAdminId = String(formData.get("paid_by_admin_id") || "").trim() || null;
 
   if (!description) return { error: "Descrição é obrigatória." };
   const amount = parseFloat(amountRaw.replace(",", "."));
@@ -42,12 +43,26 @@ export async function createExpenseAction(
   }
 
   const supabase = getSupabaseServer();
+
+  // Pega o nome do admin que pagou (cache de display)
+  let paidByName: string | null = null;
+  if (paidByAdminId) {
+    const { data: a } = await supabase
+      .from("admins")
+      .select("name, email")
+      .eq("id", paidByAdminId)
+      .maybeSingle();
+    paidByName = a?.name ?? a?.email?.split("@")[0] ?? null;
+  }
+
   const { error } = await supabase.from("expenses").insert({
     description,
     amount,
     category,
     occurred_at: occurredAt || new Date().toISOString().slice(0, 10),
     notes,
+    paid_by_admin_id: paidByAdminId,
+    paid_by_name: paidByName,
   });
   if (error) return { error: error.message };
 
@@ -55,6 +70,16 @@ export async function createExpenseAction(
   revalidatePath("/admin");
   revalidatePath("/admin/financeiro");
   return { error: null };
+}
+
+export async function listAdminsForExpense() {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+  const { data } = await supabase
+    .from("admins")
+    .select("id, name, email")
+    .order("name");
+  return data ?? [];
 }
 
 export async function deleteExpense(id: string) {
