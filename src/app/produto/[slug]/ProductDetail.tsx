@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Check,
   ChevronRight,
@@ -34,6 +34,20 @@ export function ProductDetail({ product }: { product: Product }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [adding, setAdding] = useState(false);
+
+  // Sticky CTA aparece só quando os botões principais saem do viewport.
+  const mainCtaRef = useRef<HTMLDivElement>(null);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+  useEffect(() => {
+    const el = mainCtaRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -80px 0px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const validNumber = (n: string) => {
     const v = parseInt(n, 10);
@@ -258,8 +272,8 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
           )}
 
-          {/* Desktop CTA */}
-          <div className="hidden sm:flex flex-col gap-2">
+          {/* CTAs principais (mobile + desktop) */}
+          <div ref={mainCtaRef} className="flex flex-col gap-2">
             <button
               onClick={() => handleAdd(false)}
               disabled={!canAdd || adding}
@@ -312,8 +326,12 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
       </div>
 
-      {/* Sticky mobile CTA */}
-      <div className="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-border p-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+      {/* Sticky mobile CTA — só aparece quando o CTA principal sai do view */}
+      <div
+        className={`sm:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-border p-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] transition-transform duration-300 ${
+          showStickyCta ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <p className="text-[11px] text-foreground/60 leading-none">Total</p>
