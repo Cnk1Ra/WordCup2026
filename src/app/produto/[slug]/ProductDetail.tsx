@@ -29,6 +29,7 @@ export function ProductDetail({ product }: { product: Product }) {
   const router = useRouter();
   const { add } = useCart();
   const [size, setSize] = useState<Size | null>(null);
+  const [qty, setQty] = useState(1);
   const [personalize, setPersonalize] = useState(false);
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -55,7 +56,7 @@ export function ProductDetail({ product }: { product: Product }) {
       name: product.shortName,
       size,
       image: product.front,
-      qty: 1,
+      qty,
       unitPrice,
       personalization: personalize
         ? { name: name.trim().toUpperCase(), number: number.toString() }
@@ -151,6 +152,34 @@ export function ProductDetail({ product }: { product: Product }) {
                   {s}
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* Quantidade */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-bold">Quantidade</p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                disabled={qty <= 1}
+                className="size-10 rounded-full border border-border bg-white grid place-items-center hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Diminuir"
+              >
+                −
+              </button>
+              <span className="text-lg font-black tabular-nums w-8 text-center">
+                {qty}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.min(10, q + 1))}
+                disabled={qty >= 10}
+                className="size-10 rounded-full border border-border bg-white grid place-items-center hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Aumentar"
+              >
+                +
+              </button>
             </div>
           </div>
 
