@@ -72,6 +72,42 @@ export async function updateSectionData(
   revalidateHome();
 }
 
+// Busca produtos pelo nome pra o picker (admin). Retorna até 20.
+export async function searchProductsForPicker(query: string) {
+  await ensureAdmin();
+  const q = query.trim();
+  if (!q) return [];
+  const supabase = getSupabaseServer();
+  // Fetch + filter em memoria pra ignorar acentos
+  const { data } = await supabase
+    .from("products")
+    .select("id, slug, name, short_name, front_image")
+    .eq("is_active", true)
+    .limit(500);
+  const norm = (s: string) =>
+    s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const qn = norm(q);
+  return (data ?? [])
+    .filter((p) => norm(`${p.name} ${p.short_name ?? ""}`).includes(qn))
+    .slice(0, 20);
+}
+
+// Resolve IDs em dados pra exibir no preview da lista de picks.
+export async function getProductsByIds(ids: string[]) {
+  await ensureAdmin();
+  if (ids.length === 0) return [];
+  const supabase = getSupabaseServer();
+  const { data } = await supabase
+    .from("products")
+    .select("id, slug, name, short_name, front_image")
+    .in("id", ids);
+  // Preserva a ordem do array de entrada
+  const byId = new Map((data ?? []).map((p) => [p.id, p]));
+  return ids
+    .map((id) => byId.get(id))
+    .filter((p): p is NonNullable<typeof p> => !!p);
+}
+
 export async function uploadSectionImage(formData: FormData): Promise<string> {
   await ensureAdmin();
   const file = formData.get("file") as File | null;

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { updateSectionData, uploadSectionImage } from "./actions";
 import { SECTION_TYPE_LABELS, type HomeSection, type HeroSlide, type TrustBarItem } from "@/lib/home-sections-types";
+import { ProductPicker } from "./ProductPicker";
 
 type Props = {
   section: HomeSection;
@@ -339,6 +340,8 @@ function GenericEditor({
     subtitle?: string;
     limit?: number;
     steps?: { title: string; description: string }[];
+    picks?: string[];
+    category_slug?: string;
   };
   const [data, setData] = useState<GenericData>(section.data as GenericData);
 
@@ -381,6 +384,14 @@ function GenericEditor({
           </Field>
         )}
       </div>
+
+      {section.type === "products_grid" && (
+        <ProductPicker
+          picks={data.picks ?? []}
+          onChange={(picks) => setData({ ...data, picks })}
+          hasCategory={!!data.category_slug}
+        />
+      )}
 
       {section.type === "how_it_works" && data.steps && (
         <HowItWorksSteps

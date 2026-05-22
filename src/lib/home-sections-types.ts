@@ -32,6 +32,9 @@ export type ProductsGridData = {
   category_slug?: string;
   filter_personalizable?: boolean;
   mineiros_first?: boolean;
+  // Se definido, mostra APENAS esses produtos na ordem dada (overrides
+  // qualquer category_slug/filter). Estilo "Featured products" do Shopify.
+  picks?: string[]; // product ids
 };
 
 export type HowItWorksStep = { title: string; description: string };

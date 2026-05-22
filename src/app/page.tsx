@@ -47,6 +47,7 @@ export default async function Home() {
         personalizableOnly: d.filter_personalizable,
         mineirosFirst: d.mineiros_first,
         limit: d.limit ?? 8,
+        picks: d.picks,
       });
     })
   );

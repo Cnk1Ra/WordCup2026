@@ -76,9 +76,31 @@ export async function fetchProductsForSection(opts: {
   personalizableOnly?: boolean;
   mineirosFirst?: boolean;
   limit?: number;
+  picks?: string[]; // ids escolhidos manualmente; sobrescreve categoria/filter
 }): Promise<Product[]> {
   const supabase = getSupabaseServer();
   const limit = opts.limit ?? 8;
+
+  // Featured: picks manuais — fetch e respeita a ordem do array.
+  if (opts.picks && opts.picks.length > 0) {
+    const { data } = await supabase
+      .from("products")
+      .select("*, card_images:product_images(url, is_card)")
+      .in("id", opts.picks)
+      .eq("is_active", true);
+    type Row = ProductRow & { name: string; card_images?: { url: string; is_card: boolean }[] };
+    const byId = new Map<string, Row>();
+    ((data ?? []) as Row[]).forEach((r) => byId.set(r.id, r));
+    return opts.picks
+      .slice(0, limit)
+      .map((id) => byId.get(id))
+      .filter((r): r is Row => !!r)
+      .map((row) => {
+        const product = rowToProduct(row);
+        product.cardImage = row.card_images?.find((i) => i.is_card)?.url ?? null;
+        return product;
+      });
+  }
 
   let query = supabase
     .from("products")
