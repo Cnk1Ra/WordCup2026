@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 
@@ -13,6 +14,12 @@ type NavNode = {
 export function HeaderMobileMenu({ tree }: { tree: NavNode[] }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Portal só após mount (SSR-safe)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Lock body scroll quando o menu tá aberto. Sem isso, no iOS dá pra rolar
   // a página por trás do overlay com o gesto de touch — sensação de "bugado".
@@ -35,22 +42,15 @@ export function HeaderMobileMenu({ tree }: { tree: NavNode[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        className="md:hidden p-2 -ml-2 rounded-full hover:bg-muted"
-        aria-label="Menu"
-      >
-        <Menu className="size-5" />
-      </button>
-
-      {open && (
-        <div
-          className="md:hidden fixed inset-0 z-50 bg-black/40"
-          onClick={() => setOpen(false)}
-        >
-          <aside
+  // O overlay precisa ser renderizado FORA do <header>, porque o header tem
+  // backdrop-blur que cria um containing block e bagunça position:fixed dos
+  // descendentes. Portal pro <body> resolve isso definitivamente.
+  const overlay = open && (
+    <div
+      className="md:hidden fixed inset-0 z-[60] bg-black/40"
+      onClick={() => setOpen(false)}
+    >
+      <aside
             className="absolute left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
@@ -132,7 +132,18 @@ export function HeaderMobileMenu({ tree }: { tree: NavNode[] }) {
             </nav>
           </aside>
         </div>
-      )}
+  );
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="md:hidden p-2 -ml-2 rounded-full hover:bg-muted"
+        aria-label="Menu"
+      >
+        <Menu className="size-5" />
+      </button>
+      {mounted && overlay ? createPortal(overlay, document.body) : null}
     </>
   );
 }
