@@ -33,6 +33,7 @@ export default async function ColecaoPage({
     min?: string;
     max?: string;
     sort?: string;
+    show?: string;
   }>;
 }) {
   const { slug } = await params;
@@ -51,6 +52,28 @@ export default async function ColecaoPage({
   const { category, products } = data;
 
   const hasFilters = !!(sp.size || sp.gender || sp.min || sp.max);
+
+  // Paginação progressiva. Default 24 produtos; clica "Ver mais" pra +24 ou
+  // "Ver tudo" pra todos. Server-side, sem JS, SEO-friendly.
+  const PAGE_STEP = 24;
+  const show = Math.max(
+    PAGE_STEP,
+    Math.min(products.length, parseInt(sp.show ?? `${PAGE_STEP}`, 10) || PAGE_STEP)
+  );
+  const visibleProducts = products.slice(0, show);
+  const remaining = products.length - visibleProducts.length;
+
+  function urlWith(extra: Record<string, string>): string {
+    const params = new URLSearchParams();
+    if (sp.size) params.set("size", sp.size);
+    if (sp.gender) params.set("gender", sp.gender);
+    if (sp.min) params.set("min", sp.min);
+    if (sp.max) params.set("max", sp.max);
+    if (sp.sort) params.set("sort", sp.sort);
+    Object.entries(extra).forEach(([k, v]) => params.set(k, v));
+    const qs = params.toString();
+    return `/colecao/${category.slug}${qs ? `?${qs}` : ""}`;
+  }
 
   return (
     <div className="flex flex-col">
@@ -170,11 +193,38 @@ export default async function ColecaoPage({
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {products.map((p) => (
-                <ProductCard key={p.slug} product={p} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {visibleProducts.map((p) => (
+                  <ProductCard key={p.slug} product={p} />
+                ))}
+              </div>
+
+              {remaining > 0 && (
+                <div className="mt-10 flex flex-col items-center gap-3">
+                  <p className="text-xs text-foreground/55 font-medium">
+                    Mostrando {visibleProducts.length} de {products.length}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <Link
+                      href={urlWith({ show: String(show + PAGE_STEP) })}
+                      scroll={false}
+                      className="rounded-full bg-foreground text-white font-bold px-6 py-3 inline-flex items-center justify-center gap-2 hover:opacity-90 transition text-sm"
+                    >
+                      Ver mais {Math.min(PAGE_STEP, remaining)} produto
+                      {Math.min(PAGE_STEP, remaining) === 1 ? "" : "s"}
+                    </Link>
+                    <Link
+                      href={urlWith({ show: String(products.length) })}
+                      scroll={false}
+                      className="rounded-full border border-foreground/20 font-bold px-6 py-3 inline-flex items-center justify-center gap-2 hover:bg-muted/50 transition text-sm"
+                    >
+                      Ver tudo ({products.length})
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

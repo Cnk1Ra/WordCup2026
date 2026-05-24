@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 
@@ -13,6 +13,27 @@ type NavNode = {
 export function HeaderMobileMenu({ tree }: { tree: NavNode[] }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  // Lock body scroll quando o menu tá aberto. Sem isso, no iOS dá pra rolar
+  // a página por trás do overlay com o gesto de touch — sensação de "bugado".
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  // Fecha com ESC (acessibilidade)
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <>

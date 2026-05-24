@@ -41,7 +41,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
 
         {product.badge && (
-          <span className="absolute bottom-3 left-3 z-20 rounded-full bg-foreground text-white text-[11px] font-bold px-3 py-1">
+          <span className="absolute bottom-2 left-2 z-20 rounded-full bg-foreground text-white text-[10px] font-bold px-2.5 py-1">
             {product.badge}
           </span>
         )}
