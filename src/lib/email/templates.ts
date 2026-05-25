@@ -246,6 +246,79 @@ Ver mais: ${SITE}`;
   };
 }
 
+// Notificação interna pros admins quando entra pedido novo. Layout diferente
+// (mais informativo, com link pro admin panel) — não é cliente que recebe.
+export function newOrderAdminEmail(order: Order): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  const addr = order.shipping_address;
+  const addrLine = addr
+    ? `${addr.line1 ?? ""}${addr.line2 ? `, ${addr.line2}` : ""}<br>${addr.city ?? ""}/${addr.state ?? ""} · CEP ${addr.postal_code ?? ""}`
+    : "Sem endereço";
+
+  const itemsHtml = (order.order_items ?? [])
+    .map(
+      (it) =>
+        `<tr><td style="padding:8px 0;border-bottom:1px solid ${BORDER};font-size:13px;"><strong>${escape(it.product_name)}</strong><br><span style="color:${MUTED};font-size:12px;">Tam ${escape(it.size)} · Qtd ${it.quantity}${
+          it.personalization && (it.personalization.name || it.personalization.number)
+            ? ` · ${it.personalization.name ?? ""}${it.personalization.number ? ` #${it.personalization.number}` : ""}`
+            : ""
+        }</span></td><td style="padding:8px 0;border-bottom:1px solid ${BORDER};text-align:right;font-weight:600;font-size:13px;white-space:nowrap;vertical-align:top;">${formatBRL(it.unit_price * it.quantity)}</td></tr>`
+    )
+    .join("");
+
+  const content = `
+<div style="background:${BRAND_YELLOW};color:${TEXT};padding:10px 14px;border-radius:10px;font-weight:900;font-size:13px;margin-bottom:16px;display:inline-block;">🛒 NOVO PEDIDO</div>
+
+<h1 style="margin:0 0 4px 0;font-size:24px;font-weight:900;">${escape(order.number)}</h1>
+<p style="margin:0 0 20px 0;color:${MUTED};font-size:14px;">${formatBRL(order.total)} · ${(order.order_items ?? []).length} ${(order.order_items ?? []).length === 1 ? "item" : "itens"}</p>
+
+<div style="background:${BG};border-radius:14px;padding:16px;margin-bottom:18px;">
+<div style="font-size:11px;font-weight:700;color:${MUTED};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Cliente</div>
+<div style="font-size:14px;font-weight:600;">${escape(order.customer_name ?? "Sem nome")}</div>
+<div style="font-size:13px;color:${MUTED};margin-top:2px;"><a href="mailto:${escape(order.customer_email)}" style="color:${MUTED};text-decoration:none;">${escape(order.customer_email)}</a></div>
+</div>
+
+<div style="background:${BG};border-radius:14px;padding:16px;margin-bottom:18px;">
+<div style="font-size:11px;font-weight:700;color:${MUTED};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Entrega</div>
+<div style="font-size:13px;line-height:1.5;">${addrLine}</div>
+</div>
+
+<div style="font-size:11px;font-weight:700;color:${MUTED};text-transform:uppercase;letter-spacing:0.5px;margin:8px 0 4px 0;">Itens</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${itemsHtml}</table>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;font-size:13px;">
+<tr><td style="color:${MUTED};">Subtotal</td><td style="text-align:right;">${formatBRL(order.subtotal)}</td></tr>
+<tr><td style="color:${MUTED};">Frete</td><td style="text-align:right;">${formatBRL(order.shipping)}</td></tr>
+<tr><td style="font-weight:900;font-size:15px;padding-top:6px;">Total</td><td style="text-align:right;font-weight:900;font-size:15px;padding-top:6px;">${formatBRL(order.total)}</td></tr>
+</table>
+
+<div style="margin-top:24px;text-align:center;">
+<a href="${SITE}/admin/pedidos" style="display:inline-block;background:${TEXT};color:#fff;font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;font-size:14px;">Abrir no admin</a>
+</div>
+
+<p style="margin-top:24px;color:${MUTED};font-size:12px;line-height:1.5;text-align:center;">Não responda este email — é uma notificação interna automática.</p>
+`;
+
+  const text = `NOVO PEDIDO ${order.number}
+
+Cliente: ${order.customer_name ?? "?"} (${order.customer_email})
+Total: ${formatBRL(order.total)}
+Itens: ${(order.order_items ?? []).length}
+
+Endereço: ${addr ? `${addr.line1 ?? ""} - ${addr.city ?? ""}/${addr.state ?? ""} ${addr.postal_code ?? ""}` : "?"}
+
+Admin: ${SITE}/admin/pedidos`;
+
+  return {
+    subject: `🛒 Pedido ${order.number} · ${formatBRL(order.total)} · SpaceFut`,
+    html: shell(content, `Novo pedido ${order.number} de ${formatBRL(order.total)}`),
+    text,
+  };
+}
+
 export function orderRefundedEmail(order: Order): {
   subject: string;
   html: string;

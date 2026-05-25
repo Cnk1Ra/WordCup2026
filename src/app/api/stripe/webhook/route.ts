@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email/send";
 import {
   orderConfirmationEmail,
   orderRefundedEmail,
+  newOrderAdminEmail,
 } from "@/lib/email/templates";
 
 // Stripe webhook handler.
@@ -214,19 +215,39 @@ async function persistOrder(
     }
   }
 
-  // Email de confirmação. Não bloqueia se falhar (já temos o pedido salvo).
-  if (customerEmail) {
-    const { data: full } = await supabase
-      .from("orders")
-      .select(
-        "number, total, subtotal, shipping, customer_name, customer_email, status, shipping_address, order_items(product_name, size, quantity, unit_price, personalization)"
-      )
-      .eq("id", order.id)
-      .maybeSingle();
-    if (full) {
+  // Email de confirmação pro cliente + notificação interna pros admins.
+  // Não bloqueia se falhar (pedido já salvo).
+  const { data: full } = await supabase
+    .from("orders")
+    .select(
+      "number, total, subtotal, shipping, customer_name, customer_email, status, shipping_address, order_items(product_name, size, quantity, unit_price, personalization)"
+    )
+    .eq("id", order.id)
+    .maybeSingle();
+  if (full) {
+    if (customerEmail) {
       const tpl = orderConfirmationEmail(full);
       await sendEmail({
         to: customerEmail,
+        subject: tpl.subject,
+        html: tpl.html,
+        text: tpl.text,
+      });
+    }
+
+    // Notifica admins owners (vai pra Fabricio + Yuri automaticamente; se
+    // adicionar mais owners no futuro, eles entram sozinhos)
+    const { data: admins } = await supabase
+      .from("admins")
+      .select("email")
+      .eq("role", "owner");
+    const adminEmails = (admins ?? [])
+      .map((a) => a.email)
+      .filter((e): e is string => !!e);
+    if (adminEmails.length > 0) {
+      const tpl = newOrderAdminEmail(full);
+      await sendEmail({
+        to: adminEmails,
         subject: tpl.subject,
         html: tpl.html,
         text: tpl.text,
