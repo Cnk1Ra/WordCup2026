@@ -174,6 +174,12 @@ export function useCart() {
   return v;
 }
 
-export function priceFor(personalized: boolean, name = "", number = "") {
-  return BASE_PRICE_BRL + (personalized ? personalizationFee(name, number) : 0);
+export function priceFor(
+  personalized: boolean,
+  name = "",
+  number = "",
+  basePrice?: number
+) {
+  const base = basePrice ?? BASE_PRICE_BRL;
+  return base + (personalized ? personalizationFee(name, number) : 0);
 }

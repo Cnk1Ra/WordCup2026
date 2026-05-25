@@ -60,7 +60,8 @@ export function ProductDetail({ product }: { product: Product }) {
       validNumber(number));
   const canAdd = !!size && persoValid;
   const persoFee = personalizationFee(name, number);
-  const unitPrice = priceFor(personalize, name, number);
+  const basePrice = product.basePrice ?? BASE_PRICE_BRL;
+  const unitPrice = priceFor(personalize, name, number, basePrice);
 
   const handleAdd = (goToCart: boolean) => {
     if (!canAdd || !size) return;
@@ -139,7 +140,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <p className="text-3xl font-black">{formatBRL(unitPrice)}</p>
             {personalize && (
               <p className="text-sm text-foreground/60 line-through">
-                {formatBRL(BASE_PRICE_BRL)}
+                {formatBRL(basePrice)}
               </p>
             )}
           </div>
