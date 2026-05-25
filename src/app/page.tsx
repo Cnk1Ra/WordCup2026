@@ -148,7 +148,7 @@ export default async function Home() {
                     {collectionLink && (
                       <Link
                         href={collectionLink}
-                        className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-foreground/70 hover:text-foreground"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-foreground/70 hover:text-foreground whitespace-nowrap"
                       >
                         Ver tudo <ArrowRight className="size-3.5" />
                       </Link>
@@ -159,6 +159,16 @@ export default async function Home() {
                       <ProductCard key={p.slug} product={p} />
                     ))}
                   </div>
+                  {collectionLink && (
+                    <div className="flex justify-center mt-4 sm:mt-6">
+                      <Link
+                        href={collectionLink}
+                        className="rounded-full border border-foreground/20 font-bold px-6 py-3 inline-flex items-center justify-center gap-2 hover:bg-muted/50 transition text-sm"
+                      >
+                        Ver todos os produtos <ArrowRight className="size-4" />
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </section>
             );

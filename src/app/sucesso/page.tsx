@@ -108,7 +108,7 @@ export default async function SuccessPage({ searchParams }: Props) {
             </div>
           )}
 
-          <div className="border-t border-border pt-5 flex items-start gap-3 bg-muted/40 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-6 sm:p-8 rounded-b-3xl">
+          <div className="border-t border-border pt-5 mt-1 flex items-start gap-3 rounded-2xl bg-muted/50 p-4">
             <Mail className="size-5 text-foreground/60 shrink-0 mt-0.5" />
             <div className="text-sm">
               <div className="font-semibold">Confirmação enviada</div>
@@ -127,18 +127,18 @@ export default async function SuccessPage({ searchParams }: Props) {
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto relative z-10">
         {order && (
           <Link
             href={`/pedido/${order.number}?email=${encodeURIComponent(order.customer_email)}`}
-            className="rounded-full bg-foreground text-white font-bold px-6 py-3 inline-flex items-center justify-center gap-2 hover:opacity-90 transition"
+            className="rounded-full bg-foreground text-white font-bold px-6 py-3 flex items-center justify-center gap-2 hover:opacity-90 transition w-full sm:w-auto"
           >
             Acompanhar pedido <ArrowRight className="size-4" />
           </Link>
         )}
         <Link
           href="/"
-          className="rounded-full border border-foreground/20 font-bold px-6 py-3 inline-flex items-center justify-center gap-2 hover:bg-muted/50 transition"
+          className="rounded-full border border-foreground/20 font-bold px-6 py-3 flex items-center justify-center gap-2 hover:bg-muted/50 transition w-full sm:w-auto"
         >
           Voltar à loja
         </Link>
