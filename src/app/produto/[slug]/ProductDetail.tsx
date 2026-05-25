@@ -270,6 +270,16 @@ export function ProductDetail({ product }: { product: Product }) {
                 </div>
               </div>
             )}
+            {personalize && (
+              <div className="mt-2 rounded-2xl bg-amber-50 border border-amber-200 px-4 py-3 flex items-start gap-2">
+                <span className="text-amber-700 text-base leading-none mt-0.5">⏱</span>
+                <p className="text-xs text-amber-900 leading-relaxed">
+                  <strong>Prazo de entrega: 15 a 20 dias.</strong> Camisas
+                  personalizadas são feitas sob encomenda e levam mais tempo que
+                  as do estoque pronto.
+                </p>
+              </div>
+            )}
           </div>
           )}
 

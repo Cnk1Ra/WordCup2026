@@ -1,10 +1,126 @@
 "use client";
 
-import { useActionState } from "react";
-import { Loader2, Save } from "lucide-react";
+import { useActionState, useState, useMemo, useRef, useEffect } from "react";
+import { Loader2, Save, Search, X } from "lucide-react";
 import { createManualOrderAction, type ManualOrderState } from "../actions";
 
 type Product = { id: string; name: string; slug: string; base_price: number | string };
+
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
+
+function ProductPicker({ products }: { products: Product[] }) {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState("");
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const selected = products.find((p) => p.id === selectedId);
+
+  const filtered = useMemo(() => {
+    const q = normalize(query.trim());
+    if (!q) return products.slice(0, 30);
+    return products
+      .filter((p) => normalize(`${p.name} ${p.slug}`).includes(q))
+      .slice(0, 30);
+  }, [query, products]);
+
+  // Fecha o dropdown clicando fora
+  useEffect(() => {
+    if (!open) return;
+    function onClick(e: MouseEvent) {
+      if (!containerRef.current?.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [open]);
+
+  function pick(p: Product) {
+    setSelectedId(p.id);
+    setQuery("");
+    setOpen(false);
+  }
+
+  function clear() {
+    setSelectedId("");
+    setQuery("");
+  }
+
+  return (
+    <div ref={containerRef} className="relative">
+      <input type="hidden" name="product_id" value={selectedId} required />
+
+      {selected ? (
+        <div className="h-11 rounded-2xl border border-foreground/30 bg-white px-3 flex items-center gap-2 text-sm">
+          <div className="flex-1 truncate font-medium">
+            {selected.name}
+            <span className="text-foreground/55 ml-1.5 text-xs">
+              R$ {Number(selected.base_price).toFixed(2)}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={clear}
+            aria-label="Trocar produto"
+            className="size-7 rounded-full hover:bg-muted grid place-items-center shrink-0"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="relative">
+            <Search className="size-4 absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40 pointer-events-none" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setOpen(true)}
+              placeholder="Buscar produto por nome…"
+              autoComplete="off"
+              className="h-11 w-full rounded-2xl border border-border bg-muted pl-9 pr-3 text-sm font-medium focus:outline-none focus:border-foreground"
+            />
+          </div>
+
+          {open && (
+            <div className="absolute z-20 mt-1 left-0 right-0 max-h-80 overflow-y-auto rounded-2xl border border-border bg-white shadow-lg">
+              {filtered.length === 0 ? (
+                <p className="px-4 py-3 text-xs text-foreground/55">
+                  Nenhum produto encontrado.
+                </p>
+              ) : (
+                filtered.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => pick(p)}
+                    className="w-full px-4 py-2.5 text-left text-sm hover:bg-muted flex items-center justify-between gap-3 border-b border-border last:border-0"
+                  >
+                    <span className="truncate font-medium">{p.name}</span>
+                    <span className="text-xs text-foreground/55 shrink-0">
+                      R$ {Number(p.base_price).toFixed(2)}
+                    </span>
+                  </button>
+                ))
+              )}
+              {query.trim() === "" && products.length > 30 && (
+                <p className="px-4 py-2 text-[11px] text-foreground/45 border-t border-border bg-muted/30">
+                  Mostrando primeiros 30 — digite pra refinar
+                </p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
 const initialState: ManualOrderState = { error: null };
 
@@ -51,18 +167,7 @@ export default function NovoPedidoForm({ products }: { products: Product[] }) {
       <h2 className="font-bold text-sm mt-2">Produto</h2>
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_120px_120px] gap-3">
         <Field label="Produto *">
-          <select
-            name="product_id"
-            required
-            className="h-11 rounded-2xl border border-border bg-muted px-4 text-sm font-medium focus:outline-none focus:border-foreground"
-          >
-            <option value="">Escolher…</option>
-            {products.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} — R$ {Number(p.base_price).toFixed(2)}
-              </option>
-            ))}
-          </select>
+          <ProductPicker products={products} />
         </Field>
         <Field label="Tamanho">
           <select

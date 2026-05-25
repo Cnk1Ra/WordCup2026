@@ -115,8 +115,8 @@ export default async function RootLayout({
 
               <div className="border-t border-border pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[11px] text-foreground/50">
                 <p>
-                  © {new Date().getFullYear()} {STORE_INFO.brand_name} ·{" "}
-                  {STORE_INFO.legal_name} · CNPJ {STORE_INFO.cnpj}
+                  © {new Date().getFullYear()} {STORE_INFO.brand_name} · CNPJ{" "}
+                  {STORE_INFO.cnpj}
                 </p>
                 <Link
                   href="/admin"
