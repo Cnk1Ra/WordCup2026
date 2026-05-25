@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Truck, Save, CheckCircle2, Loader2 } from "lucide-react";
-import { updateOrderStatus, updateTrackingCode } from "../actions";
+import { Truck, Save, CheckCircle2, Loader2, XCircle, AlertCircle } from "lucide-react";
+import {
+  updateOrderStatus,
+  updateTrackingCode,
+  cancelOrderAction,
+} from "../actions";
 import { formatBRL } from "@/lib/products";
 
 type OrderStatus =
@@ -26,6 +30,7 @@ const STATUS_OPTIONS: { value: OrderStatus; label: string }[] = [
 
 type Order = {
   id: string;
+  number: string;
   status: string;
   customer_name: string | null;
   customer_email: string;
@@ -38,6 +43,7 @@ type Order = {
   tracking_code: string | null;
   shipping_address: Record<string, string> | null;
   notes: string | null;
+  stripe_payment_intent: string | null;
 };
 
 type Item = {
@@ -61,6 +67,42 @@ export default function OrderDetailClient({
   const [savingTracking, startTracking] = useTransition();
   const [statusOk, setStatusOk] = useState(false);
   const [trackingOk, setTrackingOk] = useState(false);
+  const [cancelling, startCancel] = useTransition();
+  const [cancelMsg, setCancelMsg] = useState<{
+    type: "ok" | "error";
+    text: string;
+  } | null>(null);
+
+  const isCancelled = status === "cancelled" || status === "refunded";
+  const wasPaid = ["paid", "producing", "shipping"].includes(status);
+
+  function handleCancel() {
+    const reason = prompt(
+      "Motivo do cancelamento? (opcional, vai pro email do cliente)\n\nDeixe vazio se quiser pular."
+    );
+    if (reason === null) return; // usuário apertou cancel no prompt
+
+    const confirmMsg = wasPaid
+      ? `Confirmar cancelamento do pedido ${order.number}?\n\n• Reembolso de ${formatBRL(Number(order.total))} no Stripe\n• Estoque será restaurado\n• Cliente recebe email`
+      : `Confirmar cancelamento do pedido ${order.number}?\n\n• Estoque será restaurado\n• Cliente recebe email`;
+    if (!confirm(confirmMsg)) return;
+
+    setCancelMsg(null);
+    startCancel(async () => {
+      const result = await cancelOrderAction(order.id, reason || undefined);
+      if (result.ok) {
+        setCancelMsg({
+          type: "ok",
+          text: result.refunded
+            ? `Cancelado e reembolsado (${result.refundId}). Cliente notificado.`
+            : "Cancelado. Cliente notificado.",
+        });
+        setStatus(result.refunded ? "refunded" : "cancelled");
+      } else {
+        setCancelMsg({ type: "error", text: result.error });
+      }
+    });
+  }
 
   function saveStatus(next: OrderStatus) {
     setStatus(next);
@@ -238,6 +280,58 @@ export default function OrderDetailClient({
           <p className="text-sm mt-1">{order.notes}</p>
         </section>
       )}
+
+      {/* Zona perigosa: cancelar pedido */}
+      <section className="rounded-3xl border border-red-200 bg-red-50/40 p-6 flex flex-col gap-3">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="size-5 text-red-600 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <h2 className="font-bold text-red-900">Cancelar pedido</h2>
+            <p className="text-xs text-red-900/70 mt-1 leading-relaxed">
+              {wasPaid
+                ? "Vai reembolsar via Stripe (R$ volta pro cartão em 5-10 dias), restaurar o estoque e mandar email pro cliente."
+                : "Vai restaurar o estoque e mandar email pro cliente. Sem cobrança envolvida."}
+            </p>
+          </div>
+        </div>
+
+        {cancelMsg && (
+          <div
+            className={`rounded-xl px-4 py-3 text-sm flex items-start gap-2 ${
+              cancelMsg.type === "ok"
+                ? "bg-emerald-50 text-emerald-800"
+                : "bg-red-100 text-red-900"
+            }`}
+          >
+            {cancelMsg.type === "ok" ? (
+              <CheckCircle2 className="size-4 mt-0.5" />
+            ) : (
+              <AlertCircle className="size-4 mt-0.5" />
+            )}
+            {cancelMsg.text}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={handleCancel}
+          disabled={cancelling || isCancelled}
+          className="self-start inline-flex items-center gap-2 h-11 px-5 rounded-full bg-red-600 text-white text-sm font-bold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        >
+          {cancelling ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <XCircle className="size-4" />
+          )}
+          {cancelling
+            ? "Cancelando..."
+            : isCancelled
+              ? "Pedido já cancelado"
+              : wasPaid
+                ? `Cancelar e reembolsar ${formatBRL(Number(order.total))}`
+                : "Cancelar pedido"}
+        </button>
+      </section>
     </div>
   );
 }

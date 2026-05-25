@@ -248,6 +248,49 @@ Ver mais: ${SITE}`;
 
 // Notificação interna pros admins quando entra pedido novo. Layout diferente
 // (mais informativo, com link pro admin panel) — não é cliente que recebe.
+export function orderCancelledEmail(
+  order: Order,
+  reason?: string
+): { subject: string; html: string; text: string } {
+  const name = order.customer_name?.split(" ")[0] ?? "Torcedor";
+  const wasPaid = order.status !== "pending";
+
+  const content = `
+<h1 style="margin:0 0 8px 0;font-size:22px;font-weight:900;">Pedido cancelado</h1>
+<p style="margin:0 0 20px 0;color:${MUTED};font-size:14px;line-height:1.5;">Olá ${escape(name)}, o pedido <strong>${escape(order.number)}</strong> foi cancelado.</p>
+
+${
+  reason
+    ? `<div style="background:${BG};border-radius:14px;padding:14px 16px;margin-bottom:18px;">
+<div style="font-size:11px;font-weight:700;color:${MUTED};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Motivo</div>
+<div style="font-size:13px;line-height:1.5;">${escape(reason)}</div>
+</div>`
+    : ""
+}
+
+${
+  wasPaid
+    ? `<div style="background:${BG};border-radius:14px;padding:16px;margin-bottom:18px;">
+<div style="font-size:11px;font-weight:700;color:${MUTED};text-transform:uppercase;letter-spacing:0.5px;">Reembolso</div>
+<div style="font-size:18px;font-weight:900;margin-top:4px;">${formatBRL(order.total)}</div>
+<p style="margin:8px 0 0 0;color:${MUTED};font-size:12px;line-height:1.5;">Volta pro seu cartão em <strong>5 a 10 dias úteis</strong> (depende do banco). Se for crédito, pode aparecer como crédito na próxima fatura.</p>
+</div>`
+    : ""
+}
+
+<p style="margin:0;color:${MUTED};font-size:13px;line-height:1.6;">Qualquer dúvida, responde este email que a gente resolve rápido.</p>
+`;
+
+  const text = `Pedido ${order.number} cancelado.
+${reason ? `\nMotivo: ${reason}\n` : ""}${wasPaid ? `Reembolso de ${formatBRL(order.total)} processado — volta pro cartao em 5 a 10 dias uteis.` : ""}`;
+
+  return {
+    subject: `Pedido ${order.number} cancelado · SpaceFut`,
+    html: shell(content, `Pedido ${order.number} cancelado`),
+    text,
+  };
+}
+
 export function newOrderAdminEmail(order: Order): {
   subject: string;
   html: string;

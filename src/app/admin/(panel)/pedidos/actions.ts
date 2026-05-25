@@ -9,7 +9,9 @@ import { sendEmail } from "@/lib/email/send";
 import {
   orderShippedEmail,
   orderDeliveredEmail,
+  orderCancelledEmail,
 } from "@/lib/email/templates";
+import Stripe from "stripe";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -197,4 +199,110 @@ export async function updateTrackingCode(orderId: string, code: string) {
     description: code.trim() ? `Tracking: ${code.trim()}` : "Tracking removido",
   });
   revalidatePath("/admin/pedidos");
+}
+
+// Cancelamento completo: reembolsa Stripe (se aplicavel), restaura estoque,
+// envia email pro cliente. Resposta tem flag pra UI mostrar feedback.
+export type CancelResult =
+  | { ok: true; refunded: boolean; refundId?: string }
+  | { ok: false; error: string };
+
+export async function cancelOrderAction(
+  orderId: string,
+  reason?: string
+): Promise<CancelResult> {
+  await ensureAdmin();
+  const supabase = getSupabaseServer();
+
+  const { data: order } = await supabase
+    .from("orders")
+    .select(
+      "id, number, total, subtotal, shipping, status, customer_name, customer_email, stripe_payment_intent"
+    )
+    .eq("id", orderId)
+    .maybeSingle();
+  if (!order) return { ok: false, error: "Pedido não encontrado." };
+  if (order.status === "cancelled" || order.status === "refunded") {
+    return { ok: false, error: "Pedido já foi cancelado." };
+  }
+
+  // 1) Reembolso no Stripe (se o pedido tinha payment_intent e estava pago)
+  let refunded = false;
+  let refundId: string | undefined;
+  const wasPaid = ["paid", "producing", "shipping"].includes(order.status);
+  if (wasPaid && order.stripe_payment_intent && process.env.STRIPE_SECRET_KEY) {
+    try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+      const refund = await stripe.refunds.create({
+        payment_intent: order.stripe_payment_intent,
+      });
+      refunded = true;
+      refundId = refund.id;
+    } catch (e) {
+      return {
+        ok: false,
+        error: `Falha no reembolso Stripe: ${e instanceof Error ? e.message : String(e)}`,
+      };
+    }
+  }
+
+  // 2) Restaura estoque (devolve as quantidades vendidas)
+  const { data: items } = await supabase
+    .from("order_items")
+    .select("product_id, size, quantity")
+    .eq("order_id", order.id);
+  for (const it of items ?? []) {
+    if (!it.product_id || !it.size) continue;
+    const { data: inv } = await supabase
+      .from("inventory")
+      .select("quantity")
+      .eq("product_id", it.product_id)
+      .eq("size", it.size)
+      .maybeSingle();
+    if (inv) {
+      await supabase
+        .from("inventory")
+        .update({ quantity: inv.quantity + (it.quantity ?? 0) })
+        .eq("product_id", it.product_id)
+        .eq("size", it.size);
+    }
+  }
+
+  // 3) Marca como cancelled (ou refunded se reembolso saiu — webhook
+  // charge.refunded vai tambem disparar mas é idempotente)
+  await supabase
+    .from("orders")
+    .update({ status: refunded ? "refunded" : "cancelled" })
+    .eq("id", order.id);
+
+  // 4) Audit log
+  await logAdminAction({
+    action: "order.cancel",
+    entityType: "orders",
+    entityId: orderId,
+    description: refunded
+      ? `Cancelou pedido ${order.number} + reembolso ${refundId}`
+      : `Cancelou pedido ${order.number}`,
+    metadata: { reason, refunded, refund_id: refundId },
+  });
+
+  // 5) Email pro cliente. Se refunded=true, o webhook charge.refunded vai
+  // disparar orderRefundedEmail também — pra não duplicar, só mando o de
+  // cancelamento aqui se o refund NÃO saiu (pedido nem chegou em paid).
+  if (order.customer_email && !refunded) {
+    const tpl = orderCancelledEmail(order, reason);
+    await sendEmail({
+      to: order.customer_email,
+      subject: tpl.subject,
+      html: tpl.html,
+      text: tpl.text,
+    });
+  }
+
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/admin/pedidos/" + order.number);
+  revalidatePath("/admin");
+  revalidatePath("/admin/financeiro");
+
+  return { ok: true, refunded, refundId };
 }
