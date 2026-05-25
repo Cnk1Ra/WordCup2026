@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, Package, ArrowRight, Mail } from "lucide-react";
+import { CheckCircle2, Package, Mail } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { formatBRL } from "@/lib/products";
 import ClearCartOnMount from "./ClearCartOnMount";
@@ -127,18 +127,23 @@ export default async function SuccessPage({ searchParams }: Props) {
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto relative z-10">
+      <div
+        className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
+        style={{ position: "relative", zIndex: 20 }}
+      >
         {order && (
           <Link
             href={`/pedido/${order.number}?email=${encodeURIComponent(order.customer_email)}`}
-            className="rounded-full bg-foreground text-white font-bold px-6 py-3 flex items-center justify-center gap-2 hover:opacity-90 transition w-full sm:w-auto"
+            prefetch={false}
+            className="rounded-full bg-foreground text-white font-bold px-6 py-3 text-center transition hover:opacity-90 block sm:inline-block"
           >
-            Acompanhar pedido <ArrowRight className="size-4" />
+            Acompanhar pedido →
           </Link>
         )}
         <Link
           href="/"
-          className="rounded-full border border-foreground/20 font-bold px-6 py-3 flex items-center justify-center gap-2 hover:bg-muted/50 transition w-full sm:w-auto"
+          prefetch={false}
+          className="rounded-full border border-foreground/20 font-bold px-6 py-3 text-center transition hover:bg-muted/50 block sm:inline-block"
         >
           Voltar à loja
         </Link>
