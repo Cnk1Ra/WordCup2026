@@ -10,11 +10,15 @@ import { formatBRL } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
 
+// Custo médio por camisa (CMV). Usado pro calculo de lucro real.
+// Substituir por valor específico por produto quando tiver granularidade real.
+const SHIRT_COST_BRL = 60;
+
 export default async function DashboardPage() {
   const supabase = getSupabaseServer();
   const [productsRes, ordersRes, customersRes, expensesRes, adminsRes] = await Promise.all([
     supabase.from("products").select("*", { count: "exact", head: true }),
-    supabase.from("orders").select("total, status, created_at"),
+    supabase.from("orders").select("id, total, status, created_at"),
     supabase.from("customers").select("*", { count: "exact", head: true }),
     supabase.from("expenses").select("amount, paid_by_admin_id, paid_by_name"),
     supabase.from("admins").select("id, name, email"),
@@ -34,7 +38,23 @@ export default async function DashboardPage() {
     0
   );
   const totalExpenses = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
-  const profit = revenue - totalExpenses;
+
+  // CMV: soma da quantidade de itens vendidos × custo médio por camisa
+  const paidOrderIds = new Set(paidOrders.map((o) => o.id));
+  let shirtsSold = 0;
+  if (paidOrderIds.size > 0) {
+    const { data: items } = await supabase
+      .from("order_items")
+      .select("quantity, order_id")
+      .in("order_id", Array.from(paidOrderIds));
+    shirtsSold = (items ?? []).reduce(
+      (sum, it) => sum + Number(it.quantity ?? 0),
+      0
+    );
+  }
+  const cogs = shirtsSold * SHIRT_COST_BRL;
+
+  const profit = revenue - cogs - totalExpenses;
   const avgTicket = paidOrders.length > 0 ? revenue / paidOrders.length : 0;
   const profitMargin = revenue > 0 ? (profit / revenue) * 100 : 0;
 
@@ -59,6 +79,11 @@ export default async function DashboardPage() {
         <h1 className="text-xl font-black tracking-tight">Dashboard</h1>
       </header>
 
+      <p className="text-[10px] text-foreground/45 -mb-2">
+        CMV calculado em R$ {SHIRT_COST_BRL.toFixed(2)} por camisa ×{" "}
+        {shirtsSold} vendida{shirtsSold === 1 ? "" : "s"} = {formatBRL(cogs)}
+      </p>
+
       {/* KPI strip: receita · aguardando · despesas · lucro */}
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         <Kpi
@@ -81,7 +106,7 @@ export default async function DashboardPage() {
           label="Lucro líquido"
           value={`${profit < 0 ? "−" : ""}${formatBRL(Math.abs(profit))}`}
           tone={profit >= 0 ? "ok" : "bad"}
-          sub={`${profitMargin.toFixed(0)}% margem`}
+          sub={`CMV ${formatBRL(cogs)} · ${profitMargin.toFixed(0)}%`}
         />
       </section>
 
