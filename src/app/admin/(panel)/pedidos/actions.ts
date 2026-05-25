@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase/server";
 import { getCurrentAdmin } from "@/lib/supabase/auth-server";
 import { logAdminAction } from "@/lib/audit-log";
+import { sendEmail } from "@/lib/email/send";
+import {
+  orderShippedEmail,
+  orderDeliveredEmail,
+} from "@/lib/email/templates";
 
 async function ensureAdmin() {
   const admin = await getCurrentAdmin();
@@ -148,6 +153,31 @@ export async function updateOrderStatus(
     description: `Status do pedido → ${status}`,
     metadata: { status },
   });
+
+  // Email automático no shipping/delivered. Outros status (paid/refunded)
+  // são tratados via webhook do Stripe.
+  if (status === "shipping" || status === "delivered") {
+    const { data: order } = await supabase
+      .from("orders")
+      .select(
+        "number, total, subtotal, shipping, customer_name, customer_email, status, tracking_code"
+      )
+      .eq("id", orderId)
+      .maybeSingle();
+    if (order?.customer_email) {
+      const tpl =
+        status === "shipping"
+          ? orderShippedEmail(order)
+          : orderDeliveredEmail(order);
+      await sendEmail({
+        to: order.customer_email,
+        subject: tpl.subject,
+        html: tpl.html,
+        text: tpl.text,
+      });
+    }
+  }
+
   revalidatePath("/admin/pedidos");
   revalidatePath("/admin");
 }

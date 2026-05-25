@@ -1,6 +1,11 @@
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { getSupabaseServer } from "@/lib/supabase/server";
+import { sendEmail } from "@/lib/email/send";
+import {
+  orderConfirmationEmail,
+  orderRefundedEmail,
+} from "@/lib/email/templates";
 
 // Stripe webhook handler.
 // Documentação: https://docs.stripe.com/webhooks
@@ -208,6 +213,26 @@ async function persistOrder(
       }
     }
   }
+
+  // Email de confirmação. Não bloqueia se falhar (já temos o pedido salvo).
+  if (customerEmail) {
+    const { data: full } = await supabase
+      .from("orders")
+      .select(
+        "number, total, subtotal, shipping, customer_name, customer_email, status, shipping_address, order_items(product_name, size, quantity, unit_price, personalization)"
+      )
+      .eq("id", order.id)
+      .maybeSingle();
+    if (full) {
+      const tpl = orderConfirmationEmail(full);
+      await sendEmail({
+        to: customerEmail,
+        subject: tpl.subject,
+        html: tpl.html,
+        text: tpl.text,
+      });
+    }
+  }
 }
 
 async function markRefunded(charge: Stripe.Charge): Promise<void> {
@@ -217,10 +242,27 @@ async function markRefunded(charge: Stripe.Charge): Promise<void> {
       ? charge.payment_intent
       : charge.payment_intent?.id;
   if (!intentId) return;
+
+  const { data: order } = await supabase
+    .from("orders")
+    .select("number, total, subtotal, shipping, customer_name, customer_email, status")
+    .eq("stripe_payment_intent", intentId)
+    .maybeSingle();
+
   await supabase
     .from("orders")
     .update({ status: "refunded" })
     .eq("stripe_payment_intent", intentId);
+
+  if (order?.customer_email) {
+    const tpl = orderRefundedEmail({ ...order, status: "refunded" });
+    await sendEmail({
+      to: order.customer_email,
+      subject: tpl.subject,
+      html: tpl.html,
+      text: tpl.text,
+    });
+  }
 }
 
 function generateOrderNumber(): string {
