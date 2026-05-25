@@ -3,7 +3,6 @@ import {
   ShoppingBag,
   Users,
   TrendingUp,
-  TrendingDown,
   DollarSign,
 } from "lucide-react";
 import { getSupabaseServer } from "@/lib/supabase/server";
@@ -50,125 +49,64 @@ export default async function DashboardPage() {
   }));
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl">
+    <div className="flex flex-col gap-4 max-w-5xl">
       <header>
-        <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-          Dashboard
-        </h1>
-        <p className="text-sm text-foreground/60">
-          Visão geral do seu negócio em tempo real.
-        </p>
+        <h1 className="text-xl font-black tracking-tight">Dashboard</h1>
       </header>
 
-      {/* Lucro: destaque grande */}
-      <section
-        className={`rounded-3xl border p-6 sm:p-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 ${
-          profit >= 0
-            ? "bg-brand-green/5 border-brand-green/30"
-            : "bg-red-50 border-red-200"
-        }`}
-      >
-        <div>
-          <p className="text-xs uppercase tracking-wider font-bold text-foreground/55">
-            Lucro líquido (receita − despesas)
-          </p>
-          <p
-            className={`text-4xl sm:text-5xl font-black tracking-tight mt-1 ${
-              profit >= 0 ? "text-brand-green" : "text-red-700"
-            }`}
-          >
-            {profit < 0 ? "−" : ""}
-            {formatBRL(Math.abs(profit))}
-          </p>
-          <p className="text-xs text-foreground/55 mt-1">
-            Margem {profitMargin.toFixed(1)}% · {paidOrders.length} venda(s)
-            paga(s) · {expenses.length} despesa(s)
-          </p>
-        </div>
-        <div className="flex gap-6 text-right">
-          <div>
-            <p className="text-[11px] uppercase tracking-wider text-foreground/55 font-semibold">
-              Receita
-            </p>
-            <p className="text-xl font-black">{formatBRL(revenue)}</p>
-          </div>
-          <div>
-            <p className="text-[11px] uppercase tracking-wider text-foreground/55 font-semibold">
-              Despesas
-            </p>
-            <p className="text-xl font-black text-red-600">
-              −{formatBRL(totalExpenses)}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard
-          label="Receita total"
-          value={formatBRL(revenue)}
-          icon={TrendingUp}
-          sub={`${paidOrders.length} pedidos pagos`}
-        />
-        <StatCard
+      {/* KPI strip: receita · despesas · lucro */}
+      <section className="grid grid-cols-3 gap-2">
+        <Kpi label="Receita" value={formatBRL(revenue)} />
+        <Kpi
           label="Despesas"
           value={`−${formatBRL(totalExpenses)}`}
-          icon={TrendingDown}
-          sub={`${expenses.length} registros`}
           tone="bad"
         />
-        <StatCard
-          label="Ticket médio"
-          value={formatBRL(avgTicket)}
-          icon={DollarSign}
-          sub="Em pedidos pagos"
-        />
-        <StatCard
-          label="Pedidos"
-          value={orders.length.toString()}
-          icon={ShoppingBag}
-          sub="Todos os status"
+        <Kpi
+          label="Lucro líquido"
+          value={`${profit < 0 ? "−" : ""}${formatBRL(Math.abs(profit))}`}
+          tone={profit >= 0 ? "ok" : "bad"}
+          sub={`${profitMargin.toFixed(0)}% margem`}
         />
       </section>
 
-      {/* Acerto entre sócios */}
-      {partnerSettlements.length > 1 && (
-        <section className="rounded-3xl bg-white border border-border p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-xs uppercase tracking-wider font-bold text-foreground/55">
-                Acerto entre sócios
-              </p>
-              <h2 className="text-xl font-black mt-0.5">Quanto cada um recebe</h2>
-            </div>
-            <p className="text-[11px] text-foreground/55 max-w-[180px] text-right">
-              Lucro dividido + reembolso das despesas pagas por cada um
+      {/* Valor a receber por sócio — destaque principal */}
+      {partnerSettlements.length > 0 && (
+        <section className="rounded-2xl bg-white border border-border p-4 sm:p-5">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-foreground/55">
+              Valor a receber
+            </p>
+            <p className="text-[10px] text-foreground/45">
+              Lucro/{numPartners} + despesas pagas
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {partnerSettlements.map((p) => (
               <div
                 key={p.name}
-                className={`rounded-2xl border p-4 ${
+                className={`rounded-xl border p-3 ${
                   p.receive >= 0
-                    ? "border-brand-green/30 bg-brand-green/5"
+                    ? "border-brand-green/40 bg-brand-green/5"
                     : "border-red-200 bg-red-50"
                 }`}
               >
-                <p className="text-xs uppercase tracking-wider font-bold text-foreground/55">
-                  {p.name}
-                </p>
-                <p
-                  className={`text-2xl font-black tracking-tight mt-1 ${
-                    p.receive >= 0 ? "text-brand-green" : "text-red-700"
-                  }`}
-                >
-                  {p.receive < 0 ? "−" : ""}
-                  {formatBRL(Math.abs(p.receive))}
-                </p>
-                <p className="text-[11px] text-foreground/55 mt-1">
-                  Lucro/{numPartners} ({formatBRL(profitShare)}) + reembolso (
-                  {formatBRL(p.paid)})
+                <div className="flex items-baseline justify-between gap-2">
+                  <p className="text-xs font-bold text-foreground/70">
+                    {p.name}
+                  </p>
+                  <p
+                    className={`text-xl font-black tracking-tight ${
+                      p.receive >= 0 ? "text-brand-green" : "text-red-700"
+                    }`}
+                  >
+                    {p.receive < 0 ? "−" : ""}
+                    {formatBRL(Math.abs(p.receive))}
+                  </p>
+                </div>
+                <p className="text-[10px] text-foreground/55 mt-1">
+                  Lucro {formatBRL(profitShare)} + reembolso{" "}
+                  {formatBRL(p.paid)}
                 </p>
               </div>
             ))}
@@ -176,53 +114,85 @@ export default async function DashboardPage() {
         </section>
       )}
 
-      <section className="grid grid-cols-2 gap-3">
-        <StatCard
+      {/* Stats secundárias */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <MiniStat
+          label="Pedidos pagos"
+          value={paidOrders.length.toString()}
+          icon={ShoppingBag}
+        />
+        <MiniStat
+          label="Ticket médio"
+          value={formatBRL(avgTicket)}
+          icon={DollarSign}
+        />
+        <MiniStat
           label="Produtos"
           value={(productsRes.count ?? 0).toString()}
           icon={Shirt}
-          sub="No catálogo"
         />
-        <StatCard
+        <MiniStat
           label="Clientes"
           value={(customersRes.count ?? 0).toString()}
           icon={Users}
-          sub="Cadastrados"
         />
       </section>
     </div>
   );
 }
 
-function StatCard({
+function Kpi({
   label,
   value,
-  icon: Icon,
-  sub,
   tone,
+  sub,
 }: {
   label: string;
   value: string;
-  icon: typeof TrendingUp;
-  sub: string;
   tone?: "ok" | "bad";
+  sub?: string;
 }) {
   return (
-    <div className="rounded-3xl bg-white border border-border p-5 flex flex-col gap-1">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-wider text-foreground/55">
-          {label}
-        </p>
-        <Icon className="size-4 text-foreground/40" />
-      </div>
+    <div className="rounded-2xl bg-white border border-border p-3 sm:p-4 flex flex-col gap-0.5 min-w-0">
+      <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-foreground/55">
+        {label}
+      </p>
       <p
-        className={`text-2xl sm:text-3xl font-black tracking-tight ${
-          tone === "bad" ? "text-red-600" : ""
+        className={`text-base sm:text-xl font-black tracking-tight truncate ${
+          tone === "bad"
+            ? "text-red-600"
+            : tone === "ok"
+              ? "text-brand-green"
+              : ""
         }`}
       >
         {value}
       </p>
-      <p className="text-[11px] text-foreground/55">{sub}</p>
+      {sub && <p className="text-[10px] text-foreground/45">{sub}</p>}
+    </div>
+  );
+}
+
+function MiniStat({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value: string;
+  icon: typeof TrendingUp;
+}) {
+  return (
+    <div className="rounded-2xl bg-white border border-border p-3 flex flex-col gap-0.5 min-w-0">
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-foreground/55 truncate">
+          {label}
+        </p>
+        <Icon className="size-3.5 text-foreground/35 shrink-0" />
+      </div>
+      <p className="text-base sm:text-lg font-black tracking-tight">
+        {value}
+      </p>
     </div>
   );
 }
