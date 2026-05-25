@@ -27,7 +27,12 @@ export default async function DashboardPage() {
   const paidOrders = orders.filter((o) =>
     ["paid", "producing", "shipping", "delivered"].includes(o.status)
   );
+  const pendingOrders = orders.filter((o) => o.status === "pending");
   const revenue = paidOrders.reduce((sum, o) => sum + Number(o.total), 0);
+  const pendingRevenue = pendingOrders.reduce(
+    (sum, o) => sum + Number(o.total),
+    0
+  );
   const totalExpenses = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
   const profit = revenue - totalExpenses;
   const avgTicket = paidOrders.length > 0 ? revenue / paidOrders.length : 0;
@@ -54,9 +59,19 @@ export default async function DashboardPage() {
         <h1 className="text-xl font-black tracking-tight">Dashboard</h1>
       </header>
 
-      {/* KPI strip: receita · despesas · lucro */}
-      <section className="grid grid-cols-3 gap-2">
-        <Kpi label="Receita" value={formatBRL(revenue)} />
+      {/* KPI strip: receita · aguardando · despesas · lucro */}
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <Kpi
+          label="Receita"
+          value={formatBRL(revenue)}
+          sub={`${paidOrders.length} pago${paidOrders.length === 1 ? "" : "s"}`}
+        />
+        <Kpi
+          label="Aguardando"
+          value={formatBRL(pendingRevenue)}
+          tone="warn"
+          sub={`${pendingOrders.length} pedido${pendingOrders.length === 1 ? "" : "s"}`}
+        />
         <Kpi
           label="Despesas"
           value={`−${formatBRL(totalExpenses)}`}
@@ -149,22 +164,24 @@ function Kpi({
 }: {
   label: string;
   value: string;
-  tone?: "ok" | "bad";
+  tone?: "ok" | "bad" | "warn";
   sub?: string;
 }) {
+  const toneClass =
+    tone === "bad"
+      ? "text-red-600"
+      : tone === "ok"
+        ? "text-brand-green"
+        : tone === "warn"
+          ? "text-amber-600"
+          : "";
   return (
     <div className="rounded-2xl bg-white border border-border p-3 sm:p-4 flex flex-col gap-0.5 min-w-0">
       <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-foreground/55">
         {label}
       </p>
       <p
-        className={`text-base sm:text-xl font-black tracking-tight truncate ${
-          tone === "bad"
-            ? "text-red-600"
-            : tone === "ok"
-              ? "text-brand-green"
-              : ""
-        }`}
+        className={`text-base sm:text-xl font-black tracking-tight truncate ${toneClass}`}
       >
         {value}
       </p>
