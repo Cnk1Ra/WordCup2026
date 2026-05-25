@@ -106,7 +106,7 @@ export type CategoryFilters = {
   gender?: string;
   minPrice?: number;
   maxPrice?: number;
-  sort?: "newest" | "price_asc" | "price_desc";
+  sort?: "newest" | "price_asc" | "price_desc" | "name_asc" | "name_desc";
 };
 
 export async function fetchCategoryBySlug(
@@ -210,6 +210,15 @@ export async function fetchCategoryBySlug(
   } else if (filters.sort === "price_desc") {
     filtered = [...filtered].sort(
       (a, b) => (b.basePrice ?? 0) - (a.basePrice ?? 0)
+    );
+  } else if (filters.sort === "name_desc") {
+    filtered = [...filtered].sort((a, b) =>
+      (b.shortName || b.name).localeCompare(a.shortName || a.name, "pt-BR")
+    );
+  } else if (filters.sort === "name_asc") {
+    // Default — ordem alfabética por nome curto (com fallback pro nome cheio)
+    filtered = [...filtered].sort((a, b) =>
+      (a.shortName || a.name).localeCompare(b.shortName || b.name, "pt-BR")
     );
   }
 

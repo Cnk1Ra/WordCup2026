@@ -20,7 +20,7 @@ export async function generateMetadata({
   };
 }
 
-type SortValue = "newest" | "price_asc" | "price_desc";
+type SortValue = "name_asc" | "name_desc" | "price_asc" | "price_desc" | "newest";
 
 export default async function ColecaoPage({
   params,
@@ -44,7 +44,7 @@ export default async function ColecaoPage({
     gender: sp.gender || undefined,
     minPrice: sp.min ? Number(sp.min) : undefined,
     maxPrice: sp.max ? Number(sp.max) : undefined,
-    sort: (sp.sort as SortValue | undefined) || "newest",
+    sort: (sp.sort as SortValue | undefined) || "name_asc",
   };
 
   const data = await fetchCategoryBySlug(slug, filters);
@@ -53,9 +53,9 @@ export default async function ColecaoPage({
 
   const hasFilters = !!(sp.size || sp.gender || sp.min || sp.max);
 
-  // Paginação progressiva. Default 24 produtos; clica "Ver mais" pra +24 ou
+  // Paginação progressiva. Default 20 produtos; clica "Ver mais" pra +20 ou
   // "Ver tudo" pra todos. Server-side, sem JS, SEO-friendly.
-  const PAGE_STEP = 24;
+  const PAGE_STEP = 20;
   const show = Math.max(
     PAGE_STEP,
     Math.min(products.length, parseInt(sp.show ?? `${PAGE_STEP}`, 10) || PAGE_STEP)
@@ -149,12 +149,14 @@ export default async function ColecaoPage({
             />
             <select
               name="sort"
-              defaultValue={sp.sort ?? "newest"}
+              defaultValue={sp.sort ?? "name_asc"}
               className="h-10 rounded-xl border border-border bg-muted px-3 font-medium focus:outline-none focus:border-foreground"
             >
-              <option value="newest">Mais recentes</option>
+              <option value="name_asc">A-Z</option>
+              <option value="name_desc">Z-A</option>
               <option value="price_asc">Menor preço</option>
               <option value="price_desc">Maior preço</option>
+              <option value="newest">Mais recentes</option>
             </select>
             <button
               type="submit"
@@ -194,7 +196,7 @@ export default async function ColecaoPage({
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {visibleProducts.map((p) => (
                   <ProductCard key={p.slug} product={p} />
                 ))}
